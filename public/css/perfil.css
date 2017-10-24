@@ -1,0 +1,30 @@
+.img-profile{
+  width: 25%;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 20px 0px 20px 0px;
+}
+
+.data-profile{
+  /*padding-left: 240px;*/
+  list-style: none;
+}
+
+.online{
+  color: #00FF00;
+}
+
+.offline{
+  color: #FF0000;
+}
+
+.container-profile{
+  width: 95%;
+  max-width: 700px;
+  min-height: 450px;
+  margin: 80px auto 0px auto;
+  padding: 20px;
+  border: 2px dashed #09F;
+  border-radius: 20px;
+  background-color: #FFF;
+}
