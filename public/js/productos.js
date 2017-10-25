@@ -242,7 +242,9 @@ function Ventana(id){
       $('#precio').val(resp.precio);
       $('#dcto').val(resp.descuento);
       $('#categoria').val(resp.categoria);
-      $('#imagen').html(resp.imagen);
+      $('#imagen1').html(resp.imagen1);
+      $('#imagen2').html(resp.imagen2);
+      $('#imagen3').html(resp.imagen3);
       $('#descripcion').html(resp.descripcion);
   });
 }
@@ -256,7 +258,6 @@ function EditarDatos()
   $('#nombre').removeAttr('readonly');
   $('#precio').removeAttr('readonly');
   $('#dcto').removeAttr('readonly');
-  // $('.ocultar').show('slow');
   $('#descripcion').removeAttr('readonly');
 }
 
@@ -274,9 +275,10 @@ function Recargar()
   $('#descripcion').attr('readonly', true);
   $('#descripcion').css('border', 'none');
   $('#avisocampos').hide('fast');
+  $("#nombre_productorepetido").hide('fast');
+  $("#exito").hide('fast');
+  $('#errorimagen').hide('fast');
 }
-
-
 
 function ValidarDatos()
 {
@@ -320,7 +322,7 @@ function ValidarDatos()
         var precio = document.formdetailsproducts.precio.value;
         var dcto = document.formdetailsproducts.dcto.value;
         var descripcion = document.formdetailsproducts.descripcion.value;
-        var id_producto = document.formdetailsproducts.idproducto.value;
+        var idproducto = document.formdetailsproducts.idproducto.value;
 
         $.ajax({
           url: url + 'productos/ActualizarProductos',
@@ -340,21 +342,21 @@ function ValidarDatos()
               $("#carga").hide("fast");
               $("#nombre_productorepetido").hide('slow');
               $("#exito").show('slow');
-              window.location = url + 'administracion/Listar';
             }
 
             if (resp == "nombre_productorepetido") {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
               $("#nombre_productorepetido").show('slow');
-              document.formproductos.nombre.style.border = "1px solid #f22012";
+              document.formdetailsproducts.nombre.style.border = "1px solid #f22012";
+              $('#nombre').focus();
             }
           }
         });
     }
 }
 
-function eliminarProducto(id)
+function EliminarProducto(id)
 {
   if (confirm("Se eliminará el producto ¿Está seguro de eliminar?")) {
       // location.href = "eliminar_categorias.php?idcategoria="+id;

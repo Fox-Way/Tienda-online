@@ -18,7 +18,7 @@
                                <tr>
                                  <th>Imágen</th>
                                  <th>Nombre</th>
-                                 <th>Opciones</th>
+                                 <th colspan="2">Opciones</th>
                                </tr>
                              </thead>
                              <tbody>
@@ -36,6 +36,12 @@
                                      Detalles Producto
                                    </button>
                                  </td>
+                                 <td>
+                                   <button type="button" name="btn-eliminar" class="btn btn-danger" onclick="EliminarProducto('<?php echo $producto['id']; ?>')">
+                                     <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;
+                                     Eliminar Producto
+                                   </button>
+                                 </td>
                                </tr>
                              <?php endforeach; ?>
                              </tbody>
@@ -50,11 +56,11 @@
 		  </div>
 
       <!-- Modal detalles producto -->
-      <div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Recargar()"><span aria-hidden="true">&times;</span></button>
             <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong>Información del Producto</strong></h5>
           </div>
           <div class="modal-body">
@@ -88,8 +94,16 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="" id="imagen"></div>
+                  <div class="col-xs-12 col-sm-12 col-md-5">
+                    <div class="" id="imagen1"></div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
+                    <div class="" id="imagen2"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="" id="imagen3"></div>
                   </div>
                 </div>
                 <div class="row">
@@ -146,6 +160,18 @@
                   </p>
                 </div>
               </center>
+
+              <!-- Alert formato imagen inválido -->
+              <div class="alert alert-danger alert-dismissible ocultar" id="errorimagen" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <p class="centrar">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                  <strong>Error!</strong>&nbsp;
+                  La extensión de la imágen es inválida o el tamaño sobrepasa el permitido
+                </p>
+              </div>
 
           </div>
           <div class="modal-footer">

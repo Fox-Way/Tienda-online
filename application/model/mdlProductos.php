@@ -45,6 +45,20 @@
         }
       }
 
+      public function ConsultarProductos()
+      {
+        $sql = "CAll SP_ConsultarProductos(?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->bindParam(2, $this->id);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarProductoPorId()
       {
         $sql = "CAll SP_ConsultarProductosPorId(?)";
@@ -97,6 +111,33 @@
           $stm->bindParam(5, $this->inicio);
           $stm->bindParam(6, $this->cantidad);
           $stm->bindParam(7, $this->descuento);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la inserción');
+        }
+      }
+
+      public function ActualizarProductos()
+      {
+        $sql = "CAll SP_actualizarProductos(?,?,?,?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->id);
+          $stm->bindParam(2, $this->nombre);
+          $stm->bindParam(3, $this->precio);
+          $stm->bindParam(4, $this->descuento);
+          $stm->bindParam(5, $this->descripcion);
           $result = $stm->execute();
 
           if ($result == true) {

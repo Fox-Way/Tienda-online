@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2017 a las 02:13:49
+-- Tiempo de generación: 25-10-2017 a las 02:37:34
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -24,6 +24,15 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarProductos` (IN `_id_producto` INT, IN `_nombre` VARCHAR(255), IN `_precio` DOUBLE, IN `_dcto` INT, IN `_descripcion` TEXT)  NO SQL
+UPDATE productos
+SET nombre = _nombre,
+precio = _precio,
+descuento = _dcto,
+descripcion = _descripcion,
+precio_con_descuento = (_precio * _dcto) / 100
+WHERE id = _id_producto$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategorias` ()  NO SQL
 SELECT
 	id,
@@ -58,7 +67,29 @@ SELECT
     nombre,
     prioridad
 FROM imagenes
-WHERE id_producto = _id_producto$$
+WHERE id_producto = _id_producto AND prioridad = 1$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarImagenPrioridad2` (IN `_id_producto` INT)  NO SQL
+SELECT
+	id_imagen,
+    nombre,
+    prioridad
+FROM imagenes
+WHERE id_producto = _id_producto AND prioridad = 2$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarImagenPrioridad3` (IN `_id_producto` INT)  NO SQL
+SELECT
+	id_imagen,
+    nombre,
+    prioridad
+FROM imagenes
+WHERE id_producto = _id_producto AND prioridad = 3$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductos` (IN `_nombre` VARCHAR(255), IN `_id_producto` INT)  NO SQL
+SELECT
+    COUNT(nombre) AS nombre
+FROM productos
+WHERE nombre = _nombre AND id <> _id_producto AND nombre <> ''$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorId` (IN `_id_producto` INT)  NO SQL
 SELECT
@@ -103,7 +134,7 @@ SELECT
     i.prioridad
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
-WHERE i.prioridad = 1$$
+WHERE i.prioridad = 1 ORDER BY p.nombre DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoIdProducto` ()  NO SQL
 SELECT
@@ -177,7 +208,8 @@ INSERT INTO productos
     id_categoria,
     inicio,
     cantidad,
-    descuento
+    descuento,
+    precio_con_descuento
 )
 VALUES
 (
@@ -188,8 +220,8 @@ VALUES
     _categoria,
     _inicio,
     _cantidad,
-    _descuento
-    
+    _descuento,
+    (_precio * _descuento) / 100
 )$$
 
 DELIMITER ;
@@ -258,10 +290,8 @@ CREATE TABLE `imagenes` (
 --
 
 INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUES
-(1, '1508717723_01.jpg', 1, 1),
-(2, '1508717723_02.jpg', 2, 1),
-(3, '1508717723_03.jpg', 3, 1),
-(4, '1508718505_01.jpg', 1, 2);
+(1, '1508890476_01.jpg', 1, 1),
+(2, '1508890476_02.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -309,16 +339,16 @@ CREATE TABLE `productos` (
   `id_categoria` int(11) NOT NULL,
   `inicio` int(11) NOT NULL DEFAULT '0',
   `cantidad` smallint(6) DEFAULT NULL,
-  `descuento` double DEFAULT NULL
+  `descuento` int(11) DEFAULT NULL,
+  `precio_con_descuento` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`) VALUES
-(1, 'camisa deportiva hombre', 15000, 'Camisa hecha 100% en algodón, fabricada en Colombia, ideal para deportistas, ya que su delgada tela proporciona una gran frescura', 1, 0, 0, 0),
-(2, 'camibuso para dama', 12000, 'Tela 100% algodón, hecha en Colombia, todas las tallas tanto para niña como para mujer, tela muy delgada y resistente', 2, 0, 0, 15);
+INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
+(1, 'camisa', 12000, 'esta es la descripcion del producto y que debe contener minímo 100 caracteres para que sea una descripción válida', 1, 0, 0, 3, 360);
 
 -- --------------------------------------------------------
 
@@ -338,8 +368,7 @@ CREATE TABLE `productos_colores` (
 --
 
 INSERT INTO `productos_colores` (`id_producto_color`, `id_producto`, `id_color`, `cantidad`) VALUES
-(1, 1, 3, 2),
-(2, 2, 3, 1);
+(1, 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -510,7 +539,7 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
@@ -525,12 +554,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --

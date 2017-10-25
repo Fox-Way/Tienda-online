@@ -133,6 +133,7 @@
 
             $resultado = $this->mdlColores->guardarDetallesColor();
 
+            //Guardar tabla imágenes
             if($_FILES['imagen1']['name'] != '')
             {
               $nombreImagen = $_FILES['imagen1']['name'];
@@ -201,18 +202,42 @@
             //Seleccionar la imágen del producto
             $this->mdlImagenes->__SET('idProducto', $prod['id']);
 
-            $imagen = $this->mdlImagenes->ConsultarImagenPorIdProducto();
+            $imagen1 = $this->mdlImagenes->ConsultarImagenPorIdProducto();
+            $imagen2 =  $this->mdlImagenes->ConsultarImagenPrioridad2();
+            $imagen3 =  $this->mdlImagenes->ConsultarImagenPrioridad3();
           }
 
-          if ($imagen != 0)
+          if ($imagen1 != 0)
           {
-            $img = "";
-            foreach ($imagen as $val) {
-                $img .= "<br>";
-                $img .= $val['nombre'] . "&nbsp;&nbsp;&nbsp";
-                $img .= "<img width='100' src='" . URL . "/img/images-productos/" . $val['nombre']."' alt='" . $val['nombre'] . "'>";
-                $img .= '<input type="file" name="imagen" class="form-control obligatorio">';
-                $img .= "<br><br>";
+            $img1 = "";
+            foreach ($imagen1 as $val) {
+                $img1 .= "<br>";
+                $img1 .= "Imágen " . $val['prioridad'] ." &nbsp;&nbsp;&nbsp";
+                $img1 .= "<img width='80' src='" . URL . "/img/images-productos/" . $val['nombre'] . "' alt='" . $val['nombre'] . "'>";
+                $img1 .= "<br><br>";
+            }
+          }
+
+
+          if ($imagen2 != 0)
+          {
+            $img2 = "";
+            foreach ($imagen2 as $val2) {
+                $img2 .= "<br>";
+                $img2 .= "Imágen " . $val2['prioridad'] ."&nbsp;&nbsp;&nbsp";
+                $img2 .= "<img width='80' src='" . URL . "/img/images-productos/" . $val2['nombre']."' alt='" . $val2['nombre'] . "'>";
+                $img2 .= "<br><br>";
+            }
+          }
+
+          if ($imagen3 != 0)
+          {
+            $img3 = "";
+            foreach ($imagen3 as $val3) {
+                $img3 .= "<br>";
+                $img3 .= "Imágen " . $val3['prioridad'] ."&nbsp;&nbsp;&nbsp";
+                $img3 .= "<img width='80' src='" . URL . "/img/images-productos/" . $val3['nombre']."' alt='" . $val3['nombre'] . "'>";
+                $img3 .= "<br><br>";
             }
           }
 
@@ -222,7 +247,9 @@
             'precio' => $prod['precio'],
             'descuento' => $prod['descuento'],
             'categoria' => $categoria[0]['nombre'],
-            'imagen' => $img,
+            'imagen1' => $img1,
+            'imagen2' => $img2,
+            'imagen3' => $img3,
             'descripcion' => $prod['descripcion']
           ]);
 
@@ -240,11 +267,26 @@
         {
           sleep(2);
 
+          $this->mdlProductos->__SET('id', $_POST['idproducto']);
           $this->mdlProductos->__SET('nombre', $_POST['nombre']);
 
-          $productos = $this->mdlProductos->ConsultarProductosPorNombre();
+          $productos = $this->mdlProductos->ConsultarProductos();
 
-          if(count($productos) == 0 && )
+          if(intval($productos[0]['nombre']) == 0)
+          {
+              //Actualizar tabla productos
+              $this->mdlProductos->__SET('id', $_POST['idproducto']);
+              $this->mdlProductos->__SET('nombre', $_POST['nombre']);
+              $this->mdlProductos->__SET('precio', $_POST['precio']);
+              $this->mdlProductos->__SET('descuento', $_POST['dcto']);
+              $this->mdlProductos->__SET('descripcion', $_POST['descripcion']);
+
+              $this->mdlProductos->ActualizarProductos();
+              echo 'exito';
+          }
+          else{
+            echo "nombre_productorepetido";
+          }
         }
       }
     }

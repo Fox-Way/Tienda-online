@@ -35,14 +35,14 @@
     <script type="text/javascript" src="<?php echo URL; ?>js/categorias.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/productos.js"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
     $(document).ready(function(){
         $('#table-categories').DataTable({
           "ordering": false,
         });
         $('#table-categories').DataTable();
       });
-    </script>
+    </script> -->
 
     <script type="text/javascript">
     $(document).ready(function(){
