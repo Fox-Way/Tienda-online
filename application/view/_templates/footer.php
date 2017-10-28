@@ -29,20 +29,24 @@
     <!-- Select 2 -->
     <script src="<?php echo URL; ?>js/select2.min.js"></script>
 
+    <!-- Start Lightbox -->
+    <script type="text/javascript" src="<?php echo URL; ?>lightbox/vlb_engine/visuallightbox.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>lightbox/vlb_engine/vlbdata1.js"></script>
+
 
     <script src="<?php echo URL; ?>js/application.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/login.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/categorias.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/productos.js"></script>
 
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function(){
         $('#table-categories').DataTable({
           "ordering": false,
         });
         $('#table-categories').DataTable();
       });
-    </script> -->
+    </script>
 
     <script type="text/javascript">
     $(document).ready(function(){

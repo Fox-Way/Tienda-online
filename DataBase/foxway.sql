@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-10-2017 a las 02:37:34
+-- Tiempo de generación: 28-10-2017 a las 05:57:29
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -31,6 +31,16 @@ precio = _precio,
 descuento = _dcto,
 descripcion = _descripcion,
 precio_con_descuento = (_precio * _dcto) / 100
+WHERE id = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosActivados` (IN `_id_producto` INT)  NO SQL
+UPDATE productos
+SET inicio = 1
+WHERE id = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosDesactivados` (IN `_id_producto` INT)  NO SQL
+UPDATE productos
+SET inicio = 0
 WHERE id = _id_producto$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategorias` ()  NO SQL
@@ -61,6 +71,21 @@ SELECT
     codigo_color
 FROM colores$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarColoresPorIdProducto` (IN `_id_producto` INT)  NO SQL
+SELECT 
+	c.id_color,
+    c.color,
+    c.codigo_color,
+    p.id,
+    pc.id_producto,
+    pc.id_producto_color
+FROM colores c 
+INNER JOIN productos_colores pc
+ON c.id_color = pc.id_color
+INNER JOIN productos p
+ON p.id = pc.id_producto
+WHERE pc.id_producto = _id_producto$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarImagenPorIdProducto` (IN `_id_producto` INT)  NO SQL
 SELECT
 	id_imagen,
@@ -90,6 +115,34 @@ SELECT
     COUNT(nombre) AS nombre
 FROM productos
 WHERE nombre = _nombre AND id <> _id_producto AND nombre <> ''$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosActivos` ()  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND inicio = 1 ORDER BY p.nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosParaPaginador` (IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND inicio = 1 ORDER BY p.nombre DESC LIMIT _pagina, _tamanio$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorId` (IN `_id_producto` INT)  NO SQL
 SELECT
@@ -130,11 +183,12 @@ SELECT
     p.precio,
     p.descripcion,
     p.descuento,
+    p.inicio,
     i.nombre AS imagen,
     i.prioridad
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
-WHERE i.prioridad = 1 ORDER BY p.nombre DESC$$
+WHERE i.prioridad = 1 ORDER BY p.nombre ASC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoIdProducto` ()  NO SQL
 SELECT
@@ -291,7 +345,8 @@ CREATE TABLE `imagenes` (
 
 INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUES
 (1, '1508890476_01.jpg', 1, 1),
-(2, '1508890476_02.jpg', 2, 1);
+(2, '1508890476_02.jpg', 2, 1),
+(3, '1509139852_01.jpg', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -348,7 +403,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
-(1, 'camisa', 12000, 'esta es la descripcion del producto y que debe contener minímo 100 caracteres para que sea una descripción válida', 1, 0, 0, 3, 360);
+(1, 'camisa', 12000, 'esta es la descripcion del producto y que debe contener minímo 100 caracteres para que sea una descripción válida', 1, 1, 0, 3, 360),
+(2, 'camibuso dama', 13500, 'Camibuso para dama hecho 100% en algódon, producto hecho en Colombia, ideal para las noches frías y lluviosas.', 2, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -368,7 +424,8 @@ CREATE TABLE `productos_colores` (
 --
 
 INSERT INTO `productos_colores` (`id_producto_color`, `id_producto`, `id_color`, `cantidad`) VALUES
-(1, 1, 3, 2);
+(1, 1, 3, 2),
+(2, 2, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -539,7 +596,7 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
@@ -554,12 +611,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --

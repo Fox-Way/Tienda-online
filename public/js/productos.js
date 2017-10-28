@@ -370,3 +370,55 @@ function EliminarProducto(id)
       $("#"+id).hide("slow");
   }
 }
+
+function Enchufe(id)
+{
+  var name = document.getElementsByName(id);
+
+  for (var i = 0; i < name.length; i++) {
+    if (name[i].checked)
+    {
+        name = name[i].value;
+    }
+  }
+
+  $.ajax({
+    url: url + 'administracion/Interruptor',
+    type: 'POST',
+    data: {'id': id, 'interruptor': name},
+    beforeSend: function(){
+      $('#procesando').show('slow');
+    },
+    success: function(resp){
+
+      if (resp == 'Producto activado correctamente') {
+        $('#procesando').hide('fast');
+        $('#activado').show('slow');
+        $('#desactivado').hide('fast');
+      }
+
+      if (resp == 'Producto desactivado correctamente') {
+        $('#procesando').hide('fast');
+        $('#desactivado').show('slow');
+        $('#activado').hide('fast');
+      }
+    }
+  });
+}
+
+function MostrarDescripcion()
+  {
+      $("#texto").show(1000);
+      $("#btn-mostrar").hide('slow');
+      $("#btn-ocultar").show('slow');
+      $("#more").hide('slow');
+  }
+
+  function OcultarDescripcion()
+  {
+      $("#texto").hide('fast');
+      $("#btn-mostrar").show('slow');
+      $("#btn-ocultar").hide('slow');
+      $("#more").show('slow');
+
+  }

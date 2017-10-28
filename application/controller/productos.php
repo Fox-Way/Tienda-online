@@ -18,6 +18,25 @@
 
       public function DetallesProducto()
       {
+        $this->mdlProductos->__SET('id', $_GET['id_producto']);
+        $producto = $this->mdlProductos->ConsultarProductoPorId();
+
+        $categoria = $producto[0]['id_categoria'];
+        $this->mdlCategorias->__SET('idCategoria', $categoria);
+        $categoriaProducto = $this->mdlCategorias->ConsultarCategoriaPorId();
+
+        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+        $imagenes1 = $this->mdlImagenes->ConsultarImagenPorIdProducto();
+
+        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+        $imagenes2 = $this->mdlImagenes->ConsultarImagenPrioridad2();
+
+        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+        $imagenes3 = $this->mdlImagenes->ConsultarImagenPrioridad3();
+
+        $this->mdlColores->__SET('idProducto', $_GET['id_producto']);
+        $colores = $this->mdlColores->consultarColoresPorIdProducto();
+
         // load views
         require APP . 'view/_templates/header.php';
         require APP . 'view/productos/detallesProductos.php';

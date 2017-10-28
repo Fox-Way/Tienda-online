@@ -36,54 +36,51 @@
 
     <div class="row">
       <div class="main top">
-          <a href="<?= URL ?>productos/DetallesProducto">
+        <?php foreach($productosPaginador as $producto):?>
+          <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
             <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/shirt.jpg" class="img-products">
-              <div class="precio">Precio</div>
+              <img src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
+              <div class="precio"><?php echo "$ " . number_format($producto['precio'], 0, '.', '.'); ?></div>
             </div>
           </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/big.jpg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/ropa_interior.jpeg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/ropa-nadal-tierra-batida.jpg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/shirt-blue-navy.jpg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/shirt.jpg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div class="productos-main hvr-buzz-out">
-              <img alt="demo" src="<?= URL ?>img/t-shirt-blue.jpg" class="img-products">
-              <div class="precio">Precio</div>
-            </div>
-          </a>
+        <?php endforeach ?>
         <div class="limpiar"></div>
+
+        <!-- Paginador -->
+        <div class="paginator">
+          <nav>
+            <ul class="pagination">
+              <?php
+
+                  if ($totalPaginas > 1) {
+
+                    if ($pagina != 1)
+                      echo '<li>
+                              <a href="'.URL.'home/Index&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                            </li>';
+                      for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                        if ($pagina == $i){
+                          echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                        }
+                        else{
+                          // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                          echo '<li><a href="'.URL.'home/Index&pagina='.$i.'">'.$i.'</a></li>';
+                        }
+                      }
+
+                      if ($pagina != $totalPaginas) {
+                        $pag = '';
+                        $pag .= '<li>';
+                        $pag .= '<a href="'.URL.'home/Index&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                        $pag .= '</li>';
+                        echo $pag;
+                      }
+                  }
+                  echo '<p>';
+               ?>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>

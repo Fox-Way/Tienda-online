@@ -41,6 +41,19 @@
         }
       }
 
+      public function consultarColoresPorIdProducto()
+      {
+        $sql = "CAll SP_consultarColoresPorIdProducto(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idProducto);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function guardarDetallesColor()
       {
         $sql = "CAll SP_guardarDetallesColor(?,?,?)";

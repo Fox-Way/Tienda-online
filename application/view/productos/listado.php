@@ -18,7 +18,10 @@
                                <tr>
                                  <th>Imágen</th>
                                  <th>Nombre</th>
-                                 <th colspan="2">Opciones</th>
+                                 <th>Opciones</th>
+                                 <th>&nbsp;</th>
+                                 <th>&nbsp;</th>
+                                 <th>&nbsp;</th>
                                </tr>
                              </thead>
                              <tbody>
@@ -42,11 +45,53 @@
                                      Eliminar Producto
                                    </button>
                                  </td>
+                                 <form>
+                                  <td>
+                                      <input type="radio" onclick="Enchufe('<?php echo $producto['id']; ?>')" name="<?php echo $producto['id'] ?>" value="activado" <?php if($producto['inicio'] == 1)  echo "checked"?>>&nbsp;On
+                                  </td>
+                                  <td>
+                                      <input type="radio" onclick="Enchufe('<?php echo $producto['id']; ?>')" name="<?php echo $producto['id'] ?>" value="desactivado" <?php if($producto['inicio'] == 0)  echo "checked"?>>&nbsp;Off
+                                  </td>
+                              </form>
                                </tr>
                              <?php endforeach; ?>
                              </tbody>
                            </table>
                          </div>
+
+                         <!-- Alert procesando -->
+                         <div class="alert alert-warning alert-dismissible ocultar" id="procesando" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                           <p class="centrar">
+                             <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>&nbsp;
+                             <strong>Procesando...!</strong>
+                           </p>
+                         </div>
+
+                         <!-- Alert producto desactivado -->
+                         <div class="alert alert-success alert-dismissible ocultar" id="desactivado" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                           <p class="centrar">
+                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                             <strong>Enhorabuena</strong> El producto fue desactivado correctamente
+                           </p>
+                         </div>
+
+                         <!-- Alert producto activado -->
+                         <div class="alert alert-success alert-dismissible ocultar" id="activado" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                           <p class="centrar">
+                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                             <strong>Enhorabuena</strong> El producto fue activado correctamente
+                           </p>
+                         </div>
+
                        </div>
                      </div>
                  </div>

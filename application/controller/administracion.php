@@ -176,4 +176,29 @@ class Administracion extends Controller
         exit;
       }
     }
+
+    public function Interruptor()
+    {
+      if (isset($_SESSION['SESION_INICIADA']) &&
+          $_SESSION['SESION_INICIADA'] == true)
+      {
+        sleep(2);
+
+        if($_POST['interruptor'] == 'activado')
+        {
+          $this->mdlProductos->__SET('id', $_POST['id']);
+          $this->mdlProductos->CambiarEstadoProductoActivado();
+
+          echo "Producto activado correctamente";
+        }
+
+        if($_POST['interruptor'] == 'desactivado')
+        {
+          $this->mdlProductos->__SET('id', $_POST['id']);
+          $this->mdlProductos->CambiarEstadoProductoDesactivado();
+
+          echo "Producto desactivado correctamente";
+        }
+      }
+    }
 }

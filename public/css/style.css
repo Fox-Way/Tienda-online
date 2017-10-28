@@ -54,6 +54,14 @@ nav{
   clear: both;
 }
 
+.main-details{
+  width: 95%;
+  max-width: 1200px;
+  min-height: 630px;
+  margin: 90px auto 0px auto;
+  clear: both;
+}
+
 .main-login{
   width: 95%;
   max-width: 1200px;
@@ -177,13 +185,31 @@ footer p{
 
 .characteristics{
   font-size: 30px;
-  margin-top: 10px;
+  margin-top: 12px;
+  color: #656565;
+}
+
+.caracteristicas-title{
+  margin-left: 2%;
+}
+
+.title-price{
+  font-size: 20px;
+  margin-left: 38%;
+  color: #656565;
+}
+
+.title-colors{
+  font-size: 20px;
+  margin-left: 38%;
+  color: #656565;
 }
 
 .text-characts{
   font-size: 20px;
   font-family: cursive;
   text-align: justify;
+  padding-left: 38%;
 }
 
 .hide-text{
@@ -195,7 +221,7 @@ footer p{
 }
 
 .detalles-producto{
-  margin: 45px auto 0 auto;
+  margin: 100px auto 0 auto;
   width: 900px;
 }
 
@@ -333,7 +359,7 @@ footer p{
 }
 
 .red{
-  font-size: 18px;
+  font-size: 22px;
   color: #f22012;
 }
 
@@ -481,6 +507,21 @@ input[type=file].obligatorio{
 
 .obligatorio{
   display: none;
+}
+
+
+/*Paginador home*/
+.pag{
+  color: #c30;
+}
+
+.paginator{
+  margin-top:140px;
+}
+
+.fuente-details{
+  font-size: 22px;
+  color: #656565;
 }
 
 

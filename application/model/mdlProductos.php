@@ -11,6 +11,8 @@
       private $categoria;
       private $cantidad;
       private $inicio;
+      private $tamanio;
+      private $pagina;
       private $db;
 
       public function __SET($attr, $valor)
@@ -45,6 +47,20 @@
         }
       }
 
+      public function ConsultarProductosParaPaginador()
+      {
+        $sql = "CAll SP_consultarProductosParaPaginador(?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->pagina);
+          $stm->bindParam(2, $this->tamanio);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarProductos()
       {
         $sql = "CAll SP_ConsultarProductos(?,?)";
@@ -53,6 +69,17 @@
           $stm->bindParam(1, $this->nombre);
           $stm->bindParam(2, $this->id);
           $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosPorEstadoActivo()
+      {
+        $sql = "CAll SP_ConsultarProductosActivos()";
+        try {
+          $stm = $this->db->prepare($sql);
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
           exit('Error en la consulta');
@@ -140,6 +167,50 @@
           $stm->bindParam(5, $this->descripcion);
           $result = $stm->execute();
 
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la inserción');
+        }
+      }
+
+      public function CambiarEstadoProductoActivado()
+      {
+        $sql = "CAll SP_cambiarEstadoProductosActivados(?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->id);
+          $result = $stm->execute();
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la inserción');
+        }
+      }
+
+      public function CambiarEstadoProductoDesactivado()
+      {
+        $sql = "CAll SP_cambiarEstadoProductosDesactivados(?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->id);
+          $result = $stm->execute();
           if ($result == true) {
             $this->db->commit();
           } else {

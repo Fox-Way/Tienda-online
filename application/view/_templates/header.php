@@ -54,5 +54,10 @@
 
     <!-- Datatables -->
     <link rel="stylesheet" href="<?php echo URL ?>css/jquery.dataTables.min.css">
+
+    <!-- Start Lightbox -->
+    <link rel="stylesheet" href="<?php echo URL ?>lightbox/vlb_files1/visuallightbox.css">
+    <link rel="stylesheet" href="<?php echo URL ?>lightbox/vlb_files1/vlightbox1.css">
+
 </head>
 <body>
