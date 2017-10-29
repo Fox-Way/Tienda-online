@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2017 a las 05:57:29
+-- Tiempo de generación: 29-10-2017 a las 02:20:53
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -137,6 +137,7 @@ SELECT
     p.precio,
     p.descripcion,
     p.descuento,
+    (p.precio - p.precio_con_descuento) AS precio2,
     p.inicio,
     i.nombre AS imagen,
     i.prioridad
@@ -153,7 +154,8 @@ SELECT
     id_categoria,
     inicio,
     cantidad,
-    descuento
+    descuento,
+    (precio - precio_con_descuento) AS precio2
 FROM productos
 WHERE id = _id_producto$$
 
@@ -188,7 +190,7 @@ SELECT
     i.prioridad
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
-WHERE i.prioridad = 1 ORDER BY p.nombre ASC$$
+WHERE i.prioridad = 1 ORDER BY p.id DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoIdProducto` ()  NO SQL
 SELECT
@@ -298,7 +300,9 @@ CREATE TABLE `categorias` (
 
 INSERT INTO `categorias` (`id`, `nombre`, `estado`) VALUES
 (1, 'camisetas deportivas hombre', 1),
-(2, 'ropa dama', 1);
+(2, 'ropa dama', 1),
+(3, 'ropa deportiva hombre', 1),
+(4, 'ropa interior hombre', 1);
 
 -- --------------------------------------------------------
 
@@ -346,7 +350,10 @@ CREATE TABLE `imagenes` (
 INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUES
 (1, '1508890476_01.jpg', 1, 1),
 (2, '1508890476_02.jpg', 2, 1),
-(3, '1509139852_01.jpg', 1, 2);
+(3, '1509139852_01.jpg', 1, 2),
+(4, '1509213770_01.jpg', 1, 3),
+(5, '1509224908_01.jpg', 1, 4),
+(6, '1509228981_01.jpeg', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -390,7 +397,7 @@ CREATE TABLE `productos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `precio` double NOT NULL,
-  `descripcion` text NOT NULL,
+  `descripcion` text,
   `id_categoria` int(11) NOT NULL,
   `inicio` int(11) NOT NULL DEFAULT '0',
   `cantidad` smallint(6) DEFAULT NULL,
@@ -404,7 +411,10 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
 (1, 'camisa', 12000, 'esta es la descripcion del producto y que debe contener minímo 100 caracteres para que sea una descripción válida', 1, 1, 0, 3, 360),
-(2, 'camibuso dama', 13500, 'Camibuso para dama hecho 100% en algódon, producto hecho en Colombia, ideal para las noches frías y lluviosas.', 2, 1, 0, 0, 0);
+(2, 'camibuso dama', 13500, 'Camibuso para dama hecho 100% en algódon, producto hecho en Colombia, ideal para las noches frías y lluviosas.', 2, 1, 0, 0, 0),
+(3, 'pantaloneta', 18000, 'esta es la descripcion', 3, 1, 0, 0, 0),
+(4, 'test producto sin descripcion', 2300, '', 3, 1, 0, 1, 23),
+(5, 'ropa interior', 12000, 'ropa interior para niño y adulto', 4, 1, 0, 10, 1200);
 
 -- --------------------------------------------------------
 
@@ -425,7 +435,10 @@ CREATE TABLE `productos_colores` (
 
 INSERT INTO `productos_colores` (`id_producto_color`, `id_producto`, `id_color`, `cantidad`) VALUES
 (1, 1, 3, 2),
-(2, 2, 4, 2);
+(2, 2, 4, 2),
+(3, 3, 2, 1),
+(4, 4, 1, 1),
+(5, 5, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -586,7 +599,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `colores`
 --
@@ -596,7 +609,7 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
@@ -611,12 +624,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --

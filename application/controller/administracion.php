@@ -201,4 +201,16 @@ class Administracion extends Controller
         }
       }
     }
+
+    public function ConfiguracionCuenta()
+    {
+      if (isset($_SESSION['SESION_INICIADA']) &&
+          $_SESSION['SESION_INICIADA'] == true)
+          {
+            // load views
+            require APP . 'view/_templates/header.php';
+            require APP . 'view/cuentas/cuenta.php';
+            require APP . 'view/_templates/footer.php';
+          }
+    }
 }

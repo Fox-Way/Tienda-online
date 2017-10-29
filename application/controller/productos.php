@@ -264,6 +264,7 @@
             'nombre' => $prod['nombre'],
             'id' => $prod['id'],
             'precio' => $prod['precio'],
+            'precio2' => "$ " . number_format($prod['precio2'], 0, '.', '.'),
             'descuento' => $prod['descuento'],
             'categoria' => $categoria[0]['nombre'],
             'imagen1' => $img1,

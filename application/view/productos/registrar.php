@@ -86,10 +86,10 @@
                  <div class="row">
                    <div class="col-xs-12 col-sm-12 col-md-5">
                      <div class="form-group">
-                       <label for="descripcion">Descripción <span class="red">*</span></label>
+                       <label for="descripcion">Descripción</label>
                      </div>
                      <div class="form-group">
-                        <textarea class="form-control" rows="5" name="descripcion" id="descripcion" onkeyup="ValidarDescripcion()" placeholder="Ingrese como mínimo 100 caracteres"></textarea>
+                        <textarea class="form-control" rows="5" name="descripcion" id="descripcion"></textarea>
                      </div>
                    </div>
                    <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
@@ -106,28 +106,6 @@
                      </div>
                    </div>
                  </div>
-
-                 <!-- Alert longitud descripcion -->
-               <div class="alert alert-danger alert-dismissible ocultar" id="avisodescripcionlargo" role="alert">
-                 <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-                 <p class="centrar">
-                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                   <strong>Error!</strong>&nbsp;La descripción debe contener mínimo 100 caracteres
-                 </p>
-               </div>
-
-                 <!-- Alert descripción requerido-->
-               <div class="alert alert-danger alert-dismissible ocultar" id="avisodescripcion" role="alert">
-                 <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-                 <p class="centrar">
-                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                   <strong>Error!</strong>&nbsp;La descripción es requerida
-                 </p>
-               </div>
 
                  <!-- Alert categoría requerido-->
                  <div class="alert alert-danger alert-dismissible ocultar" id="avisocategoria" role="alert">

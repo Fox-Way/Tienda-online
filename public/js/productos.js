@@ -19,12 +19,6 @@ function ValidarFormulario()
         document.formproductos.dcto.style.border = "1px solid #17dd37";
     }
 
-    if (document.formproductos.descripcion.value == "")
-    {
-        $("#avisodescripcion").show('slow');
-        document.formproductos.descripcion.style.border = "1px solid #f22012";
-    }
-
     if (document.formproductos.categoria.value == "")
     {
         $("#avisocategoria").show('slow');
@@ -51,7 +45,6 @@ function ValidarFormulario()
 
     if (document.formproductos.nombre_producto.value != "" &&
         document.formproductos.precio.value != "" &&
-        document.formproductos.descripcion.value != "" &&
         document.formproductos.categoria.value != "" &&
         document.formproductos.optcolores.value != "" &&
         document.formproductos.cantidadcolor.value != "")
@@ -199,27 +192,6 @@ function ValidarDescuento()
   }
 }
 
-function ValidarDescripcion()
-{
-  if (document.formproductos.descripcion.value.length < 100)
-  {
-      $("#avisodescripcionlargo").show('slow');
-      document.formproductos.descripcion.style.border = "1px solid #f22012";
-  }
-
-  if (document.formproductos.descripcion.value.length >= 100)
-  {
-      $("#avisodescripcionlargo").hide('slow');
-      document.formproductos.descripcion.style.border = "1px solid #17dd37";
-  }
-
-  if(document.formproductos.descripcion.value != "")
-  {
-    $("#avisodescripcion").hide('slow');
-    document.formproductos.descripcion.style.border = "1px solid #17dd37";
-  }
-}
-
 function mostrar()
 {
   $("#imagenes").toggle('slow');
@@ -240,6 +212,7 @@ function Ventana(id){
       $('#nombre').val(resp.nombre);
       $('#id-producto').val(resp.id);
       $('#precio').val(resp.precio);
+      $('#price-dcto').val(resp.precio2);
       $('#dcto').val(resp.descuento);
       $('#categoria').val(resp.categoria);
       $('#imagen1').html(resp.imagen1);
@@ -303,16 +276,9 @@ function ValidarDatos()
         $("#dcto").focus();
     }
 
-    if (document.formdetailsproducts.descripcion.value == "")
-    {
-        $("#avisocampos").show('slow');
-        document.formdetailsproducts.descripcion.style.border = "1px solid #f22012";
-        $("#descripcion").focus();
-    }
 
     if (document.formdetailsproducts.nombre.value != "" &&
         document.formdetailsproducts.precio.value != "" &&
-        document.formdetailsproducts.descripcion.value != "" &&
         document.formdetailsproducts.dcto.value != "")
     {
 

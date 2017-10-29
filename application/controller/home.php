@@ -18,7 +18,7 @@ class Home extends Controller
 
       //paginador
       $totalRegistros = count($productos);
-      $tamanioPagina = 1;
+      $tamanioPagina = 12;
       $pagina = false;
 
       if (isset($_GET['pagina'])) {
@@ -37,7 +37,6 @@ class Home extends Controller
       $this->mdlProductos->__SET('tamanio', $tamanioPagina);
       // $result = $this->mdlProductos->ConsultarProductosParaPaginador();
       $productosPaginador = $this->mdlProductos->ConsultarProductosParaPaginador();
-
 
         // load views
         require APP . 'view/_templates/header.php';

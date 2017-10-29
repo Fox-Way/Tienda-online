@@ -138,6 +138,16 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-5">
+                    <div class="form-group">
+                      <label for="dcto">Precio con descuento</label>
+                      <input type="text" id="price-dcto" name="price-dcto" class="form-control" readonly>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-5">
                     <div class="" id="imagen1"></div>
@@ -154,7 +164,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="descripcion">Descripción <span class="red obligatorio">*</span></label>
+                      <label for="descripcion">Descripción</label>
                       <textarea name="descripcion" rows="3" id="descripcion" name="descripcion" class="form-control" readonly></textarea>
                     </div>
                   </div>

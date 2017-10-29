@@ -36,14 +36,22 @@
 
     <div class="row">
       <div class="main top">
-        <?php foreach($productosPaginador as $producto):?>
-          <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
-            <div class="productos-main hvr-buzz-out">
-              <img src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
-              <div class="precio"><?php echo "$ " . number_format($producto['precio'], 0, '.', '.'); ?></div>
-            </div>
-          </a>
-        <?php endforeach ?>
+
+          <?php foreach($productosPaginador as $producto):?>
+            <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
+              <div class="productos-main hvr-buzz-out">
+                <div class="text-center container-name">
+                  <?php echo $producto['nombre']; ?>
+                </div>
+                <img src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
+                <?php if ($producto['descuento'] == 0 || $producto['descuento'] == ''): ?>
+                <div class="precio"><?php echo "$ " . number_format($producto['precio'], 0, '.', '.'); ?></div>
+                <?php else: ?>
+                  <div class="precio"><?php echo "$ " . number_format($producto['precio2'], 0, '.', '.'); ?></div>
+                <?php endif; ?>
+              </div>
+            </a>
+          <?php endforeach ?>
         <div class="limpiar"></div>
 
         <!-- Paginador -->

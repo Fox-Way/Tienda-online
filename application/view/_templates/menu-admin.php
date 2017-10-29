@@ -39,18 +39,6 @@
 						</li>
 					</ul>
 				</li>
-
-
-				<!-- <li class="second top_bell_nav">
-				   <ul class="top_dp_agile ">
-									<li class="dropdown head-dpdn">
-										<a href="<?php echo URL; ?>administracion/Productos">
-                      <i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;
-                      Productos
-                    </a>
-									</li>
-						</ul>
-				</li> -->
 				<li class="second top_bell_nav">
 				   <ul class="top_dp_agile ">
 				       <li class="dropdown head-dpdn">
@@ -74,7 +62,7 @@
             <a href="<?php echo URL; ?>administracion/Perfil">
               <i class="fa fa-user-md" aria-hidden="true"></i>&nbsp;Perfil
             </a>
-            <a href="#">
+            <a href="<?php echo URL; ?>administracion/ConfiguracionCuenta">
               <i class="fa fa-cog fa-spin" aria-hidden="true"></i>&nbsp;Configuración Cuenta
             </a>
              <li role="separator" class="divider"></li>

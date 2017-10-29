@@ -58,7 +58,7 @@ nav{
   width: 95%;
   max-width: 1200px;
   min-height: 630px;
-  margin: 90px auto 0px auto;
+  margin: 120px auto 0px auto;
   clear: both;
 }
 
@@ -190,18 +190,18 @@ footer p{
 }
 
 .caracteristicas-title{
-  margin-left: 2%;
+  margin-left: 5%;
 }
 
 .title-price{
   font-size: 20px;
-  margin-left: 38%;
+  margin-left: 42%;
   color: #656565;
 }
 
 .title-colors{
   font-size: 20px;
-  margin-left: 38%;
+  margin-left: 42%;
   color: #656565;
 }
 
@@ -209,7 +209,7 @@ footer p{
   font-size: 20px;
   font-family: cursive;
   text-align: justify;
-  padding-left: 38%;
+  padding-left: 42%;
 }
 
 .hide-text{
@@ -397,7 +397,7 @@ footer p{
   }
 
   .video-container{
-    top: 28%;
+    top: 9%;
   }
 
   /*Logo*/
@@ -443,6 +443,8 @@ footer p{
   display: none;
 }
 
+
+/*Menu*/
 .menu ul li{
   background-color: #333;
   float: right;
@@ -475,10 +477,14 @@ footer p{
   display: none;
 }
 
-.menu ul li:hover > ul{
+/*.menu ul li:hover > ul{
   display: block;
   position: absolute;
   z-index: 1;
+}*/
+
+#dropdown-zonaprivada li a{
+  background-color: #111;
 }
 
 .menu ul li > ul{
@@ -524,6 +530,33 @@ input[type=file].obligatorio{
   color: #656565;
 }
 
+.descuento{
+  background-color: #F00;
+  width: 5%;
+  padding: 2px;
+  margin: -15px 0px 0px 260px;
+  position: absolute;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFF;
+}
+
+.disccount{
+  font-size: 10px;
+}
+
+.container-name{
+  height: 70px;
+  color: #656565;
+  padding-top: 2px;
+  background-color: #66CCFF;
+}
+
+#form-cuenta{
+  margin-left: 5% !important;
+}
 
 @media screen  and (max-width: 600px){
   .main .productos-main{

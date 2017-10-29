@@ -27,6 +27,13 @@
         <h1 class="text-center">Pertenece a la categoría -> <?php echo $categoriaProducto[0]['nombre']; ?></h1>
       </div>
       <div class="detalles-producto">
+        <?php if($producto[0]['descuento'] == 0 || $producto[0]['descuento'] == ''){ ?>
+        <?php } else { ?>
+          <div class="descuento">
+            <span class="disccount">descuento</span>
+            -<?php echo $producto[0]['descuento'] ?> %
+          </div>
+        <?php } ?>
             <div class="div-details">
               <div>
                 <?php foreach ($imagenes1 as $image1): ?>
@@ -54,38 +61,69 @@
               <span class="caracteristicas-title">Características</span>
             </p>
             <p class="title-price">
-              Precio <span class="red">$ <?php echo number_format($producto[0]['precio'], 0, '.', '.') ?></span>
+              <?php echo $producto[0]['nombre']; ?>
             </p>
-            <p class="title-colors">
-              Colores
-              <select class="form-control" name="colores">
-                <option value="">Colores Disponibles</option>
-                <?php foreach ($colores as $color): ?>
-                  <option value="<?php echo $color['id_color']; ?>" style="background-color: <?php echo $color['codigo_color']; ?>">
-                    <strong><?php echo $color['color']; ?></strong>
-                  </option>
-                <?php endforeach; ?>
-              </select>
-            </p>
+            <?php if($producto[0]['descuento'] == 0 || $producto[0]['descuento'] == ''): ?>
+              <p class="title-price">
+                <strong>
+                  <span class="red">$ <?php echo number_format($producto[0]['precio'], 0, '.', '.') ?>&nbsp;Pesos</span>
+                </strong>
+              </p>
+            <?php else: ?>
+              <p class="title-price">
+                <strong>
+                  <span class="red">$ <?php echo number_format($producto[0]['precio2'], 0, '.', '.') ?>&nbsp;Pesos</span>
+                </strong>
+              </p>
+            <?php endif; ?>
+              <?php if ($colores[0]['color'] == 'No definido'): ?>
+              <?php else: ?>
+                <p class="title-colors">
+                  Colores
+                  <select class="form-control" name="colores">
+                    <option value="">Colores Disponibles</option>
+                    <?php foreach ($colores as $color): ?>
+                      <option value="<?php echo $color['id_color']; ?>" style="background-color: <?php echo $color['codigo_color']; ?>">
+                        <strong><?php echo $color['color']; ?></strong>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </p>
+              <?php endif; ?>
             <br>
             <div class="text-characts">
               <?php
                   $array = explode(" ", $producto[0]['descripcion']);
-                  for ($i = 0; $i < 10; $i++)
+
+                  if (strlen($producto[0]['descripcion']) < 25)
+                  {
+                    echo "";
+                  }
+                  else {
+                    for ($i = 0; $i < 5; $i++)
+                    {
+                      echo $array[$i]." ";
+                    }
+                    echo "<span id='more'>...</span>";
+                  }
+                  ?>
+                <div class="hide-text" id="texto">
+              <?php
+
+                if (strlen($producto[0]['descripcion']) < 25)
+                {
+                    echo "Este producto no tiene descripción";
+                }
+                else
+                {
+                  for ($i = 5; $i < count($array); $i++)
                   {
                     echo $array[$i]." ";
                   }
-                  echo "<span id='more'>...</span>";
-              ?>
-            <div class="hide-text" id="texto">
-              <?php
-              for ($i = 10; $i < count($array); $i++)
-              {
-                echo $array[$i]." ";
-              }
+                }
               ?>
             </div>
-              <br><br>
+              <br>
               <button type="button" name="button" class="btn btn-warning" onclick="MostrarDescripcion()" id="btn-mostrar">Mostrar Más..</button>
               <button type="button" name="button" class="btn btn-warning" onclick="OcultarDescripcion()" id="btn-ocultar">Mostrar Menos</button>
             </div>
