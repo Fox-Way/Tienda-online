@@ -1,12 +1,10 @@
 <?php
 
-    class mdlColores
+    class mdlMarcas
     {
 
-      private $idColor;
-      private $color;
-      private $codigoColor;
-      private $cantidad;
+      private $idMarca;
+      private $marca;
       private $idProducto;
       private $db;
 
@@ -29,9 +27,9 @@
         }
       }
 
-      public function consultarColores()
+      public function ConsultarMarcas()
       {
-        $sql = "CAll SP_consultarColores()";
+        $sql = "CAll SP_consultarMarcas()";
         try {
           $stm = $this->db->prepare($sql);
           $stm->execute();
@@ -41,9 +39,9 @@
         }
       }
 
-      public function consultarColoresPorIdProducto()
+      public function ConsultarMarcasPorIdProducto()
       {
-        $sql = "CAll SP_consultarColoresPorIdProducto(?)";
+        $sql = "CAll SP_consultarMarcasPorIdProducto(?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->idProducto);
@@ -54,30 +52,16 @@
         }
       }
 
-      public function EliminarDetallesColor()
+      public function GuardarDetallesMarca()
       {
-        $sql = "CAll SP_eliminarDetallesColor(?)";
-        try {
-          $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->idProducto);
-          $result = $stm->execute();
-          return $result;
-        } catch (PDOException $e) {
-          echo $e->getMessage();
-        }
-      }
-
-      public function guardarDetallesColor()
-      {
-        $sql = "CAll SP_guardarDetallesColor(?,?,?)";
+        $sql = "CAll SP_guardarDetallesMarca(?,?)";
 
         $this->db->beginTransaction();
 
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->idProducto);
-          $stm->bindParam(2, $this->idColor);
-          $stm->bindParam(3, $this->cantidad);
+          $stm->bindParam(2, $this->idMarca);
           $result = $stm->execute();
 
           if ($result == true) {
@@ -89,6 +73,20 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error en la inserción');
+        }
+      }
+
+      public function EliminarDetallesMarcas()
+      {
+        $sql = "CAll SP_eliminarDetallesMarcas(?)";
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idProducto);
+          $result = $stm->execute();
+          return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
       }
     }

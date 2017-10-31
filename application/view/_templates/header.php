@@ -59,5 +59,7 @@
     <link rel="stylesheet" href="<?php echo URL ?>lightbox/vlb_files1/visuallightbox.css">
     <link rel="stylesheet" href="<?php echo URL ?>lightbox/vlb_files1/vlightbox1.css">
 
+    <!-- Sweetalert 2 -->
+    <link rel="stylesheet" href="<?php echo URL ?>css/sweetalert2.min.css">
 </head>
 <body>

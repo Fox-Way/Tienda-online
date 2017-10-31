@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2017 a las 02:20:53
+-- Tiempo de generación: 31-10-2017 a las 03:20:28
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -24,6 +24,11 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarCategorias` (IN `_nombre` VARCHAR(50), IN `_id_categoria` INT)  NO SQL
+UPDATE categorias
+SET nombre = _nombre
+WHERE id = _id_categoria$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarProductos` (IN `_id_producto` INT, IN `_nombre` VARCHAR(255), IN `_precio` DOUBLE, IN `_dcto` INT, IN `_descripcion` TEXT)  NO SQL
 UPDATE productos
 SET nombre = _nombre,
@@ -50,6 +55,12 @@ SELECT
     estado
 FROM categorias
 ORDER BY id DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategorias2` (IN `_nombre` VARCHAR(50), IN `_id_categoria` INT)  NO SQL
+SELECT
+    COUNT(nombre) AS nombre
+FROM categorias
+WHERE nombre = _nombre AND id <> _id_categoria AND nombre <> ''$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategoriasPorId` (IN `_id_categoria` INT)  NO SQL
 SELECT
@@ -86,6 +97,12 @@ INNER JOIN productos p
 ON p.id = pc.id_producto
 WHERE pc.id_producto = _id_producto$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarEstadoProductoPorId` (IN `_id_producto` INT)  NO SQL
+SELECT 
+	inicio
+FROM productos
+WHERE id = _id_producto$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarImagenPorIdProducto` (IN `_id_producto` INT)  NO SQL
 SELECT
 	id_imagen,
@@ -109,6 +126,24 @@ SELECT
     prioridad
 FROM imagenes
 WHERE id_producto = _id_producto AND prioridad = 3$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcas` ()  NO SQL
+SELECT
+	id_marca,
+    marca
+FROM marcas$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcasPorIdProducto` (IN `_id_producto` INT)  NO SQL
+SELECT
+	m.id_marca,
+    m.marca,
+    pm.id_producto_marcas,
+    pm.id_producto,
+    pm.id_marca
+FROM marcas m
+INNER JOIN productos_marcas pm
+ON pm.id_marca = m.id_marca
+WHERE pm.id_producto = _id_producto$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductos` (IN `_nombre` VARCHAR(255), IN `_id_producto` INT)  NO SQL
 SELECT
@@ -208,6 +243,22 @@ SELECT
 FROM usuarios
 WHERE email = _email and password = _password and estado = 1 and id_rol = 1$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_eliminarDetallesColor` (IN `_id_producto` INT)  NO SQL
+DELETE FROM productos_colores
+WHERE id_producto = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_eliminarDetallesMarcas` (IN `_id_producto` INT)  NO SQL
+DELETE FROM productos_marcas
+WHERE id_producto = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_eliminarImagenProducto` (IN `_id_producto` INT)  NO SQL
+DELETE FROM imagenes
+WHERE id_producto = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_eliminarProducto` (IN `_id_producto` INT)  NO SQL
+DELETE FROM productos
+WHERE id = _id_producto$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarCategorias` (IN `_nombre` VARCHAR(50), IN `_estado` INT(1))  NO SQL
 INSERT INTO categorias 
 (
@@ -236,6 +287,20 @@ VALUES
     _id_producto,
     _id_color,
     _cantidad
+)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarDetallesMarca` (IN `_id_producto` INT, IN `_id_marca` INT)  NO SQL
+INSERT INTO productos_marcas
+(
+    id_producto_marcas,
+    id_producto,
+    id_marca
+)
+VALUES
+(
+	null,
+    _id_producto,
+    _id_marca
 )$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarNombreImagen` (IN `_nombre` VARCHAR(100), IN `_prioridad` INT, IN `_id_producto` INT)  NO SQL
@@ -348,12 +413,9 @@ CREATE TABLE `imagenes` (
 --
 
 INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUES
-(1, '1508890476_01.jpg', 1, 1),
-(2, '1508890476_02.jpg', 2, 1),
-(3, '1509139852_01.jpg', 1, 2),
-(4, '1509213770_01.jpg', 1, 3),
-(5, '1509224908_01.jpg', 1, 4),
-(6, '1509228981_01.jpeg', 1, 5);
+(1, '1509401979_01.jpg', 1, 1),
+(2, '1509401979_02.jpg', 2, 1),
+(3, '1509401979_03.jpg', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -365,6 +427,14 @@ CREATE TABLE `marcas` (
   `id_marca` int(11) NOT NULL,
   `marca` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `marcas`
+--
+
+INSERT INTO `marcas` (`id_marca`, `marca`) VALUES
+(1, 'no definido'),
+(2, 'nike');
 
 -- --------------------------------------------------------
 
@@ -410,11 +480,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
-(1, 'camisa', 12000, 'esta es la descripcion del producto y que debe contener minímo 100 caracteres para que sea una descripción válida', 1, 1, 0, 3, 360),
-(2, 'camibuso dama', 13500, 'Camibuso para dama hecho 100% en algódon, producto hecho en Colombia, ideal para las noches frías y lluviosas.', 2, 1, 0, 0, 0),
-(3, 'pantaloneta', 18000, 'esta es la descripcion', 3, 1, 0, 0, 0),
-(4, 'test producto sin descripcion', 2300, '', 3, 1, 0, 1, 23),
-(5, 'ropa interior', 12000, 'ropa interior para niño y adulto', 4, 1, 0, 10, 1200);
+(1, 'camisa hombre', 20000, 'Camisa de tela delgada, ideal para deportistas', 1, 1, 0, 7, 1400);
 
 -- --------------------------------------------------------
 
@@ -434,11 +500,7 @@ CREATE TABLE `productos_colores` (
 --
 
 INSERT INTO `productos_colores` (`id_producto_color`, `id_producto`, `id_color`, `cantidad`) VALUES
-(1, 1, 3, 2),
-(2, 2, 4, 2),
-(3, 3, 2, 1),
-(4, 4, 1, 1),
-(5, 5, 5, 2);
+(1, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -463,6 +525,13 @@ CREATE TABLE `productos_marcas` (
   `id_producto` int(11) NOT NULL,
   `id_marca` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `productos_marcas`
+--
+
+INSERT INTO `productos_marcas` (`id_producto_marcas`, `id_producto`, `id_marca`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -609,12 +678,12 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
@@ -624,12 +693,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --
@@ -639,7 +708,7 @@ ALTER TABLE `productos_colores_tallas`
 -- AUTO_INCREMENT de la tabla `productos_marcas`
 --
 ALTER TABLE `productos_marcas`
-  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --

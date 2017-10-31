@@ -107,6 +107,22 @@
                    </div>
                  </div>
 
+                 <div class="row">
+                   <div class="col-xs-12 col-sm-12 col-md-5">
+                     <div class="form-group">
+                       <label for="marca">Marca <span class="red">*</span></label>
+                     </div>
+                     <div class="form-group">
+                       <select class="form-control" name="marca" onchange="ValidarMarca()">
+                         <option value="">-----</option>
+                         <?php foreach ($marcas as $marca): ?>
+                           <option value="<?php echo $marca['id_marca']; ?>"><?php echo $marca['marca']; ?></option>
+                         <?php endforeach; ?>
+                       </select>
+                     </div>
+                   </div>
+                 </div>
+
                  <!-- Alert categoría requerido-->
                  <div class="alert alert-danger alert-dismissible ocultar" id="avisocategoria" role="alert">
                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
@@ -115,6 +131,17 @@
                    <p class="centrar">
                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
                      <strong>Error!</strong>&nbsp;La categoría es requerida
+                   </p>
+                 </div>
+
+                 <!-- Alert marca requerido-->
+                 <div class="alert alert-danger alert-dismissible ocultar" id="avisomarca" role="alert">
+                   <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                   <p class="centrar">
+                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                     <strong>Error!</strong>&nbsp;La marca es requerida
                    </p>
                  </div>
 

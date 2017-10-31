@@ -33,6 +33,9 @@
     <script type="text/javascript" src="<?php echo URL; ?>lightbox/vlb_engine/visuallightbox.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>lightbox/vlb_engine/vlbdata1.js"></script>
 
+    <!-- Sweetalert2 -->
+    <script type="text/javascript" src="<?php echo URL ?>js/sweetalert2.all.min.js"></script>
+
 
     <script src="<?php echo URL; ?>js/application.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/login.js"></script>

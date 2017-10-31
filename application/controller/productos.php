@@ -7,6 +7,7 @@
       private $mdlImagenes;
       private $mdlColores;
       private $mdlCategorias;
+      private $mdlMarcas;
 
       public function __construct()
       {
@@ -14,38 +15,65 @@
         $this->mdlImagenes = $this->LoadModel('mdlImagenes');
         $this->mdlColores = $this->LoadModel('mdlColores');
         $this->mdlCategorias = $this->LoadModel('mdlCategorias');
+        $this->mdlMarcas = $this->LoadModel('mdlMarcas');
       }
 
       public function DetallesProducto()
       {
-        $this->mdlProductos->__SET('id', $_GET['id_producto']);
-        $producto = $this->mdlProductos->ConsultarProductoPorId();
 
-        $categoria = $producto[0]['id_categoria'];
-        $this->mdlCategorias->__SET('idCategoria', $categoria);
-        $categoriaProducto = $this->mdlCategorias->ConsultarCategoriaPorId();
+          if (isset($_GET['id_producto']))
+          {
+            $this->mdlProductos->__SET('id', $_GET['id_producto']);
+            $producto = $this->mdlProductos->ConsultarProductoPorId();
 
-        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
-        $imagenes1 = $this->mdlImagenes->ConsultarImagenPorIdProducto();
+            $this->mdlProductos->__SET('id', $_GET['id_producto']);
+            $estado = $this->mdlProductos->ConsultarEstadoProductoPorId();
 
-        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
-        $imagenes2 = $this->mdlImagenes->ConsultarImagenPrioridad2();
+            if ($producto[0]['nombre'] != '' && $estado[0]['inicio'] != 0)
+            {
+                $this->mdlMarcas->__SET('idProducto',  $_GET['id_producto']);
+                $marca = $this->mdlMarcas->ConsultarMarcasPorIdProducto();
 
-        $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
-        $imagenes3 = $this->mdlImagenes->ConsultarImagenPrioridad3();
+                $categoria = $producto[0]['id_categoria'];
+                $this->mdlCategorias->__SET('idCategoria', $categoria);
+                $categoriaProducto = $this->mdlCategorias->ConsultarCategoriaPorId();
 
-        $this->mdlColores->__SET('idProducto', $_GET['id_producto']);
-        $colores = $this->mdlColores->consultarColoresPorIdProducto();
+                $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+                $imagenes1 = $this->mdlImagenes->ConsultarImagenPorIdProducto();
 
-        // load views
-        require APP . 'view/_templates/header.php';
-        require APP . 'view/productos/detallesProductos.php';
-        require APP . 'view/_templates/footer.php';
+                $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+                $imagenes2 = $this->mdlImagenes->ConsultarImagenPrioridad2();
+
+                $this->mdlImagenes->__SET('idProducto', $_GET['id_producto']);
+                $imagenes3 = $this->mdlImagenes->ConsultarImagenPrioridad3();
+
+                $this->mdlColores->__SET('idProducto', $_GET['id_producto']);
+                $colores = $this->mdlColores->consultarColoresPorIdProducto();
+
+                // load views
+                require APP . 'view/_templates/header.php';
+                require APP . 'view/productos/detallesProductos.php';
+                require APP . 'view/_templates/footer.php';
+            }
+            else
+            {
+              header('location:' . URL . 'home/Index');
+              exit;
+            }
+          }
+          else
+          {
+            header('location:' . URL . 'home/Index');
+            exit;
+          }
       }
 
       public function GuardarProducto()
       {
-        if (isset($_SESSION['SESION_INICIADA']) && $_SESSION['SESION_INICIADA'] == true) {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+         $_SESSION['SESION_INICIADA'] == true)
+         {
+
           sleep(2);
 
           $this->mdlProductos->__SET('nombre', $_POST['nombre_producto']);
@@ -150,13 +178,18 @@
             $this->mdlColores->__SET('idColor', $_POST['optcolores']);
             $this->mdlColores->__SET('cantidad', $_POST['cantidadcolor']);
 
-            $resultado = $this->mdlColores->guardarDetallesColor();
+            $this->mdlColores->guardarDetallesColor();
+
+            //GUardar tabla detalles marcas
+              $this->mdlMarcas->__SET('idProducto', $ultimo_id[0]['id']);
+              $this->mdlMarcas->__SET('idMarca', $_POST['marca']);
+
+              $resultado = $this->mdlMarcas->GuardarDetallesMarca();
 
             //Guardar tabla imágenes
             if($_FILES['imagen1']['name'] != '')
             {
               $nombreImagen = $_FILES['imagen1']['name'];
-
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 1);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
@@ -167,7 +200,6 @@
             if($_FILES['imagen2']['name'] != '')
             {
               $nombreImagen = $_FILES['imagen2']['name'];
-
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 2);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
@@ -178,7 +210,6 @@
             if($_FILES['imagen3']['name'] != '')
             {
               $nombreImagen = $_FILES['imagen3']['name'];
-
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 3);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
@@ -208,6 +239,11 @@
           $this->mdlProductos->__SET('id', $_POST['idproducto']);
 
           $producto = $this->mdlProductos->ConsultarProductoPorId();
+
+          //Consultar marca del producto
+          $this->mdlMarcas->__SET('idProducto', $_POST['idproducto']);
+          $marca = $this->mdlMarcas->ConsultarMarcasPorIdProducto();
+
 
           foreach ($producto as $prod) {
 
@@ -270,7 +306,8 @@
             'imagen1' => $img1,
             'imagen2' => $img2,
             'imagen3' => $img3,
-            'descripcion' => $prod['descripcion']
+            'descripcion' => $prod['descripcion'],
+            'marca' => $marca[0]['marca']
           ]);
 
         }

@@ -9,6 +9,7 @@ class Administracion extends Controller
     private $mdlColores;
     private $mdlProductos;
     private $mdlImagenes;
+    private $mdlMarcas;
 
     public function __construct()
     {
@@ -17,6 +18,7 @@ class Administracion extends Controller
       $this->mdlColores = $this->LoadModel('mdlColores');
       $this->mdlProductos = $this->LoadModel('mdlProductos');
       $this->mdlImagenes = $this->LoadModel('mdlImagenes');
+      $this->mdlMarcas = $this->LoadModel('mdlMarcas');
     }
 
     public function IniciarSesion()
@@ -148,6 +150,7 @@ class Administracion extends Controller
 
       $categorias = $this->mdlCategorias->ConsultarCategorias();
       $colores = $this->mdlColores->consultarColores();
+      $marcas = $this->mdlMarcas->ConsultarMarcas();
 
         // load views
         require APP . 'view/_templates/header.php';
@@ -212,5 +215,86 @@ class Administracion extends Controller
             require APP . 'view/cuentas/cuenta.php';
             require APP . 'view/_templates/footer.php';
           }
+    }
+
+    public function EliminarProducto()
+    {
+      if (isset($_SESSION['SESION_INICIADA']) &&
+          $_SESSION['SESION_INICIADA'] == true)
+      {
+
+        if (isset($_POST['idproducto']) && $_POST['idproducto'] != '')
+        {
+
+            //Consultar imagen producto con prioridad 1
+            $this->mdlImagenes->__SET('idProducto', $_POST['idproducto']);
+            $imagen1 = $this->mdlImagenes->ConsultarImagenPorIdProducto();
+
+            if (isset($imagen1[0]['nombre']) && $imagen1[0]['nombre'] != '')
+            {
+                $ruta = 'C:/xampp/htdocs/Proyecto/public/img/images-productos/' . $imagen1[0]['nombre'];
+
+                //Eliminar imagen principal
+                if(file_exists($ruta))
+                {
+                  unlink($ruta);
+                }
+            }
+
+              //Consultar imágen del producto con prioridad 2
+            $this->mdlImagenes->__SET('idProducto', $_POST['idproducto']);
+            $imagen2 = $this->mdlImagenes->ConsultarImagenPrioridad2();
+
+            if (isset($imagen2[0]['nombre']) && $imagen2[0]['nombre'] != '')
+            {
+                $ruta = 'C:/xampp/htdocs/Proyecto/public/img/images-productos/' . $imagen2[0]['nombre'];
+
+                //Eliminar imágen 2
+                if(file_exists($ruta))
+                {
+                  unlink($ruta);
+                }
+            }
+
+              //Consultar imagen con prioridad 3
+              $this->mdlImagenes->__SET('idProducto', $_POST['idproducto']);
+              $imagen3 = $this->mdlImagenes->ConsultarImagenPrioridad3();
+
+              if (isset($imagen3[0]['nombre']) && $imagen3[0]['nombre'] != '')
+              {
+                  $ruta = 'C:/xampp/htdocs/Proyecto/public/img/images-productos/' . $imagen2[0]['nombre'];
+
+                  //eliminar imagen 3
+                  if(file_exists($ruta))
+                  {
+                    unlink($ruta);
+                  }
+              }
+
+                //Eliminar imágenes de la tabla imagenes
+                $this->mdlImagenes->__SET('idProducto', $_POST['idproducto']);
+                $imagenes = $this->mdlImagenes->EliminarImagenProducto();
+
+                //Eliminar produto de la tabla productos
+                $this->mdlProductos->__SET('id', $_POST['idproducto']);
+                $producto = $this->mdlProductos->EliminarProducto();
+
+                //Eliminar produto de la tabla productos_colores
+                $this->mdlColores->__SET('idProducto', $_POST['idproducto']);
+                $colores = $this->mdlColores->EliminarDetallesColor();
+
+                //Eliminar produto de la tabla productos_marcas
+                $this->mdlMarcas->__SET('idProducto', $_POST['idproducto']);
+                $marcas = $this->mdlMarcas->EliminarDetallesMarcas();
+
+                if ($imagenes && $producto && $colores && $marcas)
+                {
+                  echo 1;
+                }
+                else {
+                  echo 2;
+                }
+        }
+      }
     }
 }

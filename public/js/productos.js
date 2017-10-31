@@ -25,6 +25,12 @@ function ValidarFormulario()
         document.formproductos.categoria.style.border = "1px solid #f22012";
     }
 
+    if (document.formproductos.marca.value == "")
+    {
+        $("#avisomarca").show('slow');
+        document.formproductos.marca.style.border = "1px solid #f22012";
+    }
+
     if (document.formproductos.optcolores.value == "")
     {
         $("#avisocolores").show('slow');
@@ -46,6 +52,7 @@ function ValidarFormulario()
     if (document.formproductos.nombre_producto.value != "" &&
         document.formproductos.precio.value != "" &&
         document.formproductos.categoria.value != "" &&
+        document.formproductos.marca.value != "" &&
         document.formproductos.optcolores.value != "" &&
         document.formproductos.cantidadcolor.value != "")
     {
@@ -57,6 +64,7 @@ function ValidarFormulario()
         var dcto = document.formproductos.dcto.value;
         var descripcion = document.formproductos.descripcion.value;
         var categoria = document.formproductos.categoria.value;
+        var marca = document.formproductos.marca.value;
         var color = document.formproductos.optcolores.value;
         var cantidad_color = document.formproductos.cantidadcolor.value;
         var imagen1 = document.formproductos.imagen1.value;
@@ -139,6 +147,16 @@ function ValidarCategoria()
   }
 }
 
+function ValidarMarca()
+{
+  if (document.formproductos.marca.value != "")
+  {
+      $("#avisomarca").hide('slow');
+      document.formproductos.marca.style.border = "1px solid #17dd37";
+  }
+}
+
+
 function ValidarImagen()
 {
   if (document.formproductos.imagen1.value != "")
@@ -219,6 +237,7 @@ function Ventana(id){
       $('#imagen2').html(resp.imagen2);
       $('#imagen3').html(resp.imagen3);
       $('#descripcion').html(resp.descripcion);
+      $('#marca').val(resp.marca);
   });
 }
 
@@ -324,17 +343,36 @@ function ValidarDatos()
 
 function EliminarProducto(id)
 {
-  if (confirm("Se eliminará el producto ¿Está seguro de eliminar?")) {
-      // location.href = "eliminar_categorias.php?idcategoria="+id;
+
+  swal({
+      title: 'Realmente desea eliminar el produto?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
 
       $.ajax({
-        url: 'eliminarproductos.php',
+        url: url + 'administracion/EliminarProducto',
         type: 'POST',
-        data: 'idproducto='+id
-      });
+        data: {'idproducto': id },
+        success: function(resp){
 
-      $("#"+id).hide("slow");
-  }
+          if (resp == 1) {
+              $('#eliminacioncorrecta').show('slow');
+              $('#erroreliminacion').hide('fast');
+          }
+
+          if (resp == 2) {
+              $('#erroreliminacion').show('slow');
+              $('#eliminacioncorrecta').hide('fast');
+
+          }
+        }
+      });
+    });
 }
 
 function Enchufe(id)
@@ -365,8 +403,8 @@ function Enchufe(id)
 
       if (resp == 'Producto desactivado correctamente') {
         $('#procesando').hide('fast');
-        $('#desactivado').show('slow');
         $('#activado').hide('fast');
+        $('#desactivado').show('slow');
       }
     }
   });

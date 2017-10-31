@@ -65,6 +65,20 @@
         }
       }
 
+      public function ConsultarCategorias2()
+      {
+        $sql = "CAll SP_consultarCategorias2(?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->bindParam(2, $this->idCategoria);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function GuardarCategorias()
       {
         $sql = "CALL 	SP_guardarCategorias(?,?)";
@@ -86,6 +100,29 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error en la inserción de los datos');
+        }
+      }
+
+      public function ActualizarCategoria()
+      {
+        $sql = "CALL 	SP_actualizarCategorias(?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->bindParam(2, $this->idCategoria);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
         }
       }
     }

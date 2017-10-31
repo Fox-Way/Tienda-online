@@ -99,6 +99,34 @@
         }
       }
 
+
+      public function ConsultarEstadoProductoPorId()
+      {
+        $sql = "CAll SP_ConsultarEstadoProductoPorId(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->id);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
+      public function EliminarProducto()
+      {
+        $sql = "CAll SP_eliminarProducto(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->id);
+          $stm->execute();
+          $result = $stm->execute();
+          return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+      }
+
       public function ConsultarProductosConImagen()
       {
         $sql = "CAll SP_ConsultarTodosProductosConImagen()";

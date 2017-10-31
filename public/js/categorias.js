@@ -14,7 +14,6 @@ function ValidarCategoria()
     }
 }
 
-
   document.getElementById('btn-categoria').onclick = function(){
       var connect, cate, form, result;
       cate = document.getElementById('categoria').value;
@@ -65,5 +64,111 @@ function ValidarCategoria()
         result += '</div>';
         document.getElementById('categoria').style.border = '1px solid #f22012';
         document.getElementById('_AJAX_').innerHTML = result;
+      }
+  }
+
+  function Edicion(id){
+    $.ajax({
+      url: url + 'categorias/CargarDatos',
+      type: 'POST',
+      dataType: 'json',
+      data: {'idcategoria' : id}
+    }).done(function(resp){
+        $('#categoria-edicion').val(resp.nombre);
+        $('#id-categoria').val(resp.id);
+    });
+  }
+
+
+  function EditarDatosCategoria()
+  {
+    $('#btn-editar').hide('slow');
+    $('#btn-actualizar').show('slow');
+    $('.obligatorio').show('slow');
+    $('#categoria-edicion').removeAttr('readonly');
+  }
+
+  function ValidarLargoNombre()
+  {
+    var nombre = $('#categoria-edicion').val();
+
+    if (nombre.length < 3) {
+      $("#avisolargocateg").show('slow');
+      $('#categoria-edicion').css('border', '1px solid #f22012');
+    } else {
+      $('#categoria-edicion').css('border', '1px solid #17dd37');
+      $("#avisolargocateg").hide("fast");
+      return true;
+    }
+  }
+
+
+  function Recargar()
+  {
+    $('#btn-editar').show('slow');
+    $('#btn-actualizar').hide('slow');
+    $('.obligatorio').hide('slow');
+    $('#categoria-edicion').attr('readonly', true);
+    $('#categoria-edicion').css('border', 'none');
+    $('#avisocateg').hide('fast');
+    $("#nombreproductorepetido").hide('fast');
+    $("#exitocategoria").hide('fast');
+    $("#cargadatos").hide('fast');
+    $("#avisolargocateg").hide('fast');
+  }
+
+  function ValidarDatosCategoria()
+  {
+      if (document.formeditproducts.categoria_edicion.value == "")
+      {
+          $("#avisocateg").show('slow');
+          document.formeditproducts.categoria_edicion.style.border = "1px solid #f22012";
+          $("#categoria-edicion").focus();
+      }
+
+      if (document.formeditproducts.categoria_edicion.value != "")
+      {
+          $("#avisocateg").hide('fast');
+          document.formeditproducts.categoria_edicion.style.border = "1px solid #17dd37";
+      }
+
+      if (document.formeditproducts.categoria_edicion.value != "" &&
+          document.formeditproducts.idcategoria.value != "")
+      {
+
+          var formData = new FormData($("#form-edit-products")[0]);
+
+          var nombre = document.formeditproducts.categoria_edicion.value;
+          var id = document.formeditproducts.idcategoria.value;
+
+          $.ajax({
+            url: url + 'categorias/ActualizarCategoria',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function(){
+              $("#nombrecategoriarepetido").hide('fast');
+              $("#exitocategoria").hide('fast');
+              $("#cargar").show("fast");
+            },
+            success: function(resp){
+
+              if (resp == "exito") {
+                $("#cargar").hide("fast");
+                $("#nombrecategoriarepetido").hide('slow');
+                $("#exitocategoria").show('slow');
+              }
+
+              if (resp == "nombre_categoriarepetido") {
+                $("#cargar").hide("fast");
+                $("#exitocategoria").hide('slow');
+                $("#nombrecategoriarepetido").show('slow');
+                $('#categoria-edicion').css('border', '1px solid #f22012');
+                $('#categoria-edicion').focus();
+              }
+            }
+          });
       }
   }

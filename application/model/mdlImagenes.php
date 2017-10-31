@@ -116,5 +116,19 @@
           exit('Error en la consulta');
         }
       }
+
+      public function EliminarImagenProducto()
+      {
+        $sql = "CAll SP_eliminarImagenProducto(?)";
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idProducto);
+          $result = $stm->execute();
+          return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+      }
     }
  ?>

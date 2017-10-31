@@ -92,8 +92,30 @@
                            </p>
                          </div>
 
+                         <!-- Alert producto eliminado -->
+                         <div class="alert alert-success alert-dismissible ocultar" id="eliminacioncorrecta" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                           <p class="centrar">
+                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                             <strong>Enhorabuena</strong> El producto fue eliminado correctamente
+                           </p>
+                         </div>
+
+                         <!-- Alert producto eliminado -->
+                         <div class="alert alert-success alert-dismissible ocultar" id="erroreliminacion" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                           <p class="centrar">
+                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                             <strong>Error</strong> El producto no se pudo eliminar
+                           </p>
+                         </div>
+
                        </div>
-                     </div>
+                     </div> 
                  </div>
                </div>
             </div>
@@ -144,6 +166,12 @@
                     <div class="form-group">
                       <label for="dcto">Precio con descuento</label>
                       <input type="text" id="price-dcto" name="price-dcto" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
+                    <div class="form-group">
+                      <label for="categoria">Marca</label>
+                      <input type="text" name="marca" id="marca" class="form-control" readonly>
                     </div>
                   </div>
                 </div>
