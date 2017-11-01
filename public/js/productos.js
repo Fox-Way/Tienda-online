@@ -368,7 +368,6 @@ function EliminarProducto(id)
           if (resp == 2) {
               $('#erroreliminacion').show('slow');
               $('#eliminacioncorrecta').hide('fast');
-
           }
         }
       });

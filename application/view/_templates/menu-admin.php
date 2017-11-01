@@ -50,9 +50,22 @@
 								</ul>
 				</li>
 
+				<?php
+					$ruta = 'C:/xampp/htdocs/Proyecto/public/img/perfil/' .  $_SESSION['USUARIO'] . ".jpg" ;
+
+					$ext = explode('.', $ruta);
+					$extension = end($ext);
+				 ?>
+
       <li class="dropdown padding">
 	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-	        <img src="<?php echo URL ?>img/perfil/profile.jpg" alt="profile" class="profile-img">&nbsp;
+
+					<?php if (file_exists($ruta)): ?>
+						<img class="profile-img" src="<?php echo URL ?>img/perfil/<?php echo $_SESSION['USUARIO'] ?>.<?php echo $extension ?>">
+					<?php else: ?>
+						<img class="profile-img" src="<?php echo URL ?>img/perfil/profile.jpg">
+					<?php endif; ?>
+					
 	        <p><strong><?php echo $_SESSION['USUARIO']; ?></strong></p>
 	         	 <strong><?php echo $_SESSION['ROL']; ?></strong>&nbsp;
 	        <span class="caret"></span>

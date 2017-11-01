@@ -1,11 +1,18 @@
 <?php
 
-    class mdlCategorias
+    class mdlCuentas
     {
 
-      private $idCategoria;
-      private $nombre;
-      private $estado;
+      private $idUsuario;
+      private $usuario;
+      private $email;
+      private $pass;
+      private $rol;
+      private $estadoUsuario;
+      private $idPersona;
+      private $nombres;
+      private $apellidos;
+      private $fechaNacimiento;
       private $db;
 
       public function __SET($attr, $valor)
@@ -27,114 +34,74 @@
         }
       }
 
-      public function ConsultarCategoriasPorNombre()
+      public function ConsultarEmailUsuario()
       {
-        $sql = "CAll SP_consultarCategoriasPorNombre(?)";
+        $sql = "CAll SP_consultarEmailUsuario(?,?)";
         try {
           $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->nombre);
+          $stm->bindParam(1, $this->email);
+          $stm->bindParam(2, $this->idUsuario);
           $stm->execute();
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-          exit('Error en la consulta');
+          exit('Error consultando el email del usuario');
         }
       }
 
-      public function ConsultarCategoriaPorId()
+      public function ConsultarNombreUsuario()
       {
-        $sql = "CAll SP_consultarCategoriasPorId(?)";
+        $sql = "CAll SP_consultarNombreUsuario(?,?)";
         try {
           $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->idCategoria);
+          $stm->bindParam(1, $this->usuario);
+          $stm->bindParam(2, $this->idUsuario);
           $stm->execute();
           return $stm->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-          exit('Error en la consulta');
-        }
-      }
-
-      public function ConsultarCategorias()
-      {
-        $sql = "CAll SP_consultarCategorias()";
-        try {
-          $stm = $this->db->prepare($sql);
-          $stm->execute();
-          return $stm->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-          exit('Error en la consulta');
-        }
-      }
-
-      public function ConsultarCategorias2()
-      {
-        $sql = "CAll SP_consultarCategorias2(?,?)";
-        try {
-          $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->nombre);
-          $stm->bindParam(2, $this->idCategoria);
-          $stm->execute();
-          return $stm->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-          exit('Error en la consulta');
-        }
-      }
-
-      public function GuardarCategorias()
-      {
-        $sql = "CALL 	SP_guardarCategorias(?,?)";
-
-        $this->db->beginTransaction();
-
-        try {
-          $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->nombre);
-          $stm->bindParam(2, $this->estado);
-          $result = $stm->execute();
-
-          if ($result == true) {
-            $this->db->commit();
-          } else {
-            $this->db->rollback();
-          }
-
-          return $result;
-        } catch (PDOException $e) {
-          exit('Error en la inserción de los datos');
-        }
-      }
-
-      public function ActualizarCategoria()
-      {
-        $sql = "CALL 	SP_actualizarCategorias(?,?)";
-
-        $this->db->beginTransaction();
-
-        try {
-          $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->nombre);
-          $stm->bindParam(2, $this->idCategoria);
-          $result = $stm->execute();
-
-          if ($result == true) {
-            $this->db->commit();
-          } else {
-            $this->db->rollback();
-          }
           return $result;
         } catch (PDOException $e) {
           echo $e->getMessage();
         }
       }
 
-      public function CambiarEstadoCategoria()
+      public function ConsultarUsuariosPorId()
       {
-        $sql = "CALL 	SP_cambiarEstadoCategoria(?)";
+        $sql = "CAll SP_consultarUsuariosPorId(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idUsuario);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
+      public function ConsultarPersonaPorId()
+      {
+        $sql = "CAll SP_consultarPersonaPorId(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idUsuario);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
+      public function ActualizarUsuarios()
+      {
+        $sql = "CAll SP_actualizarUsuarios(?,?,?)";
 
         $this->db->beginTransaction();
 
         try {
           $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->idCategoria);
+          $stm->bindParam(1, $this->usuario);
+          $stm->bindParam(2, $this->email);
+          $stm->bindParam(3, $this->idUsuario);
           $result = $stm->execute();
 
           if ($result == true) {
@@ -142,9 +109,36 @@
           } else {
             $this->db->rollback();
           }
+
           return $result;
         } catch (PDOException $e) {
-          echo $e->getMessage();
+          exit('Error en la actualización del usuario');
+        }
+      }
+
+      public function ActualizarPersonaPorId()
+      {
+        $sql = "CAll SP_actualizarPersonaPorId(?,?,?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->fechaNacimiento);
+          $stm->bindParam(2, $this->nombres);
+          $stm->bindParam(3, $this->apellidos);
+          $stm->bindParam(4, $this->idUsuario);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la actualización de la persona');
         }
       }
     }

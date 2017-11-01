@@ -36,11 +36,15 @@
     <!-- Sweetalert2 -->
     <script type="text/javascript" src="<?php echo URL ?>js/sweetalert2.all.min.js"></script>
 
+    <!-- Datepicker -->
+    <script type="text/javascript" src="<?php echo URL ?>js/bootstrap-datepicker.js"></script>
+
 
     <script src="<?php echo URL; ?>js/application.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/login.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/categorias.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/productos.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>js/cuentas.js"></script>
 
     <script type="text/javascript">
     $(document).ready(function(){

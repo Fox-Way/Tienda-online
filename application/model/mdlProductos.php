@@ -47,6 +47,20 @@
         }
       }
 
+
+      public function ConsultarProductosPorCategoria()
+      {
+        $sql = "CAll SP_ConsultarProductosPorCategoria(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarProductosParaPaginador()
       {
         $sql = "CAll SP_consultarProductosParaPaginador(?,?)";
@@ -226,6 +240,28 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error en la inserción');
+        }
+      }
+
+      public function CambiarEstadoProductoPorCategoria()
+      {
+        $sql = "CAll SP_cambiarEstadoProductosPorCategoria(?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $result = $stm->execute();
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la actualizacion del estado');
         }
       }
 

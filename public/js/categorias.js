@@ -1,71 +1,74 @@
 
-function ValidarCategoria()
+function ValidarLargoCategoria()
 {
-    var cate = $('#categoria').val();
+    var cate = $('#nombrecategoria').val();
 
     if (cate.length < 5) {
-      $('#categoria').css('border', '1px solid #f22012');
-      $("#avisocategoria").show("slow");
+      $('#nombrecategoria').css('border', '1px solid #f22012');
+      $("#avisocategorialargo").show("slow");
       return false;
     }else{
-      $('#categoria').css('border', '1px solid #17dd37');
-      $("#avisocategoria").hide("fast");
+      $('#nombrecategoria').css('border', '1px solid #17dd37');
+      $("#avisocategorialargo").hide("fast");
       return true;
     }
 }
 
-  document.getElementById('btn-categoria').onclick = function(){
-      var connect, cate, form, result;
-      cate = document.getElementById('categoria').value;
+function ValidarFormularioCategoria()
+{
+    if (document.formcategories.nombrecategoria.value == "")
+    {
+        $("#avisonombre").show('slow');
+        document.formcategories.nombrecategoria.style.border = "1px solid #f22012";
+    }
 
-      if (cate != '') {
-        form = 'cate=' + cate;
 
-        connect = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        connect.onreadystatechange = function()
-        {
-          if (connect.readyState == 4 && connect.status == 200) {
-              if (parseInt(connect.responseText) == 1) {
-                //Conexión exitosa y se redirecciona
-                result = '<div class="alert alert-dismissible alert-success">';
-                result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-                result += '<center><strong><i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>&nbsp;Conectado!</strong> Estamos redireccionando..</center>';
-                result += '</div>';
-                document.getElementById('_AJAX_').innerHTML = result;
-                window.location = url + 'administracion/Categorias';
-              }else{
-                //Error: nombre ya existe
-                result = '<div class="alert alert-dismissible alert-danger">';
-                result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-                result += '<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error! </strong>El nombre ingresado ya existe';
-                result += '</div>';
-                document.getElementById('_AJAX_').innerHTML = result;
-              }
+    if (document.formcategories.nombrecategoria.value != "")
+    {
+        document.formcategories.nombrecategoria.style.border = "1px solid #17dd37";
+        $("#avisonombre").hide('fast');
+    }
+
+
+    if (document.formcategories.nombrecategoria.value != "")
+    {
+
+        var formData = new FormData($("#form-categories")[0]);
+
+        var nombre_categoria = document.formcategories.nombrecategoria.value;
+
+        $.ajax({
+          url: url + 'categorias/GuardarCategorias',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+            $("#nombrecategoriarepetido").hide('fast');
+            $("#exitocategoria").hide('fast');
+            $("#cargardatos").show("fast");
+          },
+          success: function(resp){
+
+            if (resp == 1) {
+              $("#cargardatos").hide("fast");
+              $("#nombrecategoriarepetido").hide('slow');
+              $("#exitocategoria").show('slow');
+              document.formcategories.nombrecategoria.value = "";
+            }
+
+            if (resp == 2) {
+              $("#cargardatos").hide("fast");
+              $("#exitocategoria").hide('slow');
+              $("#nombrecategoriarepetido").show('slow');
+              document.formcategories.nombrecategoria.style.border = "1px solid #f22012";
+            }
           }
+        });
+    }
+}
 
-          if(connect.readyState != 4){
-            //Procesando..
-            result = '<div class="alert alert-dismissible alert-warning">';
-            result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-            result += '<center><strong><i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>&nbsp;Procesando datos...!</strong></center>';
-            result += '</div>';
-            document.getElementById('_AJAX_').innerHTML = result;
-          }
-        }
-        connect.open('POST', url + 'categorias/GuardarCategorias', true);
-        connect.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        connect.send(form);
-      }else{
-        //Mostrar error de datos vacíos
-        result = '<div class="alert alert-dismissible alert-danger">';
-        result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-        result += '<center><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp';
-        result += 'Error! </strong>Debes llenar todos los campos con <span class="red">*</span> obligatoriamente</center>';
-        result += '</div>';
-        document.getElementById('categoria').style.border = '1px solid #f22012';
-        document.getElementById('_AJAX_').innerHTML = result;
-      }
-  }
 
   function Edicion(id){
     $.ajax({
@@ -102,8 +105,7 @@ function ValidarCategoria()
     }
   }
 
-
-  function Recargar()
+  function Limpiar()
   {
     $('#btn-editar').show('slow');
     $('#btn-actualizar').hide('slow');
@@ -111,9 +113,9 @@ function ValidarCategoria()
     $('#categoria-edicion').attr('readonly', true);
     $('#categoria-edicion').css('border', 'none');
     $('#avisocateg').hide('fast');
-    $("#nombreproductorepetido").hide('fast');
-    $("#exitocategoria").hide('fast');
-    $("#cargadatos").hide('fast');
+    $("#nombrerepetido").hide('fast');
+    $("#success").hide('fast');
+    $("#cargar").hide('fast');
     $("#avisolargocateg").hide('fast');
   }
 
@@ -135,7 +137,6 @@ function ValidarCategoria()
       if (document.formeditproducts.categoria_edicion.value != "" &&
           document.formeditproducts.idcategoria.value != "")
       {
-
           var formData = new FormData($("#form-edit-products")[0]);
 
           var nombre = document.formeditproducts.categoria_edicion.value;
@@ -149,26 +150,61 @@ function ValidarCategoria()
             contentType: false,
             processData: false,
             beforeSend: function(){
-              $("#nombrecategoriarepetido").hide('fast');
-              $("#exitocategoria").hide('fast');
+              $("#nombrerepetido").hide('fast');
+              $("#success").hide('fast');
               $("#cargar").show("fast");
             },
             success: function(resp){
 
-              if (resp == "exito") {
+              if (resp == 3) {
                 $("#cargar").hide("fast");
-                $("#nombrecategoriarepetido").hide('slow');
-                $("#exitocategoria").show('slow');
+                $("#nombrerepetido").hide('slow');
+                $("#success").show('slow');
               }
 
-              if (resp == "nombre_categoriarepetido") {
+              if (resp == 4) {
                 $("#cargar").hide("fast");
-                $("#exitocategoria").hide('slow');
-                $("#nombrecategoriarepetido").show('slow');
+                $("#success").hide('slow');
+                $("#nombrerepetido").show('slow');
                 $('#categoria-edicion').css('border', '1px solid #f22012');
                 $('#categoria-edicion').focus();
               }
             }
           });
       }
+  }
+
+  function CambiarEstado(id)
+  {
+
+    swal({
+        title: 'Realmente desea cambiar el estado de la categoría?',
+        text: 'Recuerde que si cambia el estado de la categoría ' +
+              'todos los productos que esten asociados a esta categoria '+
+              'también serán afectados.',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+      }).then(function () {
+
+        $.ajax({
+          url: url + 'categorias/CambiarEstado',
+          type: 'POST',
+          data: {'idcategoria': id },
+          beforeSend: function(){
+            $("#cargando").show("slow");
+            $('#cambioestado').hide('fast');
+          },
+          success: function(resp){
+
+            if (resp == 1) {
+                $('#cambioestado').show('slow');
+                $("#cargando").hide("fast");
+            }
+          }
+        });
+      });
   }

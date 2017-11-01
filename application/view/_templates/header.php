@@ -61,5 +61,9 @@
 
     <!-- Sweetalert 2 -->
     <link rel="stylesheet" href="<?php echo URL ?>css/sweetalert2.min.css">
+
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="<?php echo URL ?>css/datepicker.css">
+
 </head>
 <body>

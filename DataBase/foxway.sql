@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-10-2017 a las 03:20:28
+-- Tiempo de generación: 01-11-2017 a las 01:21:42
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -29,6 +29,13 @@ UPDATE categorias
 SET nombre = _nombre
 WHERE id = _id_categoria$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPersonaPorId` (IN `_fecha` VARCHAR(255), IN `_nombres` VARCHAR(255), IN `_apellidos` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+UPDATE personas
+SET fecha_nacimiento = _fecha,
+nombres = _nombres,
+apellidos = _apellidos
+WHERE id_usuario = _id_usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarProductos` (IN `_id_producto` INT, IN `_nombre` VARCHAR(255), IN `_precio` DOUBLE, IN `_dcto` INT, IN `_descripcion` TEXT)  NO SQL
 UPDATE productos
 SET nombre = _nombre,
@@ -37,6 +44,17 @@ descuento = _dcto,
 descripcion = _descripcion,
 precio_con_descuento = (_precio * _dcto) / 100
 WHERE id = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarUsuarios` (IN `_usuario` VARCHAR(100), IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+UPDATE usuarios
+SET usuario = _usuario,
+email = _email
+WHERE id = _id_usuario$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoCategoria` (IN `_id_categoria` INT)  NO SQL
+UPDATE categorias
+SET estado = (CASE WHEN estado = 1 THEN 0 ELSE 1 END) 
+WHERE id = _id_categoria$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosActivados` (IN `_id_producto` INT)  NO SQL
 UPDATE productos
@@ -47,6 +65,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosDesactivad
 UPDATE productos
 SET inicio = 0
 WHERE id = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosPorCategoria` (IN `_categoria` INT)  NO SQL
+UPDATE productos
+SET inicio = (CASE WHEN inicio = 1 THEN 0 ELSE 1 END) 
+WHERE id_categoria = _categoria$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategorias` ()  NO SQL
 SELECT
@@ -97,6 +120,12 @@ INNER JOIN productos p
 ON p.id = pc.id_producto
 WHERE pc.id_producto = _id_producto$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmailUsuario` (IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+SELECT
+	COUNT(email) AS email
+FROM usuarios 
+WHERE email = _email AND id <> _id_usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarEstadoProductoPorId` (IN `_id_producto` INT)  NO SQL
 SELECT 
 	inicio
@@ -145,6 +174,20 @@ INNER JOIN productos_marcas pm
 ON pm.id_marca = m.id_marca
 WHERE pm.id_producto = _id_producto$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarNombreUsuario` (IN `_usuario` VARCHAR(100), IN `_id_usuario` INT)  NO SQL
+SELECT
+	COUNT(usuario) AS usuario
+FROM usuarios
+WHERE usuario = _usuario AND id <> _id_usuario$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPersonaPorId` (IN `_id_usuario` INT)  NO SQL
+SELECT
+	nombres,
+    apellidos,
+    fecha_nacimiento
+FROM personas
+WHERE id_usuario = _id_usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductos` (IN `_nombre` VARCHAR(255), IN `_id_producto` INT)  NO SQL
 SELECT
     COUNT(nombre) AS nombre
@@ -179,6 +222,19 @@ SELECT
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 AND inicio = 1 ORDER BY p.nombre DESC LIMIT _pagina, _tamanio$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorCategoria` (IN `_categoria` INT)  NO SQL
+SELECT 
+	id,
+    nombre,
+    precio,
+    descripcion,
+    inicio,
+    cantidad,
+    descuento,
+    precio_con_descuento
+FROM productos
+WHERE id_categoria = _categoria$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorId` (IN `_id_producto` INT)  NO SQL
 SELECT
@@ -242,6 +298,15 @@ SELECT
     usuario
 FROM usuarios
 WHERE email = _email and password = _password and estado = 1 and id_rol = 1$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuariosPorId` (IN `_id_usuario` INT)  NO SQL
+SELECT
+	usuario,
+    email,
+    id_rol,
+    estado
+FROM usuarios
+WHERE id = _id_usuario AND estado = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_eliminarDetallesColor` (IN `_id_producto` INT)  NO SQL
 DELETE FROM productos_colores
@@ -444,9 +509,9 @@ INSERT INTO `marcas` (`id_marca`, `marca`) VALUES
 
 CREATE TABLE `personas` (
   `id` int(11) NOT NULL,
-  `nombres` varchar(255) NOT NULL,
-  `apellidos` varchar(255) NOT NULL,
-  `fecha_nacimiento` varchar(255) NOT NULL,
+  `nombres` varchar(255) DEFAULT NULL,
+  `apellidos` varchar(255) DEFAULT NULL,
+  `fecha_nacimiento` varchar(255) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -678,7 +743,7 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
@@ -693,12 +758,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --
@@ -708,7 +773,7 @@ ALTER TABLE `productos_colores_tallas`
 -- AUTO_INCREMENT de la tabla `productos_marcas`
 --
 ALTER TABLE `productos_marcas`
-  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --

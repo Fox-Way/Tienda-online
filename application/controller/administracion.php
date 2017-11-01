@@ -10,6 +10,7 @@ class Administracion extends Controller
     private $mdlProductos;
     private $mdlImagenes;
     private $mdlMarcas;
+    private $mdlCuentas;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class Administracion extends Controller
       $this->mdlProductos = $this->LoadModel('mdlProductos');
       $this->mdlImagenes = $this->LoadModel('mdlImagenes');
       $this->mdlMarcas = $this->LoadModel('mdlMarcas');
+      $this->mdlCuentas = $this->LoadModel('mdlCuentas');
     }
 
     public function IniciarSesion()
@@ -210,6 +212,15 @@ class Administracion extends Controller
       if (isset($_SESSION['SESION_INICIADA']) &&
           $_SESSION['SESION_INICIADA'] == true)
           {
+
+            //Consultamos los datos del usuario
+            $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+            $usuario = $this->mdlCuentas->ConsultarUsuariosPorId();
+
+            //Consultamos los demas datos del usuario
+            $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+            $persona = $this->mdlCuentas->ConsultarPersonaPorId();
+
             // load views
             require APP . 'view/_templates/header.php';
             require APP . 'view/cuentas/cuenta.php';
@@ -294,6 +305,82 @@ class Administracion extends Controller
                 else {
                   echo 2;
                 }
+        }
+      }
+    }
+
+    public function ActualizarCuenta()
+    {
+      if (isset($_SESSION['SESION_INICIADA']) &&
+          $_SESSION['SESION_INICIADA'] == true)
+      {
+        sleep(2);
+
+
+        //Guardar imágen de perfil
+        if ($_FILES['foto']['name'] != "")
+        {
+
+          $ext = explode(".", $_FILES['foto']['name']);
+          $extension = end($ext);
+          $_FILES['foto']['name'] = $_SESSION['USUARIO'] . "." . $extension;
+
+          $ruta = 'C:/xampp/htdocs/Proyecto/public/img/perfil/' . $_FILES['foto']['name'];
+
+          if(file_exists($ruta))
+          {
+            unlink($ruta);
+          }
+
+          $permitidos = array(
+            "image/jpg",
+            "image/jpeg"
+          );
+
+          if (!in_array($_FILES['foto']['type'], $permitidos)) {
+            echo 4;
+            exit;
+          }
+
+            $ruta = 'C:/xampp/htdocs/Proyecto/public/img/perfil/' . $_FILES['foto']['name'];
+            $resultado = move_uploaded_file($_FILES['foto']['tmp_name'], $ruta);
+        }
+
+        //Consultamos si existe ya un email igual al ingresado
+        $this->mdlCuentas->__SET('email', $_POST['email_user']);
+        $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+        $email = $this->mdlCuentas->ConsultarEmailUsuario();
+
+        //Consultamos si existe ya un nombre de usuario agual al ingresado
+        $this->mdlCuentas->__SET('usuario', $_POST['user']);
+        $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+        $usuario = $this->mdlCuentas->ConsultarNombreUsuario();
+
+        if ($email[0]['email'] == 0)
+        {
+          //Actualizar tabla usuarios
+          $this->mdlCuentas->__SET('usuario', $_POST['user']);
+          $this->mdlCuentas->__SET('email', $_POST['email_user']);
+          $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+          $users = $this->mdlCuentas->ActualizarUsuarios();
+
+          if ($usuario[0]['usuario'] == 0) {
+            //Actualizar tabla personas
+            $this->mdlCuentas->__SET('fechaNacimiento', $_POST['date']);
+            $this->mdlCuentas->__SET('nombres', $_POST['nombres']);
+            $this->mdlCuentas->__SET('apellidos', $_POST['apellidos']);
+            $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+            $persona = $this->mdlCuentas->ActualizarPersonaPorId();
+          }
+          else{
+            echo 3;
+          }
+
+          echo 1;
+        }
+        else
+        {
+          echo 2;
         }
       }
     }
