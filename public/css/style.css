@@ -388,6 +388,19 @@ footer p{
   width: 206px !important;
 }
 
+#users{
+  padding: 20px 37px 0px 35px;
+  font-size: 14px;
+}
+
+#users a{
+  text-transform: none !important;
+}
+
+#dropdown-users{
+  width: 206px !important;
+}
+
 /*Imágen de perfil*/
 .profile-img{
   width: 25px;

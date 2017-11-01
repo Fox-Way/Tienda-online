@@ -48,7 +48,7 @@
                 $imagenes3 = $this->mdlImagenes->ConsultarImagenPrioridad3();
 
                 $this->mdlColores->__SET('idProducto', $_GET['id_producto']);
-                $colores = $this->mdlColores->consultarColoresPorIdProducto();
+                $colores = $this->mdlColores->ConsultarColoresPorIdProducto();
 
                 // load views
                 require APP . 'view/_templates/header.php';
@@ -161,7 +161,7 @@
         }
 
           //Guardar tabla productos
-            $this->mdlProductos->__SET('nombre', $_POST['nombre_producto']);
+            $this->mdlProductos->__SET('nombre', ucwords($_POST['nombre_producto']));
             $this->mdlProductos->__SET('precio', $_POST['precio']);
             $this->mdlProductos->__SET('descuento', $_POST['dcto']);
             $this->mdlProductos->__SET('descripcion', $_POST['descripcion']);
@@ -171,14 +171,14 @@
 
             $this->mdlProductos->GuardarProductos();
 
-            $ultimo_id = $this->mdlProductos->consultarUltimoIdProducto();
+            $ultimo_id = $this->mdlProductos->ConsultarUltimoIdProducto();
 
             //Guardar tabla detalles colores
             $this->mdlColores->__SET('idProducto', $ultimo_id[0]['id']);
             $this->mdlColores->__SET('idColor', $_POST['optcolores']);
             $this->mdlColores->__SET('cantidad', $_POST['cantidadcolor']);
 
-            $this->mdlColores->guardarDetallesColor();
+            $this->mdlColores->GuardarDetallesColor();
 
             //GUardar tabla detalles marcas
               $this->mdlMarcas->__SET('idProducto', $ultimo_id[0]['id']);
@@ -194,7 +194,7 @@
               $this->mdlImagenes->__SET('prioridad', 1);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
 
-              $this->mdlImagenes->guardarNombreImagen();
+              $this->mdlImagenes->GuardarNombreImagen();
             }
 
             if($_FILES['imagen2']['name'] != '')
@@ -204,7 +204,7 @@
               $this->mdlImagenes->__SET('prioridad', 2);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
 
-              $this->mdlImagenes->guardarNombreImagen();
+              $this->mdlImagenes->GuardarNombreImagen();
             }
 
             if($_FILES['imagen3']['name'] != '')
@@ -214,7 +214,7 @@
               $this->mdlImagenes->__SET('prioridad', 3);
               $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
 
-              $this->mdlImagenes->guardarNombreImagen();
+              $this->mdlImagenes->GuardarNombreImagen();
             }
 
             echo 'exito';
@@ -297,17 +297,17 @@
           }
 
           echo json_encode([
-            'nombre' => $prod['nombre'],
+            'nombre' => ucwords($prod['nombre']),
             'id' => $prod['id'],
             'precio' => $prod['precio'],
             'precio2' => "$ " . number_format($prod['precio2'], 0, '.', '.'),
             'descuento' => $prod['descuento'],
-            'categoria' => $categoria[0]['nombre'],
+            'categoria' => ucwords($categoria[0]['nombre']),
             'imagen1' => $img1,
             'imagen2' => $img2,
             'imagen3' => $img3,
             'descripcion' => $prod['descripcion'],
-            'marca' => $marca[0]['marca']
+            'marca' => ucwords($marca[0]['marca'])
           ]);
 
         }
@@ -333,7 +333,7 @@
           {
               //Actualizar tabla productos
               $this->mdlProductos->__SET('id', $_POST['idproducto']);
-              $this->mdlProductos->__SET('nombre', $_POST['nombre']);
+              $this->mdlProductos->__SET('nombre', ucwords($_POST['nombre']));
               $this->mdlProductos->__SET('precio', $_POST['precio']);
               $this->mdlProductos->__SET('descuento', $_POST['dcto']);
               $this->mdlProductos->__SET('descripcion', $_POST['descripcion']);

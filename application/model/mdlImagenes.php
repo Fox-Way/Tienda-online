@@ -28,7 +28,7 @@
         }
       }
 
-      public function guardarNombreImagen()
+      public function GuardarNombreImagen()
       {
         $sql = "CAll SP_guardarNombreImagen(?,?,?)";
 
@@ -53,7 +53,7 @@
         }
       }
 
-      public function actualizarNombreImagen()
+      public function ActualizarNombreImagen()
       {
         $sql = "CAll SP_actualizarNombreImagen(?,?,?)";
 

@@ -29,7 +29,7 @@
         }
       }
 
-      public function consultarColores()
+      public function ConsultarColores()
       {
         $sql = "CAll SP_consultarColores()";
         try {
@@ -41,7 +41,7 @@
         }
       }
 
-      public function consultarColoresPorIdProducto()
+      public function ConsultarColoresPorIdProducto()
       {
         $sql = "CAll SP_consultarColoresPorIdProducto(?)";
         try {
@@ -67,7 +67,7 @@
         }
       }
 
-      public function guardarDetallesColor()
+      public function GuardarDetallesColor()
       {
         $sql = "CAll SP_guardarDetallesColor(?,?,?)";
 

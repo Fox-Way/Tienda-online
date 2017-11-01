@@ -21,7 +21,7 @@
 						</ul>
 				</li>
 				<li class="dropdown head-dpdn padding second top_bell_nav top_dp_agile" id="productos">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
 						<i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;
 						Productos
 						<span class="caret"></span>
@@ -38,16 +38,35 @@
 							</a>
 						</li>
 					</ul>
+					<li class="second top_bell_nav">
+				 <ul class="top_dp_agile ">
+								<li class="dropdown head-dpdn">
+									<a href="<?php echo URL; ?>marcas/Marcas">
+										<i class="fa fa-medium" aria-hidden="true"></i>&nbsp;
+											Marcas
+									</a>
+								</li>
+					</ul>
+			</li>
 				</li>
-				<li class="second top_bell_nav">
-				   <ul class="top_dp_agile ">
-				       <li class="dropdown head-dpdn">
-										<a href="<?php echo URL; ?>administracion/Usuarios">
-                      <i class="fa fa-users" aria-hidden="true"></i>&nbsp;
-                      Usuarios
-                    </a>
-									</li>
-								</ul>
+				<li class="dropdown head-dpdn padding second top_bell_nav top_dp_agile" id="users">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
+						<i class="fa fa-users" aria-hidden="true"></i>&nbsp;
+						Usuarios
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" id="dropdown-users">
+						<li>
+							<a href="<?php echo URL; ?>marcas/RegistrarMarcas">
+								<i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;
+								Registro
+							</a>
+							<a href="<?php echo URL; ?>marcas/ListarMarcas">
+								<i class="fa fa-list-ol" aria-hidden="true"></i>&nbsp;
+								Listado
+							</a>
+						</li>
+					</ul>
 				</li>
 
 				<?php
@@ -65,7 +84,7 @@
 					<?php else: ?>
 						<img class="profile-img" src="<?php echo URL ?>img/perfil/profile.jpg">
 					<?php endif; ?>
-					
+
 	        <p><strong><?php echo $_SESSION['USUARIO']; ?></strong></p>
 	         	 <strong><?php echo $_SESSION['ROL']; ?></strong>&nbsp;
 	        <span class="caret"></span>

@@ -68,7 +68,7 @@
               <?php if ($val['marca'] == ''): ?>
               <?php else: ?>
                 <p class="title-ref">
-                  Marca/Ref: <span class="red"><?php echo $marca[0]['marca'] ?></span>
+                  Marca/Ref: <span class="red"><?php echo ucwords($marca[0]['marca']); ?></span>
                 </p>
               <?php endif; ?>
             <?php endforeach; ?>
@@ -94,7 +94,7 @@
                     <option value="">Colores Disponibles</option>
                     <?php foreach ($colores as $color): ?>
                       <option value="<?php echo $color['id_color']; ?>" style="background-color: <?php echo $color['codigo_color']; ?>">
-                        <strong><?php echo $color['color']; ?></strong>
+                        <strong><?php echo ucwords($color['color']); ?></strong>
                       </option>
                     <?php endforeach; ?>
                   </select>

@@ -104,6 +104,7 @@ function ValidarFormulario()
               $("#exito").hide('slow');
               $("#nombre_productorepetido").show('slow');
               document.formproductos.nombre_producto.style.border = "1px solid #f22012";
+              $('#nombre_producto').focus();
             }
 
             if (resp == "errorimagen") {

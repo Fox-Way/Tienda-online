@@ -11,8 +11,10 @@ function ValidarUsuario()
   {
     $('#avisouser').hide('fast');
     $('#user').css('border', '1px solid #17dd37');
+    $("#avisorequerido").hide('fast');
   }
 }
+
 
 function ValidarEmailUser()
 {
@@ -22,6 +24,7 @@ function ValidarEmailUser()
   if (expr.test(correo)) {
     $('#email_user').css('border', '1px solid #17dd37');
     $('#avisoemailuser').hide('fast');
+    $("#avisorequerido").hide('fast');
     return true;
   }
   else{
@@ -32,9 +35,9 @@ function ValidarEmailUser()
 }
 
 
-
 function ValidarFormularioCuenta()
 {
+    //Validacion email
     if (document.formcuenta.email_user.value == "")
     {
         $("#avisorequerido").show('slow');
@@ -42,12 +45,7 @@ function ValidarFormularioCuenta()
         $("#email_user").focus();
     }
 
-    if (document.formcuenta.email_user.value != "")
-    {
-        $("#avisorequerido").hide('fast');
-        document.formcuenta.email_user.style.border = "1px solid #17dd37";
-    }
-
+    //validación nombre de usuario
     if (document.formcuenta.user.value == "")
     {
         $("#avisorequerido").show('slow');
@@ -55,15 +53,20 @@ function ValidarFormularioCuenta()
         $("#user").focus();
     }
 
+    if (document.formcuenta.email_user.value != "")
+    {
+        document.formcuenta.email_user.style.border = "1px solid #17dd37";
+    }
+
     if (document.formcuenta.user.value != "")
     {
-        $("#avisorequerido").hide('fast');
         document.formcuenta.user.style.border = "1px solid #17dd37";
     }
 
     if (document.formcuenta.email_user.value != "" &&
         document.formcuenta.user.value != "")
     {
+      $("#avisorequerido").hide('fast');
 
         var formData = new FormData($("#form-cuenta")[0]);
 
@@ -83,8 +86,7 @@ function ValidarFormularioCuenta()
           processData: false,
           beforeSend: function(){
             $("#errorformatoimagen").hide('fast');
-            $("#emailrepetido").hide('fast');
-            $("#usuariorepetido").hide('fast');
+            $("#emailusuariorepetido").hide('fast');
             $("#exito").hide('fast');
             $("#carga").show("fast");
           },
@@ -92,33 +94,31 @@ function ValidarFormularioCuenta()
 
             if (resp == 1) {
               $("#carga").hide("fast");
-              $("#emailrepetido").hide('slow');
-              $("#usuariorepetido").hide('slow');
+              $("#emailusuariorepetido").hide('slow');
               $("#exito").show('slow');
             }
 
             if (resp == 2) {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
-              $("#emailrepetido").show('slow');
-              $("#usuariorepetido").hide('fast');
+              $("#emailusuariorepetido").show('slow');
               document.formcuenta.email_user.style.border = "1px solid #f22012";
-            }
-
-            if (resp == 3) {
-              $("#carga").hide("fast");
-              $("#exito").hide('slow');
-              $("#usuariorepetido").show('slow');
-              $("#emailrepetido").hide('fast');
               document.formcuenta.user.style.border = "1px solid #f22012";
             }
 
             if (resp == 4) {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
-              $("#usuariorepetido").hide('fast');
-              $("#emailrepetido").hide('fast');
+              $("#emailusuariorepetido").hide('fast');
               $("#errorformatoimagen").show('slow');
+            }
+
+            if (resp == 5) {
+              $("#carga").hide("fast");
+              $("#exito").hide('slow');
+              $("#emailusuariorepetido").hide('fast');
+              $("#errorformatoimagen").hide('fast');
+              $("#formatofecha").show('slow');
             }
           }
         });

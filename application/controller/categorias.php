@@ -18,15 +18,15 @@
 
 
         if (isset($_POST['nombrecategoria'])) {
-          $this->mdlCategorias->__SET('nombre', $_POST['nombrecategoria']);
 
+          $this->mdlCategorias->__SET('nombre', $_POST['nombrecategoria']);
           $categoria = $this->mdlCategorias->ConsultarCategoriasPorNombre();
 
             foreach ($categoria as $categ) {
 
-              if ($categ['nombre'] == "0" ) {
+              if ($categ['nombre'] == "0" || $categ['nombre'] == 0) {
 
-                $this->mdlCategorias->__SET('nombre', $_POST['nombrecategoria']);
+                $this->mdlCategorias->__SET('nombre', ucwords($_POST['nombrecategoria']));
                 $this->mdlCategorias->__SET('estado', 1);
 
                 $cate = $this->mdlCategorias->GuardarCategorias();
@@ -60,7 +60,7 @@
       {
         sleep(2);
 
-        $this->mdlCategorias->__SET('nombre', $_POST['categoria_edicion']);
+        $this->mdlCategorias->__SET('nombre', strtolower($_POST['categoria_edicion']));
         $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
         $nombre_categoria = $this->mdlCategorias->ConsultarCategorias2();
 
@@ -68,7 +68,7 @@
         {
           //Actualizar tabla categorias
           $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
-          $this->mdlCategorias->__SET('nombre', $_POST['categoria_edicion']);
+          $this->mdlCategorias->__SET('nombre', ucwords($_POST['categoria_edicion']));
 
           $this->mdlCategorias->ActualizarCategoria();
           echo 3;
@@ -77,6 +77,11 @@
           echo 4;
         }
       }
+      else{
+          header('location:' . URL . 'administracion/IniciarSesion');
+          exit;
+      }
+
     }
 
     public function CambiarEstado()

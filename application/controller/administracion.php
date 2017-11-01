@@ -40,7 +40,7 @@ class Administracion extends Controller
         if ($_POST['email'] != null &&
             $_POST['pass'] != null) {
 
-          $this->mdlAdministracion->__SET('email', $_POST['email']);
+          $this->mdlAdministracion->__SET('email', strtolower($_POST['email']));
           $this->mdlAdministracion->__SET('password', $_POST['pass']);
 
           $user = $this->mdlAdministracion->ConsultarUsuarios();
@@ -103,6 +103,7 @@ class Administracion extends Controller
                $_SESSION['SESION_INICIADA'] == true){
 
         $categorias = $this->mdlCategorias->ConsultarCategorias();
+
         // load views
         require APP . 'view/_templates/header.php';
         require APP . 'view/administracion/categorias.php';
@@ -136,11 +137,17 @@ class Administracion extends Controller
       if(isset($_SESSION['SESION_INICIADA']) &&
                $_SESSION['SESION_INICIADA'] == true)
       {
+
+        $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+        $persona = $this->mdlCuentas->ConsultarPersonaPorId();
+
         // load views
         require APP . 'view/_templates/header.php';
         require APP . 'view/perfil/perfil.php';
         require APP . 'view/_templates/footer.php';
-      }else{
+      }
+
+      else{
         header('location:' . URL . 'administracion/IniciarSesion');
         exit();
       }
@@ -151,7 +158,7 @@ class Administracion extends Controller
       if (isset($_SESSION['SESION_INICIADA']) && $_SESSION['SESION_INICIADA'] == true) {
 
       $categorias = $this->mdlCategorias->ConsultarCategorias();
-      $colores = $this->mdlColores->consultarColores();
+      $colores = $this->mdlColores->ConsultarColores();
       $marcas = $this->mdlMarcas->ConsultarMarcas();
 
         // load views
@@ -356,32 +363,53 @@ class Administracion extends Controller
         $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
         $usuario = $this->mdlCuentas->ConsultarNombreUsuario();
 
-        if ($email[0]['email'] == 0)
+        if ($email[0]['email'] == 0 && $usuario[0]['usuario'] == 0)
         {
           //Actualizar tabla usuarios
-          $this->mdlCuentas->__SET('usuario', $_POST['user']);
-          $this->mdlCuentas->__SET('email', $_POST['email_user']);
+          $this->mdlCuentas->__SET('usuario', ucwords($_POST['user']));
+          $this->mdlCuentas->__SET('email', strtolower($_POST['email_user']));
           $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
           $users = $this->mdlCuentas->ActualizarUsuarios();
 
-          if ($usuario[0]['usuario'] == 0) {
-            //Actualizar tabla personas
-            $this->mdlCuentas->__SET('fechaNacimiento', $_POST['date']);
-            $this->mdlCuentas->__SET('nombres', $_POST['nombres']);
-            $this->mdlCuentas->__SET('apellidos', $_POST['apellidos']);
-            $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
-            $persona = $this->mdlCuentas->ActualizarPersonaPorId();
-          }
-          else{
-            echo 3;
+          //Validamos que el formato de la fecha sea válido
+          $fecha = $_POST['date'];
+          $explode = explode('-', $fecha);
+
+          $fecha = $_POST['date'];
+
+          if (!empty($fecha))
+          {
+            $explode = explode('-', $fecha);
+
+            if(!($explode[0] >= 1 && $explode[0] <= 31) ||
+               !($explode[1] >= 1 && $explode[1] <= 12) ||
+               !($explode[2] >= 1900 && $explode[2] <= 3000))
+               {
+                 echo 5;
+                 exit;
+               }
           }
 
+          //Actualizar tabla personas
+          $this->mdlCuentas->__SET('fechaNacimiento', $_POST['date']);
+          $this->mdlCuentas->__SET('nombres', ucwords($_POST['nombres']));
+          $this->mdlCuentas->__SET('apellidos', ucwords($_POST['apellidos']));
+          $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+          $persona = $this->mdlCuentas->ActualizarPersonaPorId();
+
           echo 1;
+
         }
+
         else
-        {
-          echo 2;
-        }
+          {
+            echo 2;
+          }
+      }
+      else
+      {
+        header('location:' . URL . 'administracion/IniciarSesion');
+        exit;
       }
     }
 }

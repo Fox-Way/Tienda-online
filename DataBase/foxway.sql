@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-11-2017 a las 01:21:42
+-- Tiempo de generación: 02-11-2017 a las 00:17:43
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -28,6 +28,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarCategorias` (IN `_nomb
 UPDATE categorias
 SET nombre = _nombre
 WHERE id = _id_categoria$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarMarcas` (IN `_marca` VARCHAR(100), IN `_id_marca` INT)  NO SQL
+UPDATE marcas
+SET marca = _marca
+WHERE id_marca = _id_marca$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPersonaPorId` (IN `_fecha` VARCHAR(255), IN `_nombres` VARCHAR(255), IN `_apellidos` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 UPDATE personas
@@ -55,6 +60,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoCategoria` (IN `_id
 UPDATE categorias
 SET estado = (CASE WHEN estado = 1 THEN 0 ELSE 1 END) 
 WHERE id = _id_categoria$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoMarca` (IN `_id_marca` INT)  NO SQL
+UPDATE marcas
+SET estado = (CASE WHEN estado = 1 THEN 0 ELSE 1 END) 
+WHERE id_marca = _id_marca$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosActivados` (IN `_id_producto` INT)  NO SQL
 UPDATE productos
@@ -126,7 +136,7 @@ SELECT
 FROM usuarios 
 WHERE email = _email AND id <> _id_usuario$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarEstadoProductoPorId` (IN `_id_producto` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEstadoProductoPorId` (IN `_id_producto` INT)  NO SQL
 SELECT 
 	inicio
 FROM productos
@@ -159,8 +169,24 @@ WHERE id_producto = _id_producto AND prioridad = 3$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcas` ()  NO SQL
 SELECT
 	id_marca,
-    marca
-FROM marcas$$
+    marca,
+    estado
+FROM marcas
+ORDER BY id_marca DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcas2` (IN `_marca` VARCHAR(100), IN `_id_marca` INT)  NO SQL
+SELECT
+    COUNT(marca) AS marca
+FROM marcas
+WHERE marca = _marca AND id_marca <> _id_marca AND marca <> ''$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcasPorId` (IN `_id_marca` INT)  NO SQL
+SELECT
+	id_marca,
+    marca,
+    estado
+FROM marcas 
+WHERE id_marca = _id_marca$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcasPorIdProducto` (IN `_id_producto` INT)  NO SQL
 SELECT
@@ -173,6 +199,12 @@ FROM marcas m
 INNER JOIN productos_marcas pm
 ON pm.id_marca = m.id_marca
 WHERE pm.id_producto = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarMarcasPorNombre` (IN `_marca` VARCHAR(100))  NO SQL
+SELECT 
+COUNT(marca) AS marca
+FROM marcas
+WHERE marca = _marca$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarNombreUsuario` (IN `_usuario` VARCHAR(100), IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -188,13 +220,13 @@ SELECT
 FROM personas
 WHERE id_usuario = _id_usuario$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductos` (IN `_nombre` VARCHAR(255), IN `_id_producto` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductos` (IN `_nombre` VARCHAR(255), IN `_id_producto` INT)  NO SQL
 SELECT
     COUNT(nombre) AS nombre
 FROM productos
 WHERE nombre = _nombre AND id <> _id_producto AND nombre <> ''$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosActivos` ()  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosActivos` ()  NO SQL
 SELECT
 	p.id,
     p.nombre,
@@ -223,7 +255,7 @@ FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 AND inicio = 1 ORDER BY p.nombre DESC LIMIT _pagina, _tamanio$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorCategoria` (IN `_categoria` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorCategoria` (IN `_categoria` INT)  NO SQL
 SELECT 
 	id,
     nombre,
@@ -236,7 +268,7 @@ SELECT
 FROM productos
 WHERE id_categoria = _categoria$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorId` (IN `_id_producto` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorId` (IN `_id_producto` INT)  NO SQL
 SELECT
 	id,
     nombre,
@@ -250,7 +282,7 @@ SELECT
 FROM productos
 WHERE id = _id_producto$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarProductosPorNombre` (IN `_nombre` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorNombre` (IN `_nombre` VARCHAR(255))  NO SQL
 SELECT
     nombre
 FROM productos
@@ -269,7 +301,7 @@ INNER JOIN roles r
 ON u.id_rol = r.id_rol
 WHERE u.email = _email$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarTodosProductosConImagen` ()  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagen` ()  NO SQL
 SELECT
 	p.id,
     p.nombre,
@@ -291,7 +323,7 @@ FROM productos$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuarios` (IN `_email` VARCHAR(255), IN `_password` VARCHAR(255))  NO SQL
 SELECT 
 	id, 
-    email, 
+    LOWER(email) AS email, 
     password, 
     estado, 
     id_rol,
@@ -368,6 +400,20 @@ VALUES
     _id_marca
 )$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarMarcas` (IN `_marca` VARCHAR(100), IN `_estado` INT)  NO SQL
+INSERT INTO marcas
+(
+	id_marca,
+    marca,
+    estado
+)
+VALUES
+(
+    null,
+    _marca,
+    _estado
+)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarNombreImagen` (IN `_nombre` VARCHAR(100), IN `_prioridad` INT, IN `_id_producto` INT)  NO SQL
 INSERT INTO imagenes
 (
@@ -429,10 +475,10 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nombre`, `estado`) VALUES
-(1, 'camisetas deportivas hombre', 1),
-(2, 'ropa dama', 1),
-(3, 'ropa deportiva hombre', 1),
-(4, 'ropa interior hombre', 1);
+(1, 'Camisetas Deportivas Hombre', 1),
+(2, 'Ropa Dama', 1),
+(3, 'Ropa Deportiva Hombre', 1),
+(4, 'Ropa Interior Hombre', 1);
 
 -- --------------------------------------------------------
 
@@ -490,16 +536,19 @@ INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUE
 
 CREATE TABLE `marcas` (
   `id_marca` int(11) NOT NULL,
-  `marca` varchar(50) DEFAULT NULL
+  `marca` varchar(50) DEFAULT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `marcas`
 --
 
-INSERT INTO `marcas` (`id_marca`, `marca`) VALUES
-(1, 'no definido'),
-(2, 'nike');
+INSERT INTO `marcas` (`id_marca`, `marca`, `estado`) VALUES
+(1, 'no definido', 1),
+(2, 'nike', 1),
+(3, 'Tommy Hilfiger', 1),
+(4, 'Adidas', 1);
 
 -- --------------------------------------------------------
 
@@ -545,7 +594,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
-(1, 'camisa hombre', 20000, 'Camisa de tela delgada, ideal para deportistas', 1, 1, 0, 7, 1400);
+(1, 'Camisa Hombre', 20000, 'Camisa de tela delgada, ideal para deportistas', 1, 1, 0, 7, 1400);
 
 -- --------------------------------------------------------
 
@@ -647,7 +696,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `usuario`, `email`, `password`, `id_rol`, `estado`) VALUES
-(1, 'juan', 'juan@gmail.com', '12345678', 1, 1);
+(1, 'Juan', 'juan@gmail.com', '12345678', 1, 1),
+(2, 'david', 'david@gmail.com', '123456789', 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -748,7 +798,7 @@ ALTER TABLE `imagenes`
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
@@ -788,7 +838,7 @@ ALTER TABLE `tallas`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

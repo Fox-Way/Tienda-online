@@ -100,7 +100,10 @@
                        <select class="form-control" name="categoria" onchange="ValidarCategoria()">
                          <option value="">-----</option>
                          <?php foreach ($categorias as $record): ?>
-                           <option value="<?php echo $record['id']; ?>"><?php echo $record['nombre']; ?></option>
+                           <?php if ($record['estado'] == 1): ?>
+                             <option value="<?php echo $record['id']; ?>"><?php echo $record['nombre']; ?></option>
+                            <?php else: ?>
+                           <?php endif; ?>
                          <?php endforeach; ?>
                        </select>
                      </div>
@@ -116,7 +119,10 @@
                        <select class="form-control" name="marca" onchange="ValidarMarca()">
                          <option value="">-----</option>
                          <?php foreach ($marcas as $marca): ?>
-                           <option value="<?php echo $marca['id_marca']; ?>"><?php echo $marca['marca']; ?></option>
+                           <?php if ($marca['estado'] == 1): ?>
+                             <option value="<?php echo $marca['id_marca']; ?>"><?php echo ucwords($marca['marca']); ?></option>
+                           <?php else: ?>
+                           <?php endif; ?>
                          <?php endforeach; ?>
                        </select>
                      </div>

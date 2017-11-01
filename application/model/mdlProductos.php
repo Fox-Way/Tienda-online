@@ -36,7 +36,7 @@
 
       public function ConsultarProductosPorNombre()
       {
-        $sql = "CAll SP_ConsultarProductosPorNombre(?)";
+        $sql = "CAll SP_consultarProductosPorNombre(?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->nombre);
@@ -50,7 +50,7 @@
 
       public function ConsultarProductosPorCategoria()
       {
-        $sql = "CAll SP_ConsultarProductosPorCategoria(?)";
+        $sql = "CAll SP_consultarProductosPorCategoria(?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->categoria);
@@ -77,7 +77,7 @@
 
       public function ConsultarProductos()
       {
-        $sql = "CAll SP_ConsultarProductos(?,?)";
+        $sql = "CAll SP_consultarProductos(?,?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->nombre);
@@ -91,7 +91,7 @@
 
       public function ConsultarProductosPorEstadoActivo()
       {
-        $sql = "CAll SP_ConsultarProductosActivos()";
+        $sql = "CAll SP_consultarProductosActivos()";
         try {
           $stm = $this->db->prepare($sql);
           return $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -102,7 +102,7 @@
 
       public function ConsultarProductoPorId()
       {
-        $sql = "CAll SP_ConsultarProductosPorId(?)";
+        $sql = "CAll SP_consultarProductosPorId(?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->id);
@@ -116,7 +116,7 @@
 
       public function ConsultarEstadoProductoPorId()
       {
-        $sql = "CAll SP_ConsultarEstadoProductoPorId(?)";
+        $sql = "CAll SP_consultarEstadoProductoPorId(?)";
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->id);
@@ -143,7 +143,7 @@
 
       public function ConsultarProductosConImagen()
       {
-        $sql = "CAll SP_ConsultarTodosProductosConImagen()";
+        $sql = "CAll SP_consultarTodosProductosConImagen()";
         try {
           $stm = $this->db->prepare($sql);
           $stm->execute();
@@ -153,7 +153,7 @@
         }
       }
 
-      public function consultarUltimoIdProducto()
+      public function ConsultarUltimoIdProducto()
       {
         $sql = "CAll SP_consultarUltimoIdProducto()";
         try {

@@ -33,6 +33,7 @@
     <!--Bootstrap-->
     <link rel="stylesheet" href="<?php echo URL ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo URL ?>css/bootstrap-theme.css">
+    <link rel="stylesheet" href="<?php echo URL ?>css/bootstrap-submenu.css">
 
     <link href="<?php echo URL; ?>css/style.css" rel="stylesheet">
     <link href="<?php echo URL; ?>css/perfil.css" rel="stylesheet">

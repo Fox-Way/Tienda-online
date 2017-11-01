@@ -14,6 +14,7 @@
     <!-- Bootstrap -->
     <script src="<?php echo URL; ?>js/bootstrap.min.js"></script>
     <script src="<?php echo URL; ?>js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo URL; ?>js/bootstrap-submenu.js"></script>
 
     <!-- Template -->
     <script src="<?php echo URL; ?>js/modernizr.custom.js"></script>
@@ -45,6 +46,7 @@
     <script type="text/javascript" src="<?php echo URL; ?>js/categorias.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/productos.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/cuentas.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>js/marcas.js"></script>
 
     <script type="text/javascript">
     $(document).ready(function(){

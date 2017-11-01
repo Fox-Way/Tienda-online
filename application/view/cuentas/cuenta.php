@@ -155,24 +155,13 @@
                   </center>
 
                   <!-- Alert email ya existe-->
-                  <div class="alert alert-danger alert-dismissible ocultar" id="emailrepetido" role="alert">
+                  <div class="alert alert-danger alert-dismissible ocultar" id="emailusuariorepetido" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <p class="centrar">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                      <strong>Error!</strong>&nbsp;El correo electrónico ya existe en la base de datos
-                    </p>
-                  </div>
-
-                  <!-- Alert usuario ya existe-->
-                  <div class="alert alert-danger alert-dismissible ocultar" id="usuariorepetido" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <p class="centrar">
-                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                      <strong>Error!</strong>&nbsp;El usuario ya existe en la base de datos
+                      <strong>Error!</strong>&nbsp;El usuario y/o el correo ya existen en la base de datos
                     </p>
                   </div>
 
@@ -187,7 +176,7 @@
                     </p>
                   </div>
 
-                  <!-- Alert actualización correcta-->
+                  <!-- Alert error formato imágen-->
                   <div class="alert alert-danger alert-dismissible ocultar" id="errorformatoimagen" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="close">
                       <span aria-hidden="true">&times;</span>
@@ -195,6 +184,17 @@
                     <p class="centrar">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
                       <strong>Error!</strong>&nbsp;El formato de la imágen es inválido, solo se aceptan imágenes jpg, jpeg
+                    </p>
+                  </div>
+
+                  <!-- Alert error formato fecha-->
+                  <div class="alert alert-danger alert-dismissible ocultar" id="formatofecha" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="centrar">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                      <strong>Error!</strong>&nbsp;El formato de la fecha es inválido
                     </p>
                   </div>
 
