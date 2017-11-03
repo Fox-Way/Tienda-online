@@ -9,21 +9,6 @@
             </div>
           </div>
 
-            <!-- <div class="row center-xs">
-              <div class="col-xs-12 col-sm-12">
-                    <div class="search">
-                        <form action="buscador.php" method="POST">
-                          <fieldset class="fieldset1">
-                            <input type="search" name="buscar" class="input1" placeholder="Buscar...">
-                            <button type="submit" class="button1">
-                              <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                          </fieldset>
-                        </form>
-                    </div>
-              </div>
-            </div> -->
-
         </header>
 
       <div class="video-container">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2017 a las 00:17:43
+-- Tiempo de generación: 03-11-2017 a las 22:59:55
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -268,6 +268,19 @@ SELECT
 FROM productos
 WHERE id_categoria = _categoria$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorFiltrado` (IN `nombre` VARCHAR(255))  NO SQL
+SELECT
+	id,
+    nombre,
+    precio,
+    descripcion,
+    descuento,
+    (precio - precio_con_descuento) AS precio2,
+    inicio
+FROM productos
+WHERE nombre LIKE '%nombre%' AND inicio = 1
+ORDER BY nombre DESC$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorId` (IN `_id_producto` INT)  NO SQL
 SELECT
 	id,
@@ -287,6 +300,12 @@ SELECT
     nombre
 FROM productos
 WHERE nombre = _nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarRoles` ()  NO SQL
+SELECT
+	id_rol, 
+    nombre
+FROM roles$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarRolPorId` (IN `_email` VARCHAR(255))  NO SQL
 SELECT 
@@ -314,6 +333,21 @@ SELECT
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 ORDER BY p.id DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorFiltrado` (IN `nombre` VARCHAR(255))  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE p.nombre LIKE '%nombre%' AND i.prioridad = 1 
+ORDER BY p.id DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoIdProducto` ()  NO SQL
 SELECT

@@ -77,6 +77,19 @@
         }
       }
 
+      public function ConsultarRoles()
+      {
+        $sql = "CAll SP_consultarRoles()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
       public function ConsultarPersonaPorId()
       {
         $sql = "CAll SP_consultarPersonaPorId(?)";

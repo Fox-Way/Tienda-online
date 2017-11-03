@@ -75,6 +75,19 @@
         }
       }
 
+      public function ConsultarProductosPorFiltrado()
+      {
+        $sql = "CAll SP_consultarProductosPorFiltrado(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarProductos()
       {
         $sql = "CAll SP_consultarProductos(?,?)";
@@ -150,6 +163,19 @@
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
           exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosConImagenPorFiltrado()
+      {
+        $sql = "CAll SP_consultarTodosProductosConImagenPorFiltrado(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de los productos por filtrado');
         }
       }
 

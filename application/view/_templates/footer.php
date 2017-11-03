@@ -47,6 +47,7 @@
     <script type="text/javascript" src="<?php echo URL; ?>js/productos.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/cuentas.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/marcas.js"></script>
+    <script type="text/javascript" src="<?php echo URL; ?>js/usuarios.js"></script>
 
     <script type="text/javascript">
     $(document).ready(function(){

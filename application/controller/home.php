@@ -35,12 +35,33 @@ class Home extends Controller
       $totalPaginas = ceil($totalRegistros / $tamanioPagina);
       $this->mdlProductos->__SET('pagina', $inicio);
       $this->mdlProductos->__SET('tamanio', $tamanioPagina);
-      // $result = $this->mdlProductos->ConsultarProductosParaPaginador();
       $productosPaginador = $this->mdlProductos->ConsultarProductosParaPaginador();
 
         // load views
         require APP . 'view/_templates/header.php';
         require APP . 'view/home/index.php';
         require APP . 'view/_templates/footer.php';
+    }
+
+    public function Buscador()
+    {
+      if (isset($_POST['btn-buscar']) && isset($_POST['busqueda']) &&
+          $_POST['busqueda'] != '')
+      {
+
+        $this->mdlProductos->__SET('nombre', $_POST['busqueda']);
+        $productos_filtrados = $this->mdlProductos->ConsultarProductosConImagenPorFiltrado();
+        // $productos_filtrados = $this->mdlProductos->ConsultarProductosPorFiltrado();
+
+        // load views
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/home/filtrado.php';
+        require APP . 'view/_templates/footer.php';
+      }
+
+      else{
+        header('location:' . URL . 'home/Index');
+        exit;
+      }
     }
 }

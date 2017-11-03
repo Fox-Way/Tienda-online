@@ -57,11 +57,11 @@
 					</a>
 					<ul class="dropdown-menu" id="dropdown-users">
 						<li>
-							<a href="<?php echo URL; ?>marcas/RegistrarMarcas">
+							<a href="<?php echo URL; ?>usuarios/RegistrarUsuarios">
 								<i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;
 								Registro
 							</a>
-							<a href="<?php echo URL; ?>marcas/ListarMarcas">
+							<a href="<?php echo URL; ?>usuarios/ListarUsuarios">
 								<i class="fa fa-list-ol" aria-hidden="true"></i>&nbsp;
 								Listado
 							</a>
