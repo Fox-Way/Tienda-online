@@ -75,7 +75,7 @@
                        <label for="correo_user">Correo Electrónico <span class="red">*</span></label>
                      </div>
                      <div class="form-group">
-                       <input type="text" class="form-control" name="correo_user" id="correp_usuario" onkeyup="validarCorreoUsuario()">
+                       <input type="text" class="form-control" name="correo_user" id="correo_usuario" onkeyup="validarCorreoUsuario()">
                      </div>
                    </div>
                    <div class="col-xs-12 col-sm-12 col-md-3 col-md-offset-1">
@@ -252,18 +252,18 @@
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
           <p class="centrar">
             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
-            <strong>Enhorabuena!</strong>&nbsp; El producto fue guardado correctamente
+            <strong>Enhorabuena!</strong>&nbsp; El usuario fue guardado correctamente
           </p>
         </div>
       </div>
 
-      <!-- Alert nombre repetido -->
-      <div class="container-prod ocultar" id="nombre_productorepetido">
+      <!-- Alert nombre usuario y correo repetidos -->
+      <div class="container-prod ocultar" id="nombreusuarioemailrepetido">
         <div class="alert alert-danger alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
           <p class="centrar">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-            <strong>Error!</strong>&nbsp; El producto ya existe en la base de datos
+            <strong>Error!</strong>&nbsp; El nombre de usuario y/o el correo ya existen en la base de datos
           </p>
         </div>
       </div>
@@ -275,7 +275,7 @@
         <p class="centrar">
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
           <strong>Error!</strong>&nbsp;
-          La extensión de la imágen es inválida o el tamaño sobrepasa el permitido
+          La extensión de la imágen es inválida, solo se admiten imágenes jpeg, jpg
         </p>
       </div>
     </div>

@@ -213,39 +213,44 @@ function ValidarFormularioUsuarios()
           processData: false,
           beforeSend: function(){
             $("#errorimagen").hide('fast');
-            $("#nombre_productorepetido").hide('fast');
+            $("#nombreusuarioemailrepetido").hide('fast');
             $("#exito").hide('fast');
             $("#carga").show("fast");
+            $("#errorimagen").hide('fast');
           },
           success: function(resp){
 
-            if (resp == "exito") {
+            if (resp == 1) {
               $("#carga").hide("fast");
-              $("#nombre_productorepetido").hide('slow');
+              $("#nombreusuarioemailrepetido").hide('slow');
               $("#exito").show('slow');
-              document.formproductos.nombre_producto.value = "";
-              document.formproductos.precio.value = "";
-              document.formproductos.descripcion.value = "";
-              document.formproductos.dcto.value = 0;
-              document.formproductos.optcolores.value = "";
-              document.formproductos.cantidadcolor.value = "";
-              document.formproductos.imagen1.value = "";
-              document.formproductos.imagen2.value = "";
-              document.formproductos.imagen3.value = "";
+              $("#errorimagen").hide('fast');
+
+              document.formusuarios.nombre_persona.value = "";
+              document.formusuarios.apellidos_persona.value = "";
+              document.formusuarios.fecha.value = "";
+              document.formusuarios.nombre_usuario.value = "";
+              document.formusuarios.correo_user.value = "";
+              document.formusuarios.rol.value = "";
+              document.formusuarios.pass.value = "";
+              document.formusuarios.repeat_pass.value = "";
+              document.formusuarios.image_perfil.value = "";
             }
 
-            if (resp == "nombre_productorepetido") {
+            if (resp == 2) {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
-              $("#nombre_productorepetido").show('slow');
-              document.formproductos.nombre_producto.style.border = "1px solid #f22012";
-              $('#nombre_producto').focus();
+              $("#nombreusuarioemailrepetido").show('slow');
+              document.formusuarios.nombre_usuario.style.border = "1px solid #f22012";
+              document.formusuarios.correo_user.style.border = "1px solid #f22012";
+              $('#nombre_usuario').focus();
+              $('#correo_usuario').focus();
             }
 
-            if (resp == "errorimagen") {
+            if (resp == 3) {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
-              $("#nombre_productorepetido").hide('fast');
+              $("#nombreusuarioemailrepetido").hide('fast');
               $("#errorimagen").show('slow');
             }
           }

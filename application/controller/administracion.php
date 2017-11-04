@@ -12,6 +12,18 @@ class Administracion extends Controller
     private $mdlMarcas;
     private $mdlCuentas;
 
+    private function Encrypt($string)
+    {
+      $sizeof = strlen($string) - 1;
+      $result = '';
+      for ($x = $sizeof; $x >= 0; $x--)
+      {
+        $result .= $string[$x];
+      }
+      $result = md5($result);
+      return $result;
+    }
+
     public function __construct()
     {
       $this->mdlAdministracion = $this->LoadModel('mdlAdministracion');
@@ -41,7 +53,7 @@ class Administracion extends Controller
             $_POST['pass'] != null) {
 
           $this->mdlAdministracion->__SET('email', strtolower($_POST['email']));
-          $this->mdlAdministracion->__SET('password', $_POST['pass']);
+          $this->mdlAdministracion->__SET('password', $this->Encrypt($_POST['pass']));
 
           $user = $this->mdlAdministracion->ConsultarUsuarios();
 
@@ -53,7 +65,7 @@ class Administracion extends Controller
                 foreach ($user as $value) {
 
                     if ($value['email'] == $_POST['email'] &&
-                        $value['password'] == $_POST['pass'] &&
+                        $value['password'] == $this->Encrypt($_POST['pass']) &&
                         $value['id_rol'] == 1 && $value['estado'] == 1) {
 
                         $_SESSION['SESION_INICIADA'] = true;

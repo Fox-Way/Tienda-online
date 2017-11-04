@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2017 a las 22:59:55
+-- Tiempo de generación: 04-11-2017 a las 20:24:56
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -129,6 +129,11 @@ ON c.id_color = pc.id_color
 INNER JOIN productos p
 ON p.id = pc.id_producto
 WHERE pc.id_producto = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmail` (IN `_email` VARCHAR(255))  NO SQL
+SELECT COUNT(email) AS email
+FROM usuarios
+WHERE email = _email$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmailUsuario` (IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -354,6 +359,15 @@ SELECT
 	MAX(id) AS id
 FROM productos$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoUsuario` ()  NO SQL
+SELECT MAX(id) AS ultimo
+FROM usuarios$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuario` (IN `_usuario` VARCHAR(100))  NO SQL
+SELECT COUNT(usuario) AS usuario
+FROM usuarios
+WHERE usuario = _usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuarios` (IN `_email` VARCHAR(255), IN `_password` VARCHAR(255))  NO SQL
 SELECT 
 	id, 
@@ -402,6 +416,24 @@ VALUES
     null,
     _nombre,
     _estado
+)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarDatosPersona` (IN `_nombres` VARCHAR(255), IN `_apellidos` VARCHAR(255), IN `_fecha` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+INSERT INTO personas
+(
+    id,
+    nombres,
+    apellidos,
+    fecha_nacimiento,
+    id_usuario
+)
+VALUES
+(
+    null,
+    _nombres,
+    _apellidos,
+    _fecha,
+    _id_usuario
 )$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarDetallesColor` (IN `_id_producto` INT, IN `_id_color` INT, IN `_cantidad` INT)  NO SQL
@@ -489,6 +521,41 @@ VALUES
     _descuento,
     (_precio * _descuento) / 100
 )$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_guardarUsuario` (IN `_usuario` VARCHAR(100), IN `_email` VARCHAR(255), IN `_pass` VARCHAR(255), IN `_rol` INT, IN `_estado` INT)  NO SQL
+INSERT INTO usuarios
+(
+    id,
+    usuario,
+    email,
+    password,
+    id_rol,
+    estado
+)
+VALUES
+(
+    null,
+    _usuario,
+    _email,
+    _pass,
+    _rol,
+    _estado
+)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarUsuarios` ()  NO SQL
+SELECT
+	u.id,
+	u.usuario,
+    u.email,
+    u.estado,
+    p.nombres,
+    p.apellidos,
+    p.fecha_nacimiento
+FROM usuarios u
+INNER JOIN personas p
+ON p.id_usuario = u.id
+WHERE u.estado = 1
+ORDER BY u.id DESC$$
 
 DELIMITER ;
 
@@ -603,7 +670,7 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id`, `nombres`, `apellidos`, `fecha_nacimiento`, `id_usuario`) VALUES
-(1, 'Juan David', 'Vargas Penagos', '23-12-1990', 1);
+(5, 'Juan David', 'Vargas Penagos', '23-12-1990', 8);
 
 -- --------------------------------------------------------
 
@@ -697,7 +764,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id_rol`, `nombre`) VALUES
-(1, 'Administrador');
+(1, 'Administrador'),
+(2, 'Vendedor'),
+(3, 'Oficios varios'),
+(4, 'Otro');
 
 -- --------------------------------------------------------
 
@@ -730,8 +800,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `usuario`, `email`, `password`, `id_rol`, `estado`) VALUES
-(1, 'Juan', 'juan@gmail.com', '12345678', 1, 1),
-(2, 'david', 'david@gmail.com', '123456789', 2, 1);
+(8, 'Juan', 'juan@gmail.com', 'ef187d06edac2230ab92f9cba1c15148', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -837,7 +906,7 @@ ALTER TABLE `marcas`
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
@@ -862,7 +931,7 @@ ALTER TABLE `productos_marcas`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `tallas`
 --
@@ -872,7 +941,7 @@ ALTER TABLE `tallas`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

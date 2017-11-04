@@ -48,6 +48,31 @@
         }
       }
 
+      public function ConsultarEmail()
+      {
+        $sql = "CAll SP_consultarEmail(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->email);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error consultando el email del usuario');
+        }
+      }
+
+      public function ConsultarUltimoUsuarioGuardado()
+      {
+        $sql = "CAll SP_consultarUltimoUsuario()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error consultando el ultimo usuario guardado');
+        }
+      }
+
       public function ConsultarNombreUsuario()
       {
         $sql = "CAll SP_consultarNombreUsuario(?,?)";
@@ -104,6 +129,33 @@
         }
       }
 
+      public function ConsultarUsuario()
+      {
+        $sql = "CAll SP_consultarUsuario(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->usuario);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
+      public function ListarUsuarios()
+      {
+        $sql = "CAll SP_listarUsuarios()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
       public function ActualizarUsuarios()
       {
         $sql = "CAll SP_actualizarUsuarios(?,?,?)";
@@ -152,6 +204,59 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error en la actualización de la persona');
+        }
+      }
+
+      public function GuardarUsuario()
+      {
+        $sql = "CAll SP_guardarUsuario(?,?,?,?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->usuario);
+          $stm->bindParam(2, $this->email);
+          $stm->bindParam(3, $this->pass);
+          $stm->bindParam(4, $this->rol);
+          $stm->bindParam(5, $this->estadoUsuario);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error guardando el usuario');
+        }
+      }
+
+      public function GuardarDatosPersona()
+      {
+        $sql = "CAll SP_guardarDatosPersona(?,?,?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombres);
+          $stm->bindParam(2, $this->apellidos);
+          $stm->bindParam(3, $this->fechaNacimiento);
+          $stm->bindParam(4, $this->idUsuario);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error guardando los datos de la persona(usuario)');
         }
       }
     }

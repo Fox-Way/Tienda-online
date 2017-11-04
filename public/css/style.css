@@ -111,6 +111,17 @@ nav{
   background-color: #FFF;
 }
 
+.main-users-list{
+  width: 100%;
+  max-width: 1010px;
+  min-height: 520px;
+  margin: 0px auto 0px auto;
+  padding: 2%;
+  border: 2px dashed #09F;
+  border-radius: 20px;
+  background-color: #FFF
+}
+
 .top{
   margin-top: 420px;
 }
