@@ -26,14 +26,17 @@
                              <tbody>
                              <?php foreach ($usuarios as $usuario): ?>
                                <tr>
-                                 <td><?php echo $usuario['nombres']; ?></td>
-                                 <td><?php echo $usuario['apellidos']; ?></td>
+                                 <td><?php echo ucwords($usuario['nombres']); ?></td>
+                                 <td><?php echo ucwords($usuario['apellidos']); ?></td>
                                    <td><?php echo $usuario['email']; ?></td>
                                  <td>
-                                   <button type="button" name="btn-detalles" class="btn btn-info" data-toggle="modal" data-target="#detalles" onclick="DetallesUsuario('<?php echo $usuario['id']; ?>');">
-                                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
-                                     Detalles Usuario
-                                   </button>
+                                   <?php if ($usuario['estado'] == 1): ?>
+                                     <button type="button" name="btn-detalles" class="btn btn-info" data-toggle="modal" data-target="#detalles" onclick="DetallesUsuario('<?php echo $usuario['id']; ?>');">
+                                       <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
+                                       Detalles Usuario
+                                     </button>
+                                   <?php else: ?>
+                                   <?php endif; ?>
                                  </td>
                                  <td>
                                    <button type="button" name="btn-eliminar" class="btn btn-warning" onclick="CambiarEstadoUsuario('<?php echo $usuario['id']; ?>')">
@@ -58,47 +61,25 @@
                            </p>
                          </div>
 
-                         <!-- Alert producto desactivado -->
-                         <div class="alert alert-success alert-dismissible ocultar" id="desactivado" role="alert">
+                         <!-- Alert procesando -->
+                         <div class="alert alert-warning alert-dismissible ocultar" id="cargandouser" role="alert">
                            <button type="button" class="close" data-dismiss="alert" aria-label="close">
                              <span aria-hidden="true">&times;</span>
                            </button>
                            <p class="centrar">
-                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
-                             <strong>Enhorabuena</strong> El producto fue desactivado correctamente
+                             <i class="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>&nbsp;
+                             <strong>Procesando...!</strong>
                            </p>
                          </div>
 
-                         <!-- Alert producto activado -->
-                         <div class="alert alert-success alert-dismissible ocultar" id="activado" role="alert">
+                         <!-- Alert procesando -->
+                         <div class="alert alert-success alert-dismissible ocultar" id="cambioestadouser" role="alert">
                            <button type="button" class="close" data-dismiss="alert" aria-label="close">
                              <span aria-hidden="true">&times;</span>
                            </button>
                            <p class="centrar">
-                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
-                             <strong>Enhorabuena</strong> El producto fue activado correctamente
-                           </p>
-                         </div>
-
-                         <!-- Alert producto eliminado -->
-                         <div class="alert alert-success alert-dismissible ocultar" id="eliminacioncorrecta" role="alert">
-                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                           <p class="centrar">
-                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
-                             <strong>Enhorabuena</strong> El producto fue eliminado correctamente
-                           </p>
-                         </div>
-
-                         <!-- Alert producto eliminado -->
-                         <div class="alert alert-success alert-dismissible ocultar" id="erroreliminacion" role="alert">
-                           <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                           <p class="centrar">
-                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                             <strong>Error</strong> El producto no se pudo eliminar
+                             <i class="fa fa-check fa-3x" aria-hidden="true"></i>&nbsp;
+                             <strong>Enhorabuena!</strong> El estado fue cambiado correctamente
                            </p>
                          </div>
 
@@ -115,21 +96,21 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Recargar()"><span aria-hidden="true">&times;</span></button>
-            <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong>Información del Usuario</strong></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="RecargarUser()"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong><span id="title-user">Información del Usuario<span></strong></h5>
           </div>
           <div class="modal-body">
-              <form name="formdetailsproducts" id="form-details-products" enctype="multipart/form-data">
+              <form name="formdetailsusers" id="form-details-users">
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-5">
                     <div class="form-group">
-                      <label for="nombres">Nombres <span class="red obligatorio">*</span></label>
+                      <label for="nombres">Nombres</label>
                       <input type="text" id="nombres" name="nombres" class="form-control" readonly>
                     </div>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
                     <div class="form-group">
-                      <label for="apellidos">Apellidos <span class="red obligatorio">*</span></label>
+                      <label for="apellidos">Apellidos</label>
                       <input type="text"  id="apellidos" name="apellidos" class="form-control" readonly>
                     </div>
                   </div>
@@ -137,14 +118,18 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-5">
                     <div class="form-group">
-                      <label for="dcto">Descuento (%) <span class="red obligatorio">*</span></label>
-                      <input type="number" max="100" min="0" id="dcto" name="dcto" class="form-control" readonly>
+                      <label for="fecha_details">Fecha Nacimiento</label>
+                      <div class="input-group fecha_details fecha_nacimiento_details">
+                        <input type="text" name="fecha_details" id="fecha_details" data-date="31-10-2017" data-date-format="dd-mm-yyyy" class="form-control" placeholder="dd-mm-yyyy" aria-describedby="basic-addon2" readonly>
+                        <span class="input-group-addon add-on" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                      </div>
                     </div>
                   </div>
+
                   <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
                     <div class="form-group">
-                      <label for="categoria">Categoría</label>
-                      <input type="text" id="categoria" class="form-control" readonly>
+                      <label for="name_user">Nombre de usuario  <span class="red obligatorio">*</span></label>
+                      <input type="text" id="name_user" class="form-control" name="name_user" readonly>
                     </div>
                   </div>
                 </div>
@@ -152,40 +137,18 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-5">
                     <div class="form-group">
-                      <label for="dcto">Precio con descuento</label>
-                      <input type="text" id="price-dcto" name="price-dcto" class="form-control" readonly>
+                      <label for="email_details">Correo Electrónico  <span class="red obligatorio">*</span></label>
+                      <input type="text" id="email_details" name="email_details" class="form-control" readonly>
                     </div>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
                     <div class="form-group">
-                      <label for="categoria">Marca</label>
-                      <input type="text" name="marca" id="marca" class="form-control" readonly>
+                      <label for="rol_details">Rol</label>
+                      <input type="text" id="rol_details" name="rol_details" class="form-control" readonly>
                     </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-5">
-                    <div class="" id="imagen1"></div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
-                    <div class="" id="imagen2"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-6">
-                    <div class="" id="imagen3"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                      <label for="descripcion">Descripción</label>
-                      <textarea name="descripcion" rows="3" id="descripcion" name="descripcion" class="form-control" readonly></textarea>
-                    </div>
-                  </div>
-                </div>
-                <input type="hidden" name="idproducto" id="id-producto">
+                <input type="hidden" name="iduser" id="id-user">
               </form>
 
               <!-- Alert campos obligatorios -->
@@ -200,13 +163,13 @@
               </div>
 
               <!-- Alert nombre repetido -->
-              <div class="alert alert-danger alert-dismissible ocultar" id="nombre_productorepetido" role="alert">
+              <div class="alert alert-danger alert-dismissible ocultar" id="user_email_repetido" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="close">
                   <span aria-hidden="true">&times;</span>
                 </button>
                 <p class="centrar">
                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                  <strong>Error!</strong>&nbsp;El nombre ya existe en la base de datos
+                  <strong>Error!</strong>&nbsp;El nombre de usuario y/o el correo ya existen   en la base de datos
                 </p>
               </div>
 
@@ -232,29 +195,17 @@
                 </div>
               </center>
 
-              <!-- Alert formato imagen inválido -->
-              <div class="alert alert-danger alert-dismissible ocultar" id="errorimagen" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <p class="centrar">
-                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-                  <strong>Error!</strong>&nbsp;
-                  La extensión de la imágen es inválida o el tamaño sobrepasa el permitido
-                </p>
-              </div>
-
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="EditarDatos()" id="btn-editar">
+            <button type="button" class="btn btn-primary" onclick="EditarDatosUser()" id="btn-editar-user">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
               Editar
             </button>
-            <button type="button" class="btn btn-success ocultar" id="btn-actualizar" onclick="ValidarDatos()">
+            <button type="button" class="btn btn-success ocultar" id="btn-actualizar-user" onclick="ValidarDatosUser()">
               <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
               Actualizar
             </button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Recargar()">
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="RecargarUser()">
               <i class="fa fa-times" aria-hidden="true"></i>&nbsp;
               Cerrar
             </button>

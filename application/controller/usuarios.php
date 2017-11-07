@@ -116,14 +116,34 @@
 
               /*Consultamos el último id del usuario
                 que se guardo para poder relacionarlo con la tabla personas*/
-              $ultimo_usuario = $this->mdlCuentas->ConsultarUltimoUsuarioGuardado();
+              $ultimoUsuario = $this->mdlCuentas->ConsultarUltimoUsuarioGuardado();
 
               //Guardamos tabla personas
               $this->mdlCuentas->__SET('nombres', ucwords($_POST['nombre_persona']));
               $this->mdlCuentas->__SET('apellidos', ucwords($_POST['apellidos_persona']));
+
+              //Validamos que el formato de la fecha sea válido
+              $fecha = $_POST['fecha'];
+              $explode = explode('-', $fecha);
+
+              $fecha = $_POST['fecha'];
+
+              if (!empty($fecha))
+              {
+                $explode = explode('-', $fecha);
+
+                if(!($explode[0] >= 1 && $explode[0] <= 31) ||
+                   !($explode[1] >= 1 && $explode[1] <= 12) ||
+                   !($explode[2] >= 1900 && $explode[2] <= 3000))
+                   {
+                     echo 4;
+                     exit;
+                   }
+              }
+
               $this->mdlCuentas->__SET('fechaNacimiento', $_POST['fecha']);
-              $this->mdlCuentas->__SET('idUsuario', $ultimo_usuario[0]['ultimo']);
-              $success_persona = $this->mdlCuentas->GuardarDatosPersona();
+              $this->mdlCuentas->__SET('idUsuario', $ultimoUsuario[0]['ultimo']);
+              $successPersona = $this->mdlCuentas->GuardarDatosPersona();
 
               echo 1;
 
@@ -138,6 +158,105 @@
         else
         {
           header('location:' .URL. 'administracion/IniciarSesion');
+          exit;
+        }
+      }
+
+      public function VerUsuarios()
+      {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+            if (isset($_POST['idusuario']))
+            {
+              $this->mdlCuentas->__SET('idUsuario', $_POST['idusuario']);
+              $usuario = $this->mdlCuentas->ConsultarUsuarioPorId();
+
+            foreach ($usuario as $val) {
+
+              echo json_encode([
+                'id' => $val['id'],
+                'usuario' => $val['usuario'],
+                'email' => $val['email'],
+                'nombres' => $val['nombres'],
+                'apellidos' => $val['apellidos'],
+                'fecha' => $val['fecha_nacimiento'],
+                'rol' => $val['nombre']
+              ]);
+            }
+            }
+            else
+            {
+              header('location:' .URL.'usuarios/ListarUsuarios');
+              exit;
+            }
+        }
+        else {
+          header('location:' .URL.'administracion/IniciarSesion');
+          exit;
+        }
+      }
+
+      public function ActualizarUsuarios()
+      {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+
+          sleep(2);
+
+          //Consultamos que no exista un nombre de usuario repetido en la base de datos
+          $this->mdlCuentas->__SET('usuario', $_POST['name_user']);
+          $this->mdlCuentas->__SET('idUsuario', $_POST['iduser']);
+          $usuario = $this->mdlCuentas->ConsultarNombreUsuarioPorId();
+
+          //Consultamos que no exista un email repetido en la base de datos
+          $this->mdlCuentas->__SET('email', $_POST['email_details']);
+          $this->mdlCuentas->__SET('idUsuario', $_POST['iduser']);
+          $email= $this->mdlCuentas->ConsultarEmailPorId();
+
+          if ($usuario[0]['usuario'] == 0 && $email[0]['email'] == 0)
+          {
+            //Actualizamos la tabla usuarios
+            $this->mdlCuentas->__SET('email', $_POST['email_details']);
+            $this->mdlCuentas->__SET('usuario', $_POST['name_user']);
+            $this->mdlCuentas->__SET('idUsuario', $_POST['iduser']);
+            $email= $this->mdlCuentas->ActualizarUsuario();
+            echo 1;
+          }
+          else {
+            {
+              echo 2;
+            }
+          }
+
+        }
+        else
+        {
+          header('location:' .URL.'administracion/IniciarSesion');
+          exit;
+        }
+      }
+
+      public function CambiarEstadoUsuario()
+      {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+
+          sleep(2);
+
+          if(isset($_POST['idusuario']))
+          {
+            //Cambiamos el estado del usuario
+            $this->mdlCuentas->__SET('idUsuario', $_POST['idusuario']);
+            $estadoUsuario = $this->mdlCuentas->CambiarEstadoUsuario();
+            echo 1;
+          }
+        }
+        else
+        {
+          header('location:' .URL.'administracion/IniciarSesion');
           exit;
         }
       }

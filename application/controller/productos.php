@@ -171,17 +171,17 @@
 
             $this->mdlProductos->GuardarProductos();
 
-            $ultimo_id = $this->mdlProductos->ConsultarUltimoIdProducto();
+            $ultimoId = $this->mdlProductos->ConsultarUltimoIdProducto();
 
             //Guardar tabla detalles colores
-            $this->mdlColores->__SET('idProducto', $ultimo_id[0]['id']);
+            $this->mdlColores->__SET('idProducto', $ultimoId[0]['id']);
             $this->mdlColores->__SET('idColor', $_POST['optcolores']);
             $this->mdlColores->__SET('cantidad', $_POST['cantidadcolor']);
 
             $this->mdlColores->GuardarDetallesColor();
 
             //GUardar tabla detalles marcas
-              $this->mdlMarcas->__SET('idProducto', $ultimo_id[0]['id']);
+              $this->mdlMarcas->__SET('idProducto', $ultimoId[0]['id']);
               $this->mdlMarcas->__SET('idMarca', $_POST['marca']);
 
               $resultado = $this->mdlMarcas->GuardarDetallesMarca();

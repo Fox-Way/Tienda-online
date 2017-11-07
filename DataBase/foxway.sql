@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2017 a las 20:24:56
+-- Tiempo de generación: 07-11-2017 a las 22:07:15
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -50,6 +50,12 @@ descripcion = _descripcion,
 precio_con_descuento = (_precio * _dcto) / 100
 WHERE id = _id_producto$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarUsuario` (IN `_usuario` VARCHAR(255), IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+UPDATE usuarios
+SET email = _email,
+usuario = _usuario
+WHERE id = _id_usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarUsuarios` (IN `_usuario` VARCHAR(100), IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 UPDATE usuarios
 SET usuario = _usuario,
@@ -80,6 +86,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadoProductosPorCategor
 UPDATE productos
 SET inicio = (CASE WHEN inicio = 1 THEN 0 ELSE 1 END) 
 WHERE id_categoria = _categoria$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_cambiarEstadousuario` (IN `_id_usuario` INT)  NO SQL
+UPDATE usuarios
+SET estado = (CASE WHEN estado = 1 THEN 0 ELSE 1 END) 
+WHERE id = _id_usuario$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategorias` ()  NO SQL
 SELECT
@@ -134,6 +145,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmail` (IN `_email` VAR
 SELECT COUNT(email) AS email
 FROM usuarios
 WHERE email = _email$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmailPorId` (IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
+SELECT
+	COUNT(email) AS email
+FROM usuarios
+WHERE email = _email AND id <> _id_usuario AND email <> ''$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarEmailUsuario` (IN `_email` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -216,6 +233,12 @@ SELECT
 	COUNT(usuario) AS usuario
 FROM usuarios
 WHERE usuario = _usuario AND id <> _id_usuario$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarNombreUsuarioPorId` (IN `_usuario` VARCHAR(100), IN `_id_usuario` INT)  NO SQL
+SELECT
+    COUNT(usuario) AS usuario
+FROM usuarios
+WHERE usuario = _usuario AND id <> _id_usuario AND usuario <> ''$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPersonaPorId` (IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -368,6 +391,23 @@ SELECT COUNT(usuario) AS usuario
 FROM usuarios
 WHERE usuario = _usuario$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuarioPorId` (IN `_id_usuario` INT)  NO SQL
+SELECT
+	u.id,
+    u.usuario,
+    u.email,
+    r.id_rol,
+    r.nombre,
+    p.nombres,
+    p.apellidos,
+    p.fecha_nacimiento
+FROM usuarios u
+INNER JOIN personas p
+ON p.id_usuario = u.id
+INNER JOIN roles r
+ON r.id_rol = u.id_rol
+WHERE u.id = _id_usuario$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuarios` (IN `_email` VARCHAR(255), IN `_password` VARCHAR(255))  NO SQL
 SELECT 
 	id, 
@@ -377,7 +417,7 @@ SELECT
     id_rol,
     usuario
 FROM usuarios
-WHERE email = _email and password = _password and estado = 1 and id_rol = 1$$
+WHERE email = _email AND password = _password and estado = 1 and id_rol = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUsuariosPorId` (IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -554,7 +594,6 @@ SELECT
 FROM usuarios u
 INNER JOIN personas p
 ON p.id_usuario = u.id
-WHERE u.estado = 1
 ORDER BY u.id DESC$$
 
 DELIMITER ;
@@ -670,7 +709,8 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id`, `nombres`, `apellidos`, `fecha_nacimiento`, `id_usuario`) VALUES
-(5, 'Juan David', 'Vargas Penagos', '23-12-1990', 8);
+(5, 'Juan David', 'Vargas Penagos', '23-12-1990', 8),
+(6, 'david', 'penagos', '23-12-1990', 9);
 
 -- --------------------------------------------------------
 
@@ -800,7 +840,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `usuario`, `email`, `password`, `id_rol`, `estado`) VALUES
-(8, 'Juan', 'juan@gmail.com', 'ef187d06edac2230ab92f9cba1c15148', 1, 1);
+(8, 'Juan', 'juan@gmail.com', 'ef187d06edac2230ab92f9cba1c15148', 1, 1),
+(9, 'david', 'david@gmail.com', '12345678', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -906,7 +947,7 @@ ALTER TABLE `marcas`
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
@@ -941,7 +982,7 @@ ALTER TABLE `tallas`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

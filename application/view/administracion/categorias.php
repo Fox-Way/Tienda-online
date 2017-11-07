@@ -25,10 +25,14 @@
                    </div>
                  </div>
                  <div class="form-group">
-                   <div class="col-sm-offset-2 col-sm-10">
+                   <div class="col-sm-offset-2 col-sm-12 col-md-5">
                      <button type="button" class="btn btn-success btn-categoria" name="btn-categoria" id="btn-categoria" onclick="ValidarFormularioCategoria()">
                        <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
                        Guardar
+                     </button>
+                     <button type="reset" class="btn btn-secondary btn-limpiar" name="btn-limpiar" id="btn-limpiar">
+                       <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;
+                       Borrar
                      </button>
                    </div>
                  </div>
@@ -156,7 +160,7 @@
                        <div class="modal-dialog" role="document">
                          <div class="modal-content">
                            <div class="modal-header">
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Recargar()"><span aria-hidden="true">&times;</span></button>
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Limpiar()"><span aria-hidden="true">&times;</span></button>
                              <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong>Edición Categorías</strong></h5>
                            </div>
                            <div class="modal-body">

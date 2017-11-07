@@ -268,32 +268,48 @@
         </div>
       </div>
 
-      <!-- Alert extensión imágen inválido -->
-    <div class="container-prod ocultar" id="errorimagen">
-      <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
-        <p class="centrar">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
-          <strong>Error!</strong>&nbsp;
-          La extensión de la imágen es inválida, solo se admiten imágenes jpeg, jpg
-        </p>
-      </div>
-    </div>
+          <!-- Alert extensión imágen inválido -->
+        <div class="container-prod ocultar" id="errorimagen">
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
+            <p class="centrar">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+              <strong>Error!</strong>&nbsp;
+              La extensión de la imágen es inválida, solo se admiten imágenes jpeg, jpg
+            </p>
+          </div>
+        </div>
 
-                 <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                        <button type="button" class="btn btn-success btn-usuario" onclick="ValidarFormularioUsuarios()">
-                          <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
-                          Guardar
-                        </button>
-                     </div>
-                   </div>
-                 </div>
-                 </form>
-               </div>
-            </div>
-				</div>
-		  </div>
-	  </div>
+          <!-- Alert formato fecha inválido-->
+        <div class="container-prod ocultar" id="errorfecha">
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
+            <p class="centrar">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+              <strong>Error!</strong>&nbsp;
+              El formato de la fecha es inválido
+            </p>
+          </div>
+        </div>
+
+         <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <button type="button" class="btn btn-success btn-usuario" onclick="ValidarFormularioUsuarios()">
+                  <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
+                  Guardar
+                </button>
+                <button type="reset" class="btn btn-secondary btn-limpiar" name="btn-limpiar" id="btn-limpiar">
+                  <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;
+                  Borrar
+                </button>
+             </div>
+           </div>
+         </div>
+        </form>
+       </div>
+     </div>
+		</div>
+	 </div>
+	</div>
 </div>

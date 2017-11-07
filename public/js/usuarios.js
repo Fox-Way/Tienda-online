@@ -240,6 +240,7 @@ function ValidarFormularioUsuarios()
             if (resp == 2) {
               $("#carga").hide("fast");
               $("#exito").hide('slow');
+              $("#errorfecha").hide('fast');
               $("#nombreusuarioemailrepetido").show('slow');
               document.formusuarios.nombre_usuario.style.border = "1px solid #f22012";
               document.formusuarios.correo_user.style.border = "1px solid #f22012";
@@ -252,8 +253,158 @@ function ValidarFormularioUsuarios()
               $("#exito").hide('slow');
               $("#nombreusuarioemailrepetido").hide('fast');
               $("#errorimagen").show('slow');
+              $("#errorfecha").hide('fast');
+
+            }
+
+            if (resp == 4) {
+              $("#carga").hide("fast");
+              $("#exito").hide('slow');
+              $("#nombreusuarioemailrepetido").hide('fast');
+              $("#errorimagen").hide('fast');
+              $("#errorfecha").show('slow');
             }
           }
         });
     }
+}
+
+// $('#fecha_details').datepicker({
+//     autoclose: true
+// });
+
+function DetallesUsuario(id){
+  $.ajax({
+    url: url + 'usuarios/VerUsuarios',
+    type: 'POST',
+    dataType: 'json',
+    data: {'idusuario' : id}
+  }).done(function(resp){
+      $('#nombres').val(resp.nombres);
+      $('#apellidos').val(resp.apellidos);
+      $('#fecha_details').val(resp.fecha);
+      $('#name_user').val(resp.usuario);
+      $('#email_details').val(resp.email);
+      $('#id-user').val(resp.id);
+      $('#rol_details').val(resp.rol);
+  });
+}
+
+function EditarDatosUser()
+{
+
+  $('#btn-editar-user').hide('slow');
+  $('#btn-actualizar-user').show('slow');
+  $('.obligatorio').show('slow');
+  $('#name_user').removeAttr('readonly');
+  $('#email_details').removeAttr('readonly');
+  $('#title-user').html('Edición de Usuarios');
+}
+
+function RecargarUser()
+{
+  $('#btn-editar-user').show('slow');
+  $('#btn-actualizar-user').hide('slow');
+  $('.obligatorio').hide('slow');
+  $('#name_user').attr('readonly', true);
+  $('#name_user').css('border', 'none');
+  $('#email_details').attr('readonly', true);
+  $('#email_details').css('border', 'none');
+  $('#avisocampos').hide('fast');
+  $('#title-user').html('Información del Usuario');
+  $("#user_email_repetido").hide('fast');
+  $("#exito").hide('fast');
+}
+
+function ValidarDatosUser()
+{
+    if (document.formdetailsusers.name_user.value == "")
+    {
+        $("#avisocampos").show('slow');
+        document.formdetailsusers.name_user.style.border = "1px solid #f22012";
+        $("#name_user").focus();
+    }
+
+    if (document.formdetailsusers.email_details.value == "")
+    {
+        $("#avisocampos").show('slow');
+        document.formdetailsusers.email_details.style.border = "1px solid #f22012";
+        $("#email_details").focus();
+    }
+
+
+    if (document.formdetailsusers.name_user.value != "" &&
+        document.formdetailsusers.email_details.value != "")
+    {
+
+        var formData = new FormData($("#form-details-users")[0]);
+
+        var usuario = document.formdetailsusers.name_user.value;
+        var email = document.formdetailsusers.email_details.value;
+        var idusuario = document.formdetailsusers.iduser.value;
+
+        $.ajax({
+          url: url + 'usuarios/ActualizarUsuarios',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+            $("#user_email_repetido").hide('fast');
+            $("#exito").hide('fast');
+            $("#carga").show("fast");
+          },
+          success: function(resp){
+
+            if (resp == 1) {
+              $("#carga").hide("fast");
+              $("#user_email_repetido").hide('slow');
+              $("#exito").show('slow');
+            }
+
+            if (resp == 2) {
+              $("#carga").hide("fast");
+              $("#exito").hide('slow');
+              $("#user_email_repetido").show('slow');
+              document.formdetailsusers.name_user.style.border = "1px solid #f22012";
+              document.formdetailsusers.email_details.style.border = "1px solid #f22012";
+              $('#name_user').focus();
+              $('#email_details').focus();
+            }
+          }
+        });
+    }
+}
+
+function CambiarEstadoUsuario(id)
+{
+
+  swal({
+      title: 'Realmente desea cambiar el estado del usuario?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+
+      $.ajax({
+        url: url + 'usuarios/CambiarEstadoUsuario',
+        type: 'POST',
+        data: {'idusuario': id },
+        beforeSend: function(){
+          $("#cargandouser").show("slow");
+          $('#cambioestadouser').hide('fast');
+        },
+        success: function(resp){
+
+          if (resp == 1) {
+              $('#cambioestadouser').show('slow');
+              $("#cargandouser").hide("fast");
+          }
+        }
+      });
+    });
 }

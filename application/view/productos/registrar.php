@@ -313,6 +313,10 @@
                           <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
                           Guardar
                         </button>
+                        <button type="reset" class="btn btn-secondary btn-limpiar" name="btn-limpiar" id="btn-limpiar">
+                          <i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;
+                          Borrar
+                        </button>
                      </div>
                    </div>
                  </div>

@@ -88,6 +88,51 @@
         }
       }
 
+      public function ConsultarUsuarioPorId()
+      {
+        $sql = "CAll SP_consultarUsuarioPorId(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idUsuario);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
+      public function ConsultarNombreUsuarioPorId()
+      {
+        $sql = "CAll SP_consultarNombreUsuarioPorId(?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->usuario);
+          $stm->bindParam(2, $this->idUsuario);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+        } catch (PDOException $e) {
+          echo $e->getMessage();
+        }
+      }
+
+
+        public function ConsultarEmailPorId()
+        {
+          $sql = "CAll SP_consultarEmailPorId(?,?)";
+          try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindParam(1, $this->email);
+            $stm->bindParam(2, $this->idUsuario);
+            $stm->execute();
+            return $stm->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+          } catch (PDOException $e) {
+            echo $e->getMessage();
+          }
+        }
+
       public function ConsultarUsuariosPorId()
       {
         $sql = "CAll SP_consultarUsuariosPorId(?)";
@@ -159,6 +204,31 @@
       public function ActualizarUsuarios()
       {
         $sql = "CAll SP_actualizarUsuarios(?,?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->usuario);
+          $stm->bindParam(2, $this->email);
+          $stm->bindParam(3, $this->idUsuario);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la actualización del usuario');
+        }
+      }
+
+      public function ActualizarUsuario()
+      {
+        $sql = "CAll SP_actualizarUsuario(?,?,?)";
 
         $this->db->beginTransaction();
 
@@ -257,6 +327,29 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error guardando los datos de la persona(usuario)');
+        }
+      }
+
+      public function CambiarEstadoUsuario()
+      {
+        $sql = "CAll SP_cambiarEstadousuario(?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idUsuario);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error cambiando el estado del usuario');
         }
       }
     }

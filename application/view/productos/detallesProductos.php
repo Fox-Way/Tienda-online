@@ -4,20 +4,7 @@
         <nav class="wow bounceInLeft" data-wow-duration="2s">
           <?php require APP. 'view/_templates/menu.php'; ?>
         </nav>
-        <!-- <div class="row center-xs">
-          <div class="col-xs-12 col-sm-12">
-                <div class="search">
-                    <form action="buscador.php" method="POST">
-                      <fieldset class="fieldset1">
-                        <input type="search" name="buscar" class="input1" placeholder="Buscar...">
-                        <button type="submit" class="button1">
-                          <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                      </fieldset>
-                    </form>
-                </div>
-          </div>
-        </div> -->
+
         <div class="slider wow bounceInRight" data-wow-duration="2s">
 
         </div>
@@ -37,21 +24,21 @@
             <div class="div-details">
               <div>
                 <?php foreach ($imagenes1 as $image1): ?>
-                  <a href="<?php echo URL ?>img/images-productos/<?php echo $image1['nombre'] > 0 ? $image1['nombre'] : 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image1['prioridad'] ?>">
-                    <img width="300" height="300" class="vlightbox1" src="<?php echo URL ?>img/images-productos/<?php echo $image1['nombre'] > 0 ? $image1['nombre'] : 'no-disponible.jpg' ?>" alt="<?php echo $image1['nombre'] ?>">
+                  <a href="<?php echo URL ?>img/images-productos/<?php  if($image1['nombre'] > 0) echo $image1['nombre']; else echo 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image1['prioridad'] ?>">
+                    <img width="300" height="300" class="vlightbox1" src="<?php echo URL ?>img/images-productos/<?php if($image1['nombre'] > 0) echo $image1['nombre']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $image1['nombre'] ?>">
                   </a>
                 <?php endforeach; ?>
               </div>
               <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <?php foreach ($imagenes2 as $image2): ?>
-                <a href="<?php echo URL ?>img/images-productos/<?php echo $image2['nombre'] > 0 ? $image2['nombre'] : 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image2['prioridad'] ?>">
-                  <img width="100" height="100" src="<?php echo URL ?>img/images-productos/<?php echo $image2['nombre'] > 0 ? $image2['nombre'] : 'no-disponible.jpg' ?>" alt="<?php echo $image2['nombre'] ?>">
+                <a href="<?php echo URL ?>img/images-productos/<?php if($image2['nombre'] > 0) echo $image2['nombre']; else echo 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image2['prioridad'] ?>">
+                  <img width="100" height="100" src="<?php echo URL ?>img/images-productos/<?php if($image2['nombre'] > 0) echo $image2['nombre']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $image2['nombre'] ?>">
                 </a>
               <?php endforeach; ?>
               <?php foreach ($imagenes3 as $image3): ?>
-                <a href="<?php echo URL ?>img/images-productos/<?php echo $image3['nombre'] > 0 ? $image3['nombre'] : 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image3['prioridad'] ?>">
-                  <img width="100" height="100" src="<?php echo URL ?>img/images-productos/<?php echo $image3['nombre'] > 0 ? $image3['nombre'] : 'no-disponible.jpg' ?>" alt="<?php echo $image3['nombre'] ?>">
+                <a href="<?php echo URL ?>img/images-productos/<?php if($image3['nombre'] > 0) echo $image3['nombre']; else echo 'no-disponible.jpg' ?>" class="vlightbox1" title="<?php echo $producto[0]['nombre'] ?> - imágen # <?php echo $image3['prioridad'] ?>">
+                  <img width="100" height="100" src="<?php echo URL ?>img/images-productos/<?php if($image3['nombre'] > 0) echo $image3['nombre']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $image3['nombre'] ?>">
                 </a>
               <?php endforeach; ?>
             </div>

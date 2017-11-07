@@ -90,9 +90,9 @@
 
         $this->mdlMarcas->__SET('marca', strtolower($_POST['marca_edicion']));
         $this->mdlMarcas->__SET('idMarca', $_POST['idmarca']);
-        $nombre_marca = $this->mdlMarcas->ConsultarMarcas2();
+        $nombreMarca = $this->mdlMarcas->ConsultarMarcas2();
 
-        if (intval($nombre_marca[0]['marca']) == 0)
+        if (intval($nombreMarca[0]['marca']) == 0)
         {
           //Actualizar tabla categorias
           $this->mdlMarcas->__SET('idMarca', $_POST['idmarca']);
@@ -120,8 +120,8 @@
 
           //Cambiar estado de la marca
           $this->mdlMarcas->__SET('idMarca', $_POST['idmarca']);
-          $estado_marca= $this->mdlMarcas->CambiarEstadoMarca();
-          
+          $estadoMarca= $this->mdlMarcas->CambiarEstadoMarca();
+
           echo 1;
       }
       else{

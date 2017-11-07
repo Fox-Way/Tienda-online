@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="productos, ropa, camisas, pantalones, niños, adultos, mujeres">
+    <meta name="keywords" content="productos, ropa, camisas, pantalones, niños, adultos, mujeres, niñas, tienda, online">
+    <meta name="description" content="Ropa para mujeres y hombres de toda las edades de alta calidad">
     <meta name="author" content="foxway">
 
     <link rel="shorcut icon" href="<?php echo URL ?>img/images-icons/favicon-32x32.png" type="image/x-icon">

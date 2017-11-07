@@ -29,7 +29,7 @@
                                <tr>
                                    <td>
                                      <center>
-                                       <img width="80" src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>">
+                                       <img width="80" src="<?php echo URL ?>img/images-productos/<?php if($producto['imagen'] != 0) echo $producto['imagen']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>">
                                      </center>
                                    </td>
                                  <td><?php echo $producto['nombre']; ?></td>
@@ -115,7 +115,7 @@
                          </div>
 
                        </div>
-                     </div> 
+                     </div>
                  </div>
                </div>
             </div>
@@ -128,7 +128,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Recargar()"><span aria-hidden="true">&times;</span></button>
-            <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong>Información del Producto</strong></h5>
+            <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong><span id="tittle-producto">Información del Producto</span></strong></h5>
           </div>
           <div class="modal-body">
               <form name="formdetailsproducts" id="form-details-products" enctype="multipart/form-data">

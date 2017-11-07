@@ -62,9 +62,9 @@
 
         $this->mdlCategorias->__SET('nombre', strtolower($_POST['categoria_edicion']));
         $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
-        $nombre_categoria = $this->mdlCategorias->ConsultarCategorias2();
+        $nombreCategoria = $this->mdlCategorias->ConsultarCategorias2();
 
-        if (intval($nombre_categoria[0]['nombre']) == 0)
+        if (intval($nombreCategoria[0]['nombre']) == 0)
         {
           //Actualizar tabla categorias
           $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
@@ -99,17 +99,17 @@
           {
             //Cambiar el estado de los productos que pertenecen a esa categoría
             $this->mdlProductos->__SET('categoria', $_POST['idcategoria']);
-            $estado_producto = $this->mdlProductos->CambiarEstadoProductoPorCategoria();
+            $estadoProducto = $this->mdlProductos->CambiarEstadoProductoPorCategoria();
 
             //Cambiar estado de la categoría
             $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
-            $estado_categoria = $this->mdlCategorias->CambiarEstadoCategoria();
+            $estadoCategoria = $this->mdlCategorias->CambiarEstadoCategoria();
           }
 
           else {
             //Cambiar estado de la categoría
             $this->mdlCategorias->__SET('idCategoria', $_POST['idcategoria']);
-            $estado_categoria = $this->mdlCategorias->CambiarEstadoCategoria();
+            $estadoCategoria = $this->mdlCategorias->CambiarEstadoCategoria();
           }
           echo 1;
       }

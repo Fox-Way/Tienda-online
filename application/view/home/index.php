@@ -28,7 +28,7 @@
                 <div class="text-center container-name">
                   <?php echo $producto['nombre']; ?>
                 </div>
-                <img src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
+                <img src="<?php echo URL ?>img/images-productos/<?php if($producto['imagen'] != 0) echo $producto['imagen']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
                 <?php if ($producto['descuento'] == 0 || $producto['descuento'] == ''): ?>
                 <div class="precio"><?php echo "$ " . number_format($producto['precio'], 0, '.', '.'); ?></div>
                 <?php else: ?>

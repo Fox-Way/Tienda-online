@@ -50,7 +50,7 @@ class Home extends Controller
       {
 
         $this->mdlProductos->__SET('nombre', $_POST['busqueda']);
-        $productos_filtrados = $this->mdlProductos->ConsultarProductosConImagenPorFiltrado();
+        $productosFiltrados = $this->mdlProductos->ConsultarProductosConImagenPorFiltrado();
         // $productos_filtrados = $this->mdlProductos->ConsultarProductosPorFiltrado();
 
         // load views

@@ -252,6 +252,7 @@ function EditarDatos()
   $('#precio').removeAttr('readonly');
   $('#dcto').removeAttr('readonly');
   $('#descripcion').removeAttr('readonly');
+  $('#tittle-producto').html('Edición del Producto');
 }
 
 function Recargar()
@@ -271,6 +272,8 @@ function Recargar()
   $("#nombre_productorepetido").hide('fast');
   $("#exito").hide('fast');
   $('#errorimagen').hide('fast');
+  $('#tittle-producto').html('Información del Producto');
+
 }
 
 function ValidarDatos()

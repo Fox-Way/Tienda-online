@@ -22,7 +22,7 @@
     <div class="row">
       <div class="main top">
         <h1>Resultado de la búsqueda</h1>
-          <?php foreach($productos_filtrados as $producto): ?>
+          <?php foreach($productosFiltrados as $producto): ?>
             <?php if ($producto['nombre']!= 0): ?>
               <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
                 <div class="productos-main hvr-buzz-out">
