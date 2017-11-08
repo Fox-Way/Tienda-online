@@ -64,4 +64,20 @@ class Home extends Controller
         exit;
       }
     }
+
+    public function Contacto()
+    {
+      // load views
+      require APP . 'view/_templates/header.php';
+      require APP . 'view/home/contacto.php';
+      require APP . 'view/_templates/footer.php';
+    }
+
+    public function AcercaDe()
+    {
+      // load views
+      require APP . 'view/_templates/header.php';
+      require APP . 'view/home/acerca.php';
+      require APP . 'view/_templates/footer.php';
+    }
 }

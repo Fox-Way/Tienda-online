@@ -5,7 +5,7 @@
       <?php require APP . 'view/_templates/buscador.php';  ?>
     </div>
   </div>
-  
+
 <nav class="menu">
   <ul>
     <li>
@@ -23,13 +23,13 @@
         </li>
       </ul>
     <li>
-      <a href="#">
+      <a href="<?php echo URL ?>home/AcercaDe">
         <i class="flaticon flaticon-signos"></i>&nbsp;&nbsp;
         Acerca de
       </a>
     </li>
     <li>
-      <a href="#">
+      <a href="<?php echo URL ?>home/Contacto">
         <i class="flaticon flaticon-agenda"></i>&nbsp;&nbsp;
         Contacto
       </a>

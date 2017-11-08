@@ -54,6 +54,22 @@ nav{
   clear: both;
 }
 
+.main-contact{
+  width: 95%;
+  max-width: 1200px;
+  min-height: 600px;
+  margin: 90px auto 0px auto;
+  clear: both;
+}
+
+.main-about{
+  width: 95%;
+  max-width: 1200px;
+  min-height: 600px;
+  margin: 90px auto 0px auto;
+  clear: both;
+}
+
 .main-details{
   width: 95%;
   max-width: 1200px;
@@ -503,7 +519,7 @@ footer p{
 }
 
 .menu ul li{
-  padding: 5px;
+  padding: 10px;
 }
 
 .menu ul{
@@ -598,6 +614,75 @@ input[type=file].obligatorio{
 
 #form-cuenta{
   margin-left: 5% !important;
+}
+
+/*Estilos pantalla de contacto*/
+.container-contact{
+  width: 95%;
+  max-width: 700px;
+  min-height: 400px;
+  margin: 80px auto 0px auto;
+  padding: 20px;
+  border: 2px dashed #09F;
+  border-radius: 20px;
+  background-color: #FFF;
+}
+
+.title-bar-contact{
+  border-radius: 0px 20px 0px 20px;
+  margin-bottom: -40px;
+  padding: 15px;
+  background-color: #FFF;
+  color: #656565;
+  font-size: xx-large;
+}
+
+.data-contact{
+  list-style: none;
+  text-align: left;
+  margin-top: 15px;
+  line-height: 40px;
+}
+
+.networks-social{
+  padding: 20px 60px 10px 0px;
+  text-align: center;
+}
+
+.networks-social a{
+  padding-right: 20px;
+}
+
+/*Estilos pantalla acerca de*/
+.title-bar-about{
+  border-radius: 0px 20px 0px 20px;
+  margin-bottom: -40px;
+  padding: 15px;
+  background-color: #FFF;
+  color: #656565;
+  font-size: xx-large;
+}
+
+.container-about{
+  width: 95%;
+  max-width: 700px;
+  min-height: 400px;
+  margin: 80px auto 0px auto;
+  padding: 20px;
+  border: 2px dashed #09F;
+  border-radius: 20px;
+  background-color: #FFF;
+}
+
+p.about{
+  text-align: justify;
+}
+
+.img-about{
+  width: 80px;
+  height: 80px;
+  margin-top: 15px;
+  border-radius: 50%;
 }
 
 @media screen  and (max-width: 600px){
