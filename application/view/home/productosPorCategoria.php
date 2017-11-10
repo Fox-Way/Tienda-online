@@ -23,14 +23,30 @@
 
     <div class="row">
       <div class="main top">
-
-          <?php foreach($productosPaginador as $producto):?>
+        <div class="title-bar-filter">
+          <?php if (count($productosPorCategoria) == 0): ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+             <p class="centrar">
+               <h3 class="text-center">
+                 <i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>&nbsp;
+                 <strong>
+                   Lo sentimos!
+                 </strong> No hay productos disponibles en esta categoría
+               </h3>
+             </p>
+           </div>
+          <?php else: ?>
+            <h1 class="text-center">Productos que pertenecen a la categoría</h1>
+            <h2 class="text-center"><strong><?php echo $productosPorCategoria[0]['nombre']; ?></strong></h2>
+          <?php endif; ?>
+        </div>
+          <?php foreach($productosPorCategoria as $producto): ?>
             <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
               <div class="productos-main hvr-buzz-out">
                 <div class="text-center container-name">
                   <?php echo $producto['nombre']; ?>
                 </div>
-                <img src="<?php echo URL ?>img/images-productos/<?php if($producto['imagen'] != 0) echo $producto['imagen']; else echo 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
+                <img src="<?php echo URL ?>img/images-productos/<?php echo $producto['imagen'] != 0 ? $producto['imagen'] : 'no-disponible.jpg' ?>" alt="<?php echo $producto['imagen'] ?>" class="img-products">
                 <?php if ($producto['descuento'] == 0 || $producto['descuento'] == ''): ?>
                 <div class="precio"><?php echo "$ " . number_format($producto['precio'], 0, '.', '.'); ?></div>
                 <?php else: ?>
@@ -38,7 +54,7 @@
                 <?php endif; ?>
               </div>
             </a>
-          <?php endforeach ?>
+          <?php endforeach; ?>
         <div class="limpiar"></div>
 
         <!-- Paginador -->
@@ -51,7 +67,7 @@
 
                     if ($pagina != 1)
                       echo '<li>
-                              <a href="'.URL.'home/Index&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                              <a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
                             </li>';
                       for ($i = 1; $i <= $totalPaginas; $i++) {
 
@@ -60,14 +76,14 @@
                         }
                         else{
                           // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
-                          echo '<li><a href="'.URL.'home/Index&pagina='.$i.'">'.$i.'</a></li>';
+                          echo '<li><a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina='.$i.'">'.$i.'</a></li>';
                         }
                       }
 
                       if ($pagina != $totalPaginas) {
                         $pag = '';
                         $pag .= '<li>';
-                        $pag .= '<a href="'.URL.'home/Index&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                        $pag .= '<a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
                         $pag .= '</li>';
                         echo $pag;
                       }
@@ -77,5 +93,6 @@
             </ul>
           </nav>
         </div>
+
       </div>
     </div>

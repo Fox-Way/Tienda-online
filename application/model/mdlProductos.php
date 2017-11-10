@@ -13,6 +13,7 @@
       private $inicio;
       private $tamanio;
       private $pagina;
+      private $paginas;
       private $db;
 
       public function __SET($attr, $valor)
@@ -47,6 +48,17 @@
         }
       }
 
+      public function ConsultarNumeroPaginas()
+      {
+        $sql = "CAll SP_consultarPaginas()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de las paginas');
+        }
+      }
 
       public function ConsultarProductosPorCategoria()
       {
@@ -54,6 +66,21 @@
         try {
           $stm = $this->db->prepare($sql);
           $stm->bindParam(1, $this->categoria);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosPorIdCategoria()
+      {
+        $sql = "CAll SP_consultarProductosPorIdCategoria(?,?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $stm->bindParam(2, $this->pagina);
+          $stm->bindParam(3, $this->tamanio);
           $stm->execute();
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -72,6 +99,20 @@
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
           exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosConImagenPorFiltrado()
+      {
+
+        $sql = "CAll SP_consultarTodosProductosConImagenPorFiltrado(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->nombre);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de los productos por filtrado');
         }
       }
 
@@ -166,16 +207,16 @@
         }
       }
 
-      public function ConsultarProductosConImagenPorFiltrado()
+      public function ConsultarProductosConImagenPorIdCategoria()
       {
-        $sql = "CAll SP_consultarTodosProductosConImagenPorFiltrado(?)";
+        $sql = "CAll SP_consultarTodosProductosConImagenPorIdCategoria(?)";
         try {
           $stm = $this->db->prepare($sql);
-          $stm->bindParam(1, $this->nombre);
+          $stm->bindParam(1, $this->categoria);
           $stm->execute();
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-          exit('Error en la consulta de los productos por filtrado');
+          exit('Error en la consulta');
         }
       }
 

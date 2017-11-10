@@ -37,6 +37,7 @@ class Administracion extends Controller
 
     public function IniciarSesion()
     {
+      $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
         // load views
         require APP . 'view/_templates/header.php';
         require APP . 'view/administracion/inicioSesion.php';

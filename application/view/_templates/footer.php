@@ -67,5 +67,86 @@
       });
     </script>
 
+    <!-- Modal modificación número páginas paginador-->
+    <div class="modal fade" id="edicionPaginas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="LimpiarDatosMarca()"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title modal-details-pdcts" id="myModalLabel" align="center"><strong>Edición Páginas</strong></h5>
+        </div>
+        <div class="modal-body">
+            <form name="formeditmarcas" id="form-edit-marcas">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+                  <div class="form-group">
+                    <label for="paginas">Número de páginas</label>
+                    <input type="number" min="1" id="paginas" name="marca_edicion" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="idmarca" id="id-marca">
+           </form>
+
+            <!-- Alert numero obligatorio -->
+            <div class="alert alert-danger alert-dismissible ocultar" id="aviso_numero" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <p class="centrar">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                <strong>Error!</strong>&nbsp;Debes ingresar un número válido
+              </p>
+            </div>
+
+            <!-- Alert número -->
+            <div class="alert alert-danger alert-dismissible ocultar" id="avisonumeroinvalido" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <p class="centrar">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                <strong>Error!</strong>&nbsp;Debes ingresar un número mayor a cero (0)
+              </p>
+            </div>
+
+            <!-- Alert actualización exitosa -->
+            <div class="alert alert-success alert-dismissible ocultar" id="successnumero" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <p class="centrar">
+                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                <strong>Enhorabuena!</strong>&nbsp;Datos guardados correctamente
+              </p>
+            </div>
+
+            <!-- Alert procesando -->
+            <center class="ocultar" id="procesandodatosnumero">
+              <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
+                <p class="centrar">
+                  <i class="fa fa-spinner fa-spin fa-3x"></i>&nbsp;
+                  Procesando...!
+                </p>
+              </div>
+            </center>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="ValidarDatosNumeroPaginas()" id="btn-editaoaginas">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
+            Editar
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- Fin modal paginas -->
+
 </body>
 </html>

@@ -99,6 +99,13 @@
             </a>
              <li role="separator" class="divider"></li>
             <li>
+							<a href="#" data-toggle="modal" data-target="#edicionPaginas" aria-hidden="true">
+              <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
+								Configurar Paginadores
+              </a>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li>
               <a href="<?php echo URL; ?>administracion/CerrarSesion">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Cerrar Sesión
               </a>

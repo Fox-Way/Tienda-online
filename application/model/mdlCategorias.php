@@ -65,6 +65,18 @@
         }
       }
 
+      public function ConsultarCategoriasActivas()
+      {
+        $sql = "CAll SP_consultarCategoriasActivas()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarCategorias2()
       {
         $sql = "CAll SP_consultarCategorias2(?,?)";

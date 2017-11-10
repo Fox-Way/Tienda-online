@@ -1,7 +1,7 @@
 
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-1">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
       <?php require APP . 'view/_templates/buscador.php';  ?>
     </div>
   </div>
@@ -33,6 +33,23 @@
         <i class="flaticon flaticon-agenda"></i>&nbsp;&nbsp;
         Contacto
       </a>
+    </li>
+    <li>
+      &nbsp;&nbsp;
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;
+        Categorias
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu submenu" id="dropdown-categorias">
+        <li id="categorias">
+          <?php foreach ($categoriasActivas as $cates): ?>
+            <a href="<?php echo URL ?>home/MostrarProductosPorCategoria&categoria=<?php echo $cates['id']; ?>">
+              <?php echo $cates['nombre']; ?>
+            </a>
+          <?php endforeach; ?>
+        </li>
+      </ul>
     </li>
     <li>
       <a href="<?php echo URL ?>home/Index">

@@ -5,20 +5,24 @@ class Home extends Controller
 {
     private $mdlProductos;
     private $mdlImagenes;
+    private $mdlCategorias;
 
     public function __construct()
     {
       $this->mdlProductos = $this->LoadModel('mdlProductos');
       $this->mdlImagenes = $this->LoadModel('mdlImagenes');
+      $this->mdlCategorias = $this->LoadModel('mdlCategorias');
     }
 
     public function Index()
     {
+      $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
       $productos = $this->mdlProductos->ConsultarProductosConImagen();
+      $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
 
       //paginador
       $totalRegistros = count($productos);
-      $tamanioPagina = 12;
+      $tamanioPagina = intval($paginas[0]['numero_paginas']);
       $pagina = false;
 
       if (isset($_GET['pagina'])) {
@@ -48,10 +52,10 @@ class Home extends Controller
       if (isset($_POST['btn-buscar']) && isset($_POST['busqueda']) &&
           $_POST['busqueda'] != '')
       {
+        $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
 
         $this->mdlProductos->__SET('nombre', $_POST['busqueda']);
         $productosFiltrados = $this->mdlProductos->ConsultarProductosConImagenPorFiltrado();
-        // $productos_filtrados = $this->mdlProductos->ConsultarProductosPorFiltrado();
 
         // load views
         require APP . 'view/_templates/header.php';
@@ -67,6 +71,8 @@ class Home extends Controller
 
     public function Contacto()
     {
+      $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
       // load views
       require APP . 'view/_templates/header.php';
       require APP . 'view/home/contacto.php';
@@ -75,9 +81,55 @@ class Home extends Controller
 
     public function AcercaDe()
     {
+      $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
       // load views
       require APP . 'view/_templates/header.php';
       require APP . 'view/home/acerca.php';
       require APP . 'view/_templates/footer.php';
+    }
+
+    public function MostrarProductosPorCategoria()
+    {
+      if (isset($_GET['categoria']))
+      {
+        $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
+        $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+        $productos = $this->mdlProductos->ConsultarProductosConImagenPorIdCategoria();
+        $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+        //paginador
+        $totalRegistros = count($productos);
+        $tamanioPagina = intval($paginas[0]['numero_paginas']);
+        $pagina = false;
+
+        if (isset($_GET['pagina'])) {
+          $pagina = $_GET['pagina'];
+        }
+
+        if (!$pagina) {
+          $inicio = 0;
+          $pagina = 1;
+        } else {
+          $inicio = ($pagina - 1) * $tamanioPagina;
+        }
+
+        $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+        $this->mdlProductos->__SET('pagina', $inicio);
+        $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+        $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+        $productosPorCategoria = $this->mdlProductos->ConsultarProductosPorIdCategoria();
+
+
+        // load views
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/home/productosPorCategoria.php';
+        require APP . 'view/_templates/footer.php';
+      }
+      else{
+        header('location:' . URL . 'home/Index');
+        exit;
+      }
     }
 }

@@ -23,6 +23,8 @@
 
           if (isset($_GET['id_producto']))
           {
+            $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
             $this->mdlProductos->__SET('id', $_GET['id_producto']);
             $producto = $this->mdlProductos->ConsultarProductoPorId();
 
@@ -192,7 +194,7 @@
               $nombreImagen = $_FILES['imagen1']['name'];
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 1);
-              $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
+              $this->mdlImagenes->__SET('idProducto', $ultimoId[0]['id']);
 
               $this->mdlImagenes->GuardarNombreImagen();
             }
@@ -202,7 +204,7 @@
               $nombreImagen = $_FILES['imagen2']['name'];
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 2);
-              $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
+              $this->mdlImagenes->__SET('idProducto', $ultimoId[0]['id']);
 
               $this->mdlImagenes->GuardarNombreImagen();
             }
@@ -212,7 +214,7 @@
               $nombreImagen = $_FILES['imagen3']['name'];
               $this->mdlImagenes->__SET('nombre', $nombreImagen);
               $this->mdlImagenes->__SET('prioridad', 3);
-              $this->mdlImagenes->__SET('idProducto', $ultimo_id[0]['id']);
+              $this->mdlImagenes->__SET('idProducto', $ultimoId[0]['id']);
 
               $this->mdlImagenes->GuardarNombreImagen();
             }
@@ -345,6 +347,14 @@
             echo "nombre_productorepetido";
           }
         }
+      }
+
+      public function ConfigurarPAginadores()
+      {
+        // load views
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/productos/paginadores.php';
+        require APP . 'view/_templates/footer.php';
       }
     }
  ?>

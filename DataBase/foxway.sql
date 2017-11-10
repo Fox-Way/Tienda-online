@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2017 a las 21:00:08
+-- Tiempo de generación: 11-11-2017 a las 00:18:13
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -105,6 +105,15 @@ SELECT
     COUNT(nombre) AS nombre
 FROM categorias
 WHERE nombre = _nombre AND id <> _id_categoria AND nombre <> ''$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategoriasActivas` ()  NO SQL
+SELECT
+	id,
+    nombre,
+    estado
+FROM categorias
+WHERE estado = 1
+ORDER BY id DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarCategoriasPorId` (IN `_id_categoria` INT)  NO SQL
 SELECT
@@ -240,6 +249,12 @@ SELECT
 FROM usuarios
 WHERE usuario = _usuario AND id <> _id_usuario AND usuario <> ''$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPaginas` ()  NO SQL
+SELECT
+	id,
+    numero_paginas
+FROM paginas$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPersonaPorId` (IN `_id_usuario` INT)  NO SQL
 SELECT
 	nombres,
@@ -306,7 +321,7 @@ SELECT
     (precio - precio_con_descuento) AS precio2,
     inicio
 FROM productos
-WHERE nombre LIKE '%nombre%' AND inicio = 1
+WHERE nombre LIKE CONCAT('%', nombre, '%') AND inicio = 1
 ORDER BY nombre DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorId` (IN `_id_producto` INT)  NO SQL
@@ -322,6 +337,32 @@ SELECT
     (precio - precio_con_descuento) AS precio2
 FROM productos
 WHERE id = _id_producto$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorIdCategoria` (IN `_categoria` INT, IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.id_categoria,
+    p.inicio,
+    p.descuento,
+    p.precio_con_descuento,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.id_imagen,
+    i.nombre AS imagen,
+    i.prioridad,
+    c.id,
+    c.nombre,
+    c.estado
+FROM productos p
+INNER JOIN imagenes i
+ON i.id_producto = p.id
+INNER JOIN categorias c
+ON c.id = p.id_categoria
+WHERE p.id_categoria = _categoria AND i.prioridad = 1
+ORDER BY p.id_categoria DESC
+LIMIT _pagina,_tamanio$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorNombre` (IN `_nombre` VARCHAR(255))  NO SQL
 SELECT
@@ -362,7 +403,23 @@ FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 ORDER BY p.id DESC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorFiltrado` (IN `nombre` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorFiltrado` (IN `_nombre` VARCHAR(255))  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE p.nombre LIKE CONCAT('%', _nombre, '%') AND i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.id DESC LIMIT 0,100$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorIdCategoria` (IN `_categoria` INT)  NO SQL
 SELECT
 	p.id,
     p.nombre,
@@ -374,7 +431,7 @@ SELECT
     i.prioridad
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
-WHERE p.nombre LIKE '%nombre%' AND i.prioridad = 1 
+WHERE p.id_categoria = _categoria AND i.prioridad = 1 
 ORDER BY p.id DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarUltimoIdProducto` ()  NO SQL
@@ -618,7 +675,9 @@ INSERT INTO `categorias` (`id`, `nombre`, `estado`) VALUES
 (1, 'Camisetas Deportivas Hombre', 1),
 (2, 'Ropa Dama', 1),
 (3, 'Ropa Deportiva Hombre', 1),
-(4, 'Ropa Interior Hombre', 1);
+(4, 'Ropa Interior Hombre', 1),
+(5, 'Prueba Modificada', 0),
+(6, 'Calzados', 1);
 
 -- --------------------------------------------------------
 
@@ -666,7 +725,9 @@ CREATE TABLE `imagenes` (
 INSERT INTO `imagenes` (`id_imagen`, `nombre`, `prioridad`, `id_producto`) VALUES
 (1, '1509401979_01.jpg', 1, 1),
 (2, '1509401979_02.jpg', 2, 1),
-(3, '1509401979_03.jpg', 3, 1);
+(3, '1509401979_03.jpg', 3, 1),
+(4, '1510243246_01.jpg', 1, 2),
+(5, '1510261099_01.jpg', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -688,7 +749,26 @@ INSERT INTO `marcas` (`id_marca`, `marca`, `estado`) VALUES
 (1, 'no definido', 1),
 (2, 'nike', 1),
 (3, 'Tommy Hilfiger', 1),
-(4, 'Adidas', 1);
+(4, 'Adidas', 1),
+(5, 'Calvin', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paginas`
+--
+
+CREATE TABLE `paginas` (
+  `id` int(11) NOT NULL,
+  `numero_paginas` double NOT NULL DEFAULT '100'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `paginas`
+--
+
+INSERT INTO `paginas` (`id`, `numero_paginas`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -735,7 +815,9 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `id_categoria`, `inicio`, `cantidad`, `descuento`, `precio_con_descuento`) VALUES
-(1, 'Camisa Hombre', 20000, 'Camisa de tela delgada, ideal para deportistas', 1, 1, 0, 7, 1400);
+(1, 'Camisa Hombre', 20000, 'Camisa de tela delgada, ideal para deportistas', 1, 1, 0, 7, 1400),
+(2, 'Camibuso', 12000, 'esta es la descripcion', 2, 1, 0, 5, 600),
+(3, 'Camiseta Calvin', 48000, '', 2, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -755,7 +837,9 @@ CREATE TABLE `productos_colores` (
 --
 
 INSERT INTO `productos_colores` (`id_producto_color`, `id_producto`, `id_color`, `cantidad`) VALUES
-(1, 1, 3, 1);
+(1, 1, 3, 1),
+(2, 2, 4, 5),
+(3, 3, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -786,7 +870,9 @@ CREATE TABLE `productos_marcas` (
 --
 
 INSERT INTO `productos_marcas` (`id_producto_marcas`, `id_producto`, `id_marca`) VALUES
-(1, 1, 2);
+(1, 1, 2),
+(2, 2, 2),
+(3, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -872,6 +958,12 @@ ALTER TABLE `marcas`
   ADD PRIMARY KEY (`id_marca`);
 
 --
+-- Indices de la tabla `paginas`
+--
+ALTER TABLE `paginas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `personas`
 --
 ALTER TABLE `personas`
@@ -927,7 +1019,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `colores`
 --
@@ -937,12 +1029,17 @@ ALTER TABLE `colores`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `paginas`
+--
+ALTER TABLE `paginas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
@@ -952,12 +1049,12 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores`
 --
 ALTER TABLE `productos_colores`
-  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `productos_colores_tallas`
 --
@@ -967,7 +1064,7 @@ ALTER TABLE `productos_colores_tallas`
 -- AUTO_INCREMENT de la tabla `productos_marcas`
 --
 ALTER TABLE `productos_marcas`
-  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto_marcas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --

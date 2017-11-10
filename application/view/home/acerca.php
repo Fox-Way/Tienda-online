@@ -2,7 +2,9 @@
         <header>
           <div class="row">
             <div class="col-xs-12 col-sm-12">
-              <div class="cabecera"></div>
+              <div class="cabecera wow bounceInLeft" data-wow-duration="2s">
+                <?php require APP. 'view/_templates/logo.php'; ?>
+              </div>
                 <nav class="wow bounceInLeft" data-wow-duration="2s">
                   <?php require APP. 'view/_templates/menu.php'; ?>
                 </nav>
@@ -32,7 +34,7 @@
                   <p class="fuente about">
                     Somos un equipo de jóvenes emprendedores, que está empezando a incluirse
                     en el mundo de la tecnología, principalmente en lo que tiene que ver con
-                    el desarrollo de software.
+                    el desarrollo de software...
                   </p>
                   <br>
                   <p class="fuente"><strong>Nuestro Equipo</strong></p>
