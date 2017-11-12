@@ -727,6 +727,20 @@ p.about{
   overflow-y: auto;
 }
 
+/*Estilos input y boton agragar carrito*/
+.cant{
+  width: 30%;
+  margin-bottom: 2%;
+}
+
+#add-car{
+  margin-left: -28%;
+}
+
+.line_height{
+  line-height: 62px;
+}
+
 @media screen  and (max-width: 600px){
   .main .productos-main{
     width: 46.4%;

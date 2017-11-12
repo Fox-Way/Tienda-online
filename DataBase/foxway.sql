@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2017 a las 00:18:13
+-- Tiempo de generación: 12-11-2017 a las 21:37:40
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -33,6 +33,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarMarcas` (IN `_marca` V
 UPDATE marcas
 SET marca = _marca
 WHERE id_marca = _id_marca$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPaginas` (IN `_id_paginas` INT, IN `_paginas` DOUBLE)  NO SQL
+UPDATE paginas
+SET numero_paginas = _paginas
+WHERE id = _id_paginas$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPersonaPorId` (IN `_fecha` VARCHAR(255), IN `_nombres` VARCHAR(255), IN `_apellidos` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 UPDATE personas
@@ -254,6 +259,13 @@ SELECT
 	id,
     numero_paginas
 FROM paginas$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPaginasPorId` (IN `_id_paginas` INT)  NO SQL
+SELECT
+	id,
+    numero_paginas
+FROM paginas
+WHERE id = _id_paginas$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarPersonaPorId` (IN `_id_usuario` INT)  NO SQL
 SELECT
@@ -768,7 +780,7 @@ CREATE TABLE `paginas` (
 --
 
 INSERT INTO `paginas` (`id`, `numero_paginas`) VALUES
-(1, 1);
+(1, 100);
 
 -- --------------------------------------------------------
 

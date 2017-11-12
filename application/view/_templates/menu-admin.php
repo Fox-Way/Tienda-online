@@ -99,7 +99,7 @@
             </a>
              <li role="separator" class="divider"></li>
             <li>
-							<a href="#" data-toggle="modal" data-target="#edicionPaginas" aria-hidden="true">
+							<a href="#" data-toggle="modal" data-target="#edicionPaginas" aria-hidden="true" onclick="CargarPaginas(1)">
               <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
 								Configurar Paginadores
               </a>

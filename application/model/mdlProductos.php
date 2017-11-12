@@ -14,6 +14,7 @@
       private $tamanio;
       private $pagina;
       private $paginas;
+      private $idPaginas;
       private $db;
 
       public function __SET($attr, $valor)
@@ -53,6 +54,19 @@
         $sql = "CAll SP_consultarPaginas()";
         try {
           $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de las paginas');
+        }
+      }
+
+      public function ConsultarPaginas()
+      {
+        $sql = "CAll SP_consultarPaginasPorId(?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idPaginas);
           $stm->execute();
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -351,6 +365,29 @@
           return $result;
         } catch (PDOException $e) {
           exit('Error en la inserción');
+        }
+      }
+
+      public function ActualizarPaginas()
+      {
+        $sql = "CAll SP_actualizarPaginas(?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idPaginas);
+          $stm->bindParam(2, $this->paginas);
+          $result = $stm->execute();
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error en la actualización de las paginas');
         }
       }
     }

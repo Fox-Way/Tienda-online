@@ -41,7 +41,15 @@
       }
     }
 
+    function KeyCode()
+    {
+      if ($('#btn-login').Keycode == 13) {
+        alert("here");
+      }
+    }
+
     document.getElementById('btn-login').onclick = function(){
+
       var connect, email, pass, form, result;
       email = document.getElementById('email').value;
       pass = document.getElementById('pass').value;
@@ -65,7 +73,7 @@
                 //Error: datos incorrectos
                 result = '<div class="alert alert-dismissible alert-danger">';
                 result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-                result += '<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error! </strong>Credenciales Incorrectas';
+                result += '<p class="text-center"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error! </strong>Credenciales Incorrectas</p>';
                 result += '</div>';
                 document.getElementById('_AJAX_').innerHTML = result;
               }
@@ -87,8 +95,8 @@
         //Mostrar error de datos vacíos
         result = '<div class="alert alert-dismissible alert-danger">';
         result += '<button type="button" class="close" data-dismiss="alert">x</button>';
-        result += '<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp';
-        result += 'Error! </strong>Debes llenar todos los campos con <span class="red">*</span> obligatoriamente';
+        result += '<p class="text-center"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp';
+        result += 'Error! </strong>Debes llenar todos los campos con <span class="red">*</span> obligatoriamente</p>';
         result += '</div>';
         document.getElementById('email').style.border = '1px solid #f22012';
         document.getElementById('pass').style.border = '1px solid #f22012';

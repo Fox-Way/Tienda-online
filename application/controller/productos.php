@@ -356,5 +356,36 @@
         require APP . 'view/productos/paginadores.php';
         require APP . 'view/_templates/footer.php';
       }
+
+      public function ActualizarPaginas()
+      {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+
+          sleep(2);
+
+          $this->mdlProductos->__SET('idPaginas', $_POST['idpagina']);
+          $this->mdlProductos->__SET('paginas', $_POST['paginas']);
+          $paginas = $this->mdlProductos->ActualizarPaginas();
+          
+          echo 1;
+        }
+      }
+
+      public function CargarDatosPaginas()
+      {
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+          $this->mdlProductos->__SET('idPaginas', $_POST['idpaginas']);
+          $paginas = $this->mdlProductos->ConsultarPaginas();
+
+          echo json_encode([
+            'id' => $paginas[0]['id'],
+            'paginas' => $paginas[0]['numero_paginas']
+          ]);
+        }
+      }
     }
  ?>

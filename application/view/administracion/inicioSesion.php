@@ -20,7 +20,7 @@
                   <center><h2 class="form-signin-heading">Login</h2></center>
                 </div>
                 <div class="panel-body">
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" id="form-login" name="formlogin">
                     <div class="row">
                       <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
                         <div class="form-group">
