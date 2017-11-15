@@ -132,4 +132,141 @@ class Home extends Controller
         exit;
       }
     }
+
+    public function MostrarProductosPorCategoriaOrdenados()
+    {
+      if (isset($_GET['categoria']))
+      {
+
+        if (isset($_GET['categoria']) && isset($_GET['filter']) && $_GET['filter'] == "mayor-menor")
+        {
+          $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productos = $this->mdlProductos->ConsultarProductosConImagenPorIdCategoria();
+          $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+          //paginador
+          $totalRegistros = count($productos);
+          $tamanioPagina = intval($paginas[0]['numero_paginas']);
+          $pagina = false;
+
+          if (isset($_GET['pagina'])) {
+            $pagina = $_GET['pagina'];
+          }
+
+          if (!$pagina) {
+            $inicio = 0;
+            $pagina = 1;
+          } else {
+            $inicio = ($pagina - 1) * $tamanioPagina;
+          }
+
+          $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+          $this->mdlProductos->__SET('pagina', $inicio);
+          $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productosPorCategoriaPorPrecioAsc = $this->mdlProductos->ConsultarProductosPorIdCategoriaOrdenadosPorPrecio();
+
+        }
+
+        if (isset($_GET['categoria']) && isset($_GET['filter']) && $_GET['filter'] == "menor-mayor")
+        {
+          $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productos = $this->mdlProductos->ConsultarProductosConImagenPorIdCategoria();
+          $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+          //paginador
+          $totalRegistros = count($productos);
+          $tamanioPagina = intval($paginas[0]['numero_paginas']);
+          $pagina = false;
+
+          if (isset($_GET['pagina'])) {
+            $pagina = $_GET['pagina'];
+          }
+
+          if (!$pagina) {
+            $inicio = 0;
+            $pagina = 1;
+          } else {
+            $inicio = ($pagina - 1) * $tamanioPagina;
+          }
+
+          $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+          $this->mdlProductos->__SET('pagina', $inicio);
+          $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productosPorCategoriaPorPrecioDesc = $this->mdlProductos->ConsultarProductosPorIdCategoriaOrdenadosPorPrecio2();
+
+        }
+
+        if (isset($_GET['categoria']) && isset($_GET['filter']) && $_GET['filter'] == "mayor-dcto")
+        {
+          $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productos = $this->mdlProductos->ConsultarProductosConImagenPorIdCategoria();
+          $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+          //paginador
+          $totalRegistros = count($productos);
+          $tamanioPagina = intval($paginas[0]['numero_paginas']);
+          $pagina = false;
+
+          if (isset($_GET['pagina'])) {
+            $pagina = $_GET['pagina'];
+          }
+
+          if (!$pagina) {
+            $inicio = 0;
+            $pagina = 1;
+          } else {
+            $inicio = ($pagina - 1) * $tamanioPagina;
+          }
+
+          $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+          $this->mdlProductos->__SET('pagina', $inicio);
+          $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+          $this->mdlProductos->__SET('categoria', $_GET['categoria']);
+          $productosPorCategoriaPorDcto = $this->mdlProductos->ConsultarProductosPorIdCategoriaOrdenadosPorMayorDcto();
+
+        }
+
+
+          // load views
+          require APP . 'view/_templates/header.php';
+          require APP . 'view/home/productosPorCategoriaOrdenados.php';
+          require APP . 'view/_templates/footer.php';
+      } else {
+        header('location:' . URL . 'home/Index');
+        exit;
+      }
+    }
+
+    public function Ordenar()
+    {
+        $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
+
+        if (isset($_GET['filter']) && $_GET['filter'] == "mayor-menor")
+        {
+          $precioMayorMenor = $this->mdlProductos->ConsultarProductosPorPrecioDescendente();
+        }
+
+        if (isset($_GET['filter']) && $_GET['filter'] == "menor-mayor")
+        {
+            $precioMenorMayor = $this->mdlProductos->ConsultarProductosPorPrecioAscendente();
+        }
+
+        if (isset($_GET['filter']) && $_GET['filter'] == "mayor-dcto")
+        {
+            $mayorDcto = $this->mdlProductos->ConsultarProductosPorMayorDescuento();
+        }
+        // load views
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/home/ordenar.php';
+        require APP . 'view/_templates/footer.php';
+
+    }
 }

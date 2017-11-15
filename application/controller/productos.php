@@ -349,12 +349,20 @@
         }
       }
 
-      public function ConfigurarPAginadores()
+      public function ConfigurarPaginadores()
       {
-        // load views
-        require APP . 'view/_templates/header.php';
-        require APP . 'view/productos/paginadores.php';
-        require APP . 'view/_templates/footer.php';
+        if (isset($_SESSION['SESION_INICIADA']) &&
+            $_SESSION['SESION_INICIADA'] == true)
+        {
+          // load views
+          require APP . 'view/_templates/header.php';
+          require APP . 'view/productos/paginadores.php';
+          require APP . 'view/_templates/footer.php';
+        }
+        else {
+          header('location:' . URL . 'administracion/IniciarSesion');
+          exit();
+        }
       }
 
       public function ActualizarPaginas()
@@ -368,8 +376,12 @@
           $this->mdlProductos->__SET('idPaginas', $_POST['idpagina']);
           $this->mdlProductos->__SET('paginas', $_POST['paginas']);
           $paginas = $this->mdlProductos->ActualizarPaginas();
-          
+
           echo 1;
+        }
+        else {
+          header('location:' . URL . 'administracion/IniciarSesion');
+          exit();
         }
       }
 
@@ -385,6 +397,10 @@
             'id' => $paginas[0]['id'],
             'paginas' => $paginas[0]['numero_paginas']
           ]);
+        }
+        else {
+          header('location:' . URL . 'administracion/IniciarSesion');
+          exit();
         }
       }
     }

@@ -55,12 +55,12 @@ function ValidarDatosNumeroPaginas()
           beforeSend: function(){
             $("#aviso_numero").hide('fast');
             $("#successnumero").hide('fast');
-            $("#procesando").show("fast");
+            $("#procesandodatos").show("slow");
           },
           success: function(resp){
 
             if (resp == 1) {
-              $("#procesando").hide("fast");
+              $("#procesandodatos").hide("fast");
               $("#aviso_numero").hide('slow');
               $("#successnumero").show('slow');
             }
@@ -72,7 +72,7 @@ function ValidarDatosNumeroPaginas()
 function LimpiarModal()
 {
   $('#successnumero').hide('fast');
-  $('#paginas').css('border', 'none');
+  $('#paginas').css('border', '1px solid #F1F1F1');
   $('#procesando').hide('fast');
   $('#avisonumeroinvalido').hide('fast');
   $('#aviso_numero').hide('fast');

@@ -352,5 +352,29 @@
           exit('Error cambiando el estado del usuario');
         }
       }
+
+      public function ActualizarPasswordPorIdUsuario()
+      {
+        $sql = "CAll SP_actualizarPasswordPorIdUsuario(?,?)";
+
+        $this->db->beginTransaction();
+
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->idUsuario);
+          $stm->bindParam(2, $this->pass);
+          $result = $stm->execute();
+
+          if ($result == true) {
+            $this->db->commit();
+          } else {
+            $this->db->rollback();
+          }
+
+          return $result;
+        } catch (PDOException $e) {
+          exit('Error actualizando el password');
+        }
+      }
     }
  ?>

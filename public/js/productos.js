@@ -261,13 +261,13 @@ function Recargar()
   $('#btn-actualizar').hide('slow');
   $('.obligatorio').hide('slow');
   $('#nombre').attr('readonly', true);
-  $('#nombre').css('border', 'none');
+  $('#nombre').css('border', '1px solid #F1F1F1');
   $('#precio').attr('readonly', true);
-  $('#precio').css('border', 'none');
+  $('#precio').css('border', '1px solid #F1F1F1');
   $('#dcto').attr('readonly', true);
-  $('#dcto').css('border', 'none');
+  $('#dcto').css('border', '1px solid #F1F1F1');
   $('#descripcion').attr('readonly', true);
-  $('#descripcion').css('border', 'none');
+  $('#descripcion').css('border', '1px solid #F1F1F1');
   $('#avisocampos').hide('fast');
   $("#nombre_productorepetido").hide('fast');
   $("#exito").hide('fast');
@@ -428,4 +428,18 @@ function MostrarDescripcion()
       $("#btn-ocultar").hide('slow');
       $("#more").show('slow');
 
+  }
+
+  function OrdenarProductos()
+  {
+    var name = document.form1.ordenar.value;
+
+    location.href = url + 'home/Ordenar&filter='+name;
+  }
+
+  function OrdenarProductosCategorias(id)
+  {
+    var name = document.form1.ordenar.value;
+
+    location.href = url + 'home/MostrarProductosPorCategoriaOrdenados&categoria='+id+'&filter='+name;
   }

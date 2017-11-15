@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2017 a las 21:37:40
+-- Tiempo de generación: 15-11-2017 a las 23:37:15
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -38,6 +38,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPaginas` (IN `_id_pagi
 UPDATE paginas
 SET numero_paginas = _paginas
 WHERE id = _id_paginas$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPasswordPorIdUsuario` (IN `_id_usuario` INT, IN `_pass` VARCHAR(255))  NO SQL
+UPDATE usuarios
+SET password = _pass
+WHERE id = _id_usuario$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarPersonaPorId` (IN `_fecha` VARCHAR(255), IN `_nombres` VARCHAR(255), IN `_apellidos` VARCHAR(255), IN `_id_usuario` INT)  NO SQL
 UPDATE personas
@@ -352,7 +357,7 @@ WHERE id = _id_producto$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorIdCategoria` (IN `_categoria` INT, IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
 SELECT
-	p.id,
+	p.id AS id_producto,
     p.nombre,
     p.precio,
     p.descripcion,
@@ -376,11 +381,137 @@ WHERE p.id_categoria = _categoria AND i.prioridad = 1
 ORDER BY p.id_categoria DESC
 LIMIT _pagina,_tamanio$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorIdCategoriaOrdenadosPorMayorDcto` (IN `_categoria` INT, IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id AS id_producto,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.id_categoria,
+    p.inicio,
+    p.descuento,
+    p.precio_con_descuento,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.id_imagen,
+    i.nombre AS imagen,
+    i.prioridad,
+    c.id,
+    c.nombre,
+    c.estado
+FROM productos p
+INNER JOIN imagenes i
+ON i.id_producto = p.id
+INNER JOIN categorias c
+ON c.id = p.id_categoria
+WHERE p.id_categoria = _categoria AND i.prioridad = 1
+ORDER BY p.descuento DESC
+LIMIT _pagina,_tamanio$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorIdCategoriaOrdenadosPorPrecio` (IN `_categoria` INT, IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id AS id_producto,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.id_categoria,
+    p.inicio,
+    p.descuento,
+    p.precio_con_descuento,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.id_imagen,
+    i.nombre AS imagen,
+    i.prioridad,
+    c.id,
+    c.nombre,
+    c.estado
+FROM productos p
+INNER JOIN imagenes i
+ON i.id_producto = p.id
+INNER JOIN categorias c
+ON c.id = p.id_categoria
+WHERE p.id_categoria = _categoria AND i.prioridad = 1
+ORDER BY p.precio DESC
+LIMIT _pagina,_tamanio$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorIdCategoriaOrdenadosPorPrecio2` (IN `_categoria` INT, IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id AS id_producto,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.id_categoria,
+    p.inicio,
+    p.descuento,
+    p.precio_con_descuento,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.id_imagen,
+    i.nombre AS imagen,
+    i.prioridad,
+    c.id,
+    c.nombre,
+    c.estado
+FROM productos p
+INNER JOIN imagenes i
+ON i.id_producto = p.id
+INNER JOIN categorias c
+ON c.id = p.id_categoria
+WHERE p.id_categoria = _categoria AND i.prioridad = 1
+ORDER BY p.precio ASC
+LIMIT _pagina,_tamanio$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorMayorDescuento` ()  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.descuento DESC LIMIT 0,100$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorNombre` (IN `_nombre` VARCHAR(255))  NO SQL
 SELECT
     nombre
 FROM productos
 WHERE nombre = _nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorPrecioAscendente` ()  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.precio ASC LIMIT 0,100$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorPrecioDescendente` ()  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.precio DESC LIMIT 0,100$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarRoles` ()  NO SQL
 SELECT
@@ -802,7 +933,7 @@ CREATE TABLE `personas` (
 
 INSERT INTO `personas` (`id`, `nombres`, `apellidos`, `fecha_nacimiento`, `id_usuario`) VALUES
 (5, 'Juan David', 'Vargas Penagos', '23-12-1990', 8),
-(6, 'david', 'penagos', '23-12-1990', 9);
+(6, 'David', 'Penagos', '23-12-1990', 9);
 
 -- --------------------------------------------------------
 
@@ -939,7 +1070,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `usuario`, `email`, `password`, `id_rol`, `estado`) VALUES
 (8, 'Juan', 'juan@gmail.com', 'ef187d06edac2230ab92f9cba1c15148', 1, 1),
-(9, 'david', 'david@gmail.com', '12345678', 1, 1);
+(9, 'David', 'david@gmail.com', '6ebe76c9fb411be97b3b0d48b791a7c9', 1, 1);
 
 --
 -- Índices para tablas volcadas

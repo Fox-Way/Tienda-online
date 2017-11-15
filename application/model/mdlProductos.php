@@ -102,6 +102,51 @@
         }
       }
 
+      public function ConsultarProductosPorIdCategoriaOrdenadosPorPrecio()
+      {
+        $sql = "CAll SP_consultarProductosPorIdCategoriaOrdenadosPorPrecio(?,?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $stm->bindParam(2, $this->pagina);
+          $stm->bindParam(3, $this->tamanio);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosPorIdCategoriaOrdenadosPorPrecio2()
+      {
+        $sql = "CAll SP_consultarProductosPorIdCategoriaOrdenadosPorPrecio2(?,?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $stm->bindParam(2, $this->pagina);
+          $stm->bindParam(3, $this->tamanio);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosPorIdCategoriaOrdenadosPorMayorDcto()
+      {
+        $sql = "CAll SP_consultarProductosPorIdCategoriaOrdenadosPorMayorDcto(?,?,?)";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->bindParam(1, $this->categoria);
+          $stm->bindParam(2, $this->pagina);
+          $stm->bindParam(3, $this->tamanio);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta');
+        }
+      }
+
       public function ConsultarProductosParaPaginador()
       {
         $sql = "CAll SP_consultarProductosParaPaginador(?,?)";
@@ -243,6 +288,42 @@
           return $stm->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
           exit('Error en la consulta');
+        }
+      }
+
+      public function ConsultarProductosPorPrecioDescendente()
+      {
+        $sql = "CAll SP_consultarProductosPorPrecioDescendente()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de los productos');
+        }
+      }
+
+      public function ConsultarProductosPorPrecioAscendente()
+      {
+        $sql = "CAll SP_consultarProductosPorPrecioAscendente()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de los productos');
+        }
+      }
+
+      public function ConsultarProductosPorMayorDescuento()
+      {
+        $sql = "CAll SP_consultarProductosPorMayorDescuento()";
+        try {
+          $stm = $this->db->prepare($sql);
+          $stm->execute();
+          return $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+          exit('Error en la consulta de los productos');
         }
       }
 

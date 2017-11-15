@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es_CO">
 <head>
+  <title>Tienda Online | Ropa y accesorios para hombres y mujeres</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="productos, ropa, camisas, pantalones, niños, adultos, mujeres, niñas, tienda, online">
-    <meta name="description" content="Ropa para mujeres y hombres de toda las edades de alta calidad">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="tienda online de ropa, accesorios para hombres y mujeres, servicio a domicilio">
+    <meta name="description" content="Ropa y accesorios para mujeres y hombres de toda las edades de alta calidad">
     <meta name="author" content="foxway">
+    <meta name="owner" content="acá se pone el nombre del propietario del sitio (cliente)">
+    <meta name="robots" content="index, follow">
 
     <link rel="shorcut icon" href="<?php echo URL ?>img/images-icons/favicon-32x32.png" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo URL ?>img/images-icons/apple-touch-icon.png">
@@ -15,7 +18,6 @@
     <link rel="manifest" href="<?php echo URL ?>img/images-icons/manifest.json">
     <link rel="mask-icon" href="<?php echo URL ?>img/images-icons/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
-    <title>FoxWay</title>
 
     <!-- Estilos Generales -->
     <link rel="stylesheet" href="<?php echo URL ?>fonts/font-awesome/css/font-awesome.min.css">

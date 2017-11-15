@@ -48,6 +48,7 @@ class Administracion extends Controller
     {
 
       sleep(2);
+
       if (isset($_POST['email']) && isset($_POST['pass']))
       {
         if ($_POST['email'] != null &&
@@ -142,7 +143,7 @@ class Administracion extends Controller
 
     public function RecuperarContrasenia()
     {
-      return "recuperacion de contraseña";
+      echo "recuperacion de contraseña";
     }
 
     public function Perfil()
@@ -225,13 +226,16 @@ class Administracion extends Controller
           echo "Producto desactivado correctamente";
         }
       }
+      else{
+        header('location:' . URL . 'administracion/IniciarSesion');
+      }
     }
 
     public function ConfiguracionCuenta()
     {
       if (isset($_SESSION['SESION_INICIADA']) &&
           $_SESSION['SESION_INICIADA'] == true)
-          {
+      {
 
             //Consultamos los datos del usuario
             $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
@@ -245,7 +249,12 @@ class Administracion extends Controller
             require APP . 'view/_templates/header.php';
             require APP . 'view/cuentas/cuenta.php';
             require APP . 'view/_templates/footer.php';
-          }
+      }
+
+      else{
+        header('location:' . URL . 'administracion/IniciarSesion');
+      }
+
     }
 
     public function EliminarProducto()
@@ -326,6 +335,10 @@ class Administracion extends Controller
                   echo 2;
                 }
         }
+      }
+
+      else{
+        header('location:' . URL . 'administracion/IniciarSesion');
       }
     }
 
@@ -418,6 +431,34 @@ class Administracion extends Controller
           {
             echo 2;
           }
+      }
+      else
+      {
+        header('location:' . URL . 'administracion/IniciarSesion');
+        exit;
+      }
+    }
+
+    public function ActualizarPassword()
+    {
+      if (isset($_SESSION['SESION_INICIADA']) &&
+          $_SESSION['SESION_INICIADA'] == true)
+      {
+        sleep(2);
+
+        $this->mdlCuentas->__SET('idUsuario', $_SESSION['USUARIO_ID']);
+        $this->mdlCuentas->__SET('pass', $this->Encrypt($_POST['contrasenia']));
+
+        $pass = $this->mdlCuentas->ActualizarPasswordPorIdUsuario();
+
+        if ($pass)
+        {
+          echo 1;
+        }
+        else{
+          echo 2;
+        }
+
       }
       else
       {

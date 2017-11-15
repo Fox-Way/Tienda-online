@@ -40,9 +40,22 @@
             <h2 class="text-center"><strong><?php echo $productosPorCategoria[0]['nombre']; ?></strong></h2>
           <?php endif; ?>
         </div>
+        <div class="bottom">
+          <span class="fuente">Ordenar Por:</span>
+          <p>
+            <form class="form-horizontal" name="form1">
+              <select class="form-control" onchange="OrdenarProductosCategorias('<?php echo $_GET['categoria']; ?>')" name="ordenar">
+                  <option>---</option>
+                  <option value="menor-mayor">Ordenar por precio de menor a mayor</option>
+                  <option value="mayor-menor">Ordenar por precio de mayor a menor</option>
+                  <option value="mayor-dcto">Ordenar por mayor descuento</option>
+              </select>
+            </form>
+          </p>
+        </div>
           <?php foreach($productosPorCategoria as $producto): ?>
-            <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
-              <div class="productos-main hvr-buzz-out">
+            <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id_producto']; ?>">
+              <div class="productos-main hvr-float-shadow">
                 <div class="text-center container-name">
                   <?php echo $producto['nombre']; ?>
                 </div>

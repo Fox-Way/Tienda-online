@@ -109,7 +109,7 @@
                    </div>
                  </div>
                   <?php endforeach; ?>
-                 <br>
+                  <br>
                  <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
@@ -197,8 +197,121 @@
                       <strong>Error!</strong>&nbsp;El formato de la fecha es inválido
                     </p>
                   </div>
-
                </form>
+
+               <div class="container-password">
+                   <form class="form-horizontal" name="formpassword" id="form-password">
+                     <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-5">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-info btn-pass" onclick="CambiarPassword()">
+                              <i class="fa fa-key" aria-hidden="true"></i>&nbsp;
+                              Cambiar Contraseña
+                            </button>
+                         </div>
+                       </div>
+                     </div>
+
+                     <div class="row ocultar" id="change-password">
+                        <div class="col-sm-12 col-sm-12 col-md-5">
+                          <div class="form-group">
+                            <label for="contrasenia">Nueva Contraseña <span class="red">*</span></label>
+                          </div>
+                          <div class="form-group">
+                            <input type="password" name="contrasenia" class="form-control" id="contrasenia" onblur="validarUpdatePassword()">
+                         </div>
+                       </div>
+                       <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1">
+                         <div class="form-group">
+                           <label for="repeat_contrasenia">Repetir Contraseña <span class="red">*</span></label>
+                         </div>
+                         <div class="form-group">
+                          <input type="password" name="repeat_contrasenia" id="repeat_contrasenia" class="form-control" onkeyup="ValidarRepeatContrasenia()">
+                         </div>
+                       </div>
+                     </div>
+
+                     <div class="row ocultar" id="btn-update-pass">
+                        <div class="col-sm-12 col-xs-12 col-md-5">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-success" onclick="ValidarFormularioPassword()">
+                              <i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;
+                              Actualizar Contraseña
+                            </button>
+                         </div>
+                       </div>
+                    </form>
+                     </div>
+
+                     <!-- Alert password requerido-->
+                     <div class="alert alert-success alert-dismissible ocultar" id="exitopass" role="alert">
+                       <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                         <span aria-hidden="true">&times;</span>
+                       </button>
+                       <p class="centrar">
+                         <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                         <strong>Enhorabuena!</strong>&nbsp;La contraseña fue actualizada correctamente
+                       </p>
+                     </div>
+
+                     <!-- Alert password requerido-->
+                     <div class="alert alert-danger alert-dismissible ocultar" id="avisorequeridopass" role="alert">
+                       <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                         <span aria-hidden="true">&times;</span>
+                       </button>
+                       <p class="centrar">
+                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                         <strong>Error!</strong>&nbsp;Debes llenar todos los campos con <span class="red">*</span> obligatoriamente
+                       </p>
+                     </div>
+
+                     <!-- Alert procesando -->
+                      <center class="ocultar" id="cargapass">
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
+                          <p class="centrar">
+                            <i class="fa fa-spinner fa-spin fa-3x"></i>&nbsp;
+                            Procesando...!
+                          </p>
+                        </div>
+                      </center>
+
+                      <!-- Alert validación contraseña -->
+                   <div class="alert alert-danger alert-dismissible ocultar" id="avisoupdatepass" role="alert">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                     <p class="centrar">
+                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                       <strong>Error!</strong>&nbsp;La contraseña no puede tener espacios en blanco y debe tener como mínimo 8 caracteres y un número
+                     </p>
+                   </div>
+
+                   <!-- Alert validación contraseña -->
+                <div class="alert alert-danger alert-dismissible ocultar" id="avisocontraseniarepeat" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <p class="centrar">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                    <strong>Error!</strong>&nbsp;Las contraseñas no coinciden
+                  </p>
+                </div>
+
+                <!-- Alert validación contraseña -->
+             <div class="alert alert-danger alert-dismissible ocultar" id="errorpass" role="alert">
+               <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+               <p class="centrar">
+                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                 <strong>Error!</strong>&nbsp;No se ha podido actualizar la contraseña
+               </p>
+             </div>
+
+                   </form>
+                 </div>
+
                 </div>
 					   </div>
 				    </div>

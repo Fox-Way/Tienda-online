@@ -16,25 +16,31 @@
     {
         sleep(2);
 
+        if (isset($_SESSION['SESION_INICIADA']) && $_SESSION['SESION_INICIADA'] == true)
+        {
+          if (isset($_POST['nombrecategoria'])) {
 
-        if (isset($_POST['nombrecategoria'])) {
+            $this->mdlCategorias->__SET('nombre', $_POST['nombrecategoria']);
+            $categoria = $this->mdlCategorias->ConsultarCategoriasPorNombre();
 
-          $this->mdlCategorias->__SET('nombre', $_POST['nombrecategoria']);
-          $categoria = $this->mdlCategorias->ConsultarCategoriasPorNombre();
+              foreach ($categoria as $categ) {
 
-            foreach ($categoria as $categ) {
+                if ($categ['nombre'] == "0" || $categ['nombre'] == 0) {
 
-              if ($categ['nombre'] == "0" || $categ['nombre'] == 0) {
+                  $this->mdlCategorias->__SET('nombre', ucwords($_POST['nombrecategoria']));
+                  $this->mdlCategorias->__SET('estado', 1);
 
-                $this->mdlCategorias->__SET('nombre', ucwords($_POST['nombrecategoria']));
-                $this->mdlCategorias->__SET('estado', 1);
-
-                $cate = $this->mdlCategorias->GuardarCategorias();
-                echo 1;
-              }else{
-                echo 2;
+                  $cate = $this->mdlCategorias->GuardarCategorias();
+                  echo 1;
+                }else{
+                  echo 2;
+                }
               }
-            }
+          }
+        }
+        else {
+          header('location:' . URL . 'administracion/IniciarSesion');
+          exit;
         }
     }
 
@@ -50,6 +56,10 @@
           'nombre' => $categoria[0]['nombre'],
           'id' => $categoria[0]['id'],
         ]);
+      }
+      else {
+        header('location:' . URL . 'administracion/IniciarSesion');
+        exit;
       }
     }
 
@@ -112,6 +122,10 @@
             $estadoCategoria = $this->mdlCategorias->CambiarEstadoCategoria();
           }
           echo 1;
+      }
+      else {
+        header('location:' . URL . 'administracion/IniciarSesion');
+        exit;
       }
     }
 }

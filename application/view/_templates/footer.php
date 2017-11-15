@@ -67,7 +67,7 @@
             </div>
 
             <!-- Alert procesando -->
-            <center class="ocultar" id="procesando">
+            <center class="ocultar" id="procesandodatos">
               <div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ari-hidden="true">&times;</span></button>
                 <p class="centrar">

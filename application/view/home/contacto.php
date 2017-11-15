@@ -24,7 +24,7 @@
     <div class="row">
       <div class="main-contact top">
         <div class="title-bar-contact">
-          <h1 class="text-center">Datos de Contacto</h1>
+          <h2 class="text-center">Datos de Contacto</h2>
         </div>
         <div class="container-contact">
          <div class="agile_top_w3_grids">

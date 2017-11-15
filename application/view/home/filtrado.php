@@ -23,14 +23,29 @@
 
     <div class="row">
       <div class="main top">
-        <div class="title-bar-filter">
-          <h1 class="text-center">Resultados de la Búsqueda</h1>
+        <hgroup>
+          <div class="title-bar-filter">
+              <h2 class="text-center">Resultados de la Búsqueda</h2>
+          </div>
+          <h3 class="bottom">Productos encontrados: <span class="total-productos"><?php echo count($productosFiltrados); ?></span></h3>
+        </hgroup>
+        <div class="bottom">
+          <span class="fuente">Ordenar Por:</span>
+          <p>
+            <form class="form-horizontal" name="form1">
+              <select class="form-control" onchange="OrdenarProductos()" name="ordenar">
+                  <option>---</option>
+                  <option value="menor-mayor">Ordenar por precio de menor a mayor</option>
+                  <option value="mayor-menor">Ordenar por precio de mayor a menor</option>
+                  <option value="mayor-dcto">Ordenar por mayor descuento</option>
+              </select>
+            </form>
+          </p>
         </div>
-        <h2 class="bottom">Productos encontrados: <span class="total-productos"><?php echo count($productosFiltrados); ?></span></h2>
         <?php if (count($productosFiltrados) > 0): ?>
           <?php foreach($productosFiltrados as $producto): ?>
             <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
-              <div class="productos-main hvr-buzz-out">
+              <div class="productos-main hvr-float-shadow">
                 <div class="text-center container-name">
                   <?php echo $producto['nombre']; ?>
                 </div>

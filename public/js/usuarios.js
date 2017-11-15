@@ -116,7 +116,7 @@ function ValidarRepeatPassword()
   }
   else
   {
-    document.formusuarios.repeat_pass.style.border = "1px solid ##17dd37";
+    document.formusuarios.repeat_pass.style.border = "1px solid #17dd37";
     $("#avisopasswordrepeat").hide('fast');
     return true;
   }
@@ -307,9 +307,9 @@ function RecargarUser()
   $('#btn-actualizar-user').hide('slow');
   $('.obligatorio').hide('slow');
   $('#name_user').attr('readonly', true);
-  $('#name_user').css('border', 'none');
+  $('#name_user').css('border', '1px solid #F1F1F1');
   $('#email_details').attr('readonly', true);
-  $('#email_details').css('border', 'none');
+  $('#email_details').css('border', '1px solid #F1F1F1');
   $('#avisocampos').hide('fast');
   $('#title-user').html('Información del Usuario');
   $("#user_email_repetido").hide('fast');

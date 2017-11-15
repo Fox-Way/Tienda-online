@@ -24,7 +24,7 @@
     <div class="row">
       <div class="main-about top">
         <div class="title-bar-about">
-          <h1 class="text-center">Acerca de FoxWay</h1>
+          <h2 class="text-center">Acerca de FoxWay</h2>
         </div>
         <div class="container-about">
          <div class="agile_top_w3_grids">

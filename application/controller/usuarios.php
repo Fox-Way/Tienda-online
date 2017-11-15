@@ -167,6 +167,7 @@
         if (isset($_SESSION['SESION_INICIADA']) &&
             $_SESSION['SESION_INICIADA'] == true)
         {
+
             if (isset($_POST['idusuario']))
             {
               $this->mdlCuentas->__SET('idUsuario', $_POST['idusuario']);

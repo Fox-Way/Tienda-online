@@ -113,7 +113,7 @@ function ValidarFormularioMarcas()
     $('#btn-actualizarmarca').hide('slow');
     $('.obligatorio').hide('slow');
     $('#marca-edicion').attr('readonly', true);
-    $('#marca-edicion').css('border', 'none');
+    $('#marca-edicion').css('border', '1px solid #F1F1F1');
     $('#avisomarcaedicion').hide('fast');
     $("#nombremarcarepetido").hide('fast');
     $("#successmarca").hide('fast');

@@ -111,7 +111,7 @@ function ValidarFormularioCategoria()
     $('#btn-actualizar').hide('slow');
     $('.obligatorio').hide('slow');
     $('#categoria-edicion').attr('readonly', true);
-    $('#categoria-edicion').css('border', 'none');
+    $('#categoria-edicion').css('border', '1px solid #F1F1F1');
     $('#avisocateg').hide('fast');
     $("#nombrerepetido").hide('fast');
     $("#success").hide('fast');
