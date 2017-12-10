@@ -587,6 +587,14 @@ input[type=file].obligatorio{
   margin-top:140px;
 }
 
+.paginator-filter{
+  margin-top: 400px;
+}
+
+.paginator-search{
+  margin-top: 410px;
+}
+
 .fuente-details{
   font-size: 22px;
   color: #656565;

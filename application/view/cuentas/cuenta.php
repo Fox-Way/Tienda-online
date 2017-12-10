@@ -96,9 +96,9 @@
                          ?>
 
                          <?php if (file_exists($ruta)): ?>
-                           <img class="media-object" src="<?php echo URL ?>img/perfil/<?php echo $_SESSION['USUARIO'] ?>.<?php echo $extension ?>" width="70" height="70">
+                           <img class="media-object" src="<?php echo URL ?>img/perfil/<?php echo $_SESSION['USUARIO'] ?>.<?php echo $extension ?>" width="70" height="70" alt="<?php echo $_SESSION['USUARIO'] ?>">
                          <?php else: ?>
-                           <img class="media-object" src="<?php echo URL ?>img/perfil/user.png" width="70" height="70">
+                           <img class="media-object" src="<?php echo URL ?>img/perfil/user.png" width="70" height="70" alt="user">
                          <?php endif; ?>
                       </div>
                       <div class="media-body">

@@ -1,4 +1,13 @@
 
+
+$(document).ready(function(){
+    $('#table-categories').DataTable({
+      "ordering": false,
+    });
+    $('#table-categories').DataTable();
+  });
+
+
 function ValidarLargoCategoria()
 {
     var cate = $('#nombrecategoria').val();

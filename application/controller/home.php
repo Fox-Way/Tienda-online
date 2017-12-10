@@ -49,13 +49,35 @@ class Home extends Controller
 
     public function Buscador()
     {
-      if (isset($_POST['btn-buscar']) && isset($_POST['busqueda']) &&
-          $_POST['busqueda'] != '')
+      if (isset($_GET['busqueda']) && $_GET['busqueda'] != '')
       {
         $categoriasActivas = $this->mdlCategorias->ConsultarCategoriasActivas();
 
-        $this->mdlProductos->__SET('nombre', $_POST['busqueda']);
+        $this->mdlProductos->__SET('nombre', $_GET['busqueda']);
         $productosFiltrados = $this->mdlProductos->ConsultarProductosConImagenPorFiltrado();
+        $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+        //paginador
+        $totalRegistros = count($productosFiltrados);
+        $tamanioPagina = intval($paginas[0]['numero_paginas']);
+        $pagina = false;
+
+        if (isset($_GET['pagina'])) {
+          $pagina = $_GET['pagina'];
+        }
+
+        if (!$pagina) {
+          $inicio = 0;
+          $pagina = 1;
+        } else {
+          $inicio = ($pagina - 1) * $tamanioPagina;
+        }
+
+        $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+        $this->mdlProductos->__SET('pagina', $inicio);
+        $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+        $this->mdlProductos->__SET('nombre', $_GET['busqueda']);
+        $productosPorFiltrado = $this->mdlProductos->ConsultarProductosConImagenPorFiltradoConPaginador();
 
         // load views
         require APP . 'view/_templates/header.php';
@@ -251,17 +273,85 @@ class Home extends Controller
 
         if (isset($_GET['filter']) && $_GET['filter'] == "mayor-menor")
         {
-          $precioMayorMenor = $this->mdlProductos->ConsultarProductosPorPrecioDescendente();
+          $precioMayorMenor = $this->mdlProductos->ConsultarProductosConImagen();
+          $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+          //paginador
+          $totalRegistros = count($precioMayorMenor);
+          $tamanioPagina = intval($paginas[0]['numero_paginas']);
+          $pagina = false;
+
+          if (isset($_GET['pagina'])) {
+            $pagina = $_GET['pagina'];
+          }
+
+          if (!$pagina) {
+            $inicio = 0;
+            $pagina = 1;
+          } else {
+            $inicio = ($pagina - 1) * $tamanioPagina;
+          }
+
+          $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+          $this->mdlProductos->__SET('pagina', $inicio);
+          $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+          $productosPorPrecioDescConPaginador = $this->mdlProductos->ConsultarProductosPorPrecioDescendenteConPaginador();
         }
 
         if (isset($_GET['filter']) && $_GET['filter'] == "menor-mayor")
         {
-            $precioMenorMayor = $this->mdlProductos->ConsultarProductosPorPrecioAscendente();
+            $precioMenorMayor = $this->mdlProductos->ConsultarProductosConImagen();
+
+            $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+            //paginador
+            $totalRegistros = count($precioMenorMayor);
+            $tamanioPagina = intval($paginas[0]['numero_paginas']);
+            $pagina = false;
+
+            if (isset($_GET['pagina'])) {
+              $pagina = $_GET['pagina'];
+            }
+
+            if (!$pagina) {
+              $inicio = 0;
+              $pagina = 1;
+            } else {
+              $inicio = ($pagina - 1) * $tamanioPagina;
+            }
+
+            $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+            $this->mdlProductos->__SET('pagina', $inicio);
+            $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+            $productosPorPrecioAscConPaginador = $this->mdlProductos->ConsultarProductosPorPrecioAscendenteConPaginador();
         }
 
         if (isset($_GET['filter']) && $_GET['filter'] == "mayor-dcto")
         {
-            $mayorDcto = $this->mdlProductos->ConsultarProductosPorMayorDescuento();
+            $mayorDcto = $this->mdlProductos->ConsultarProductosConImagen();
+
+            $paginas = $this->mdlProductos->ConsultarNumeroPaginas();
+
+            //paginador
+            $totalRegistros = count($mayorDcto);
+            $tamanioPagina = intval($paginas[0]['numero_paginas']);
+            $pagina = false;
+
+            if (isset($_GET['pagina'])) {
+              $pagina = $_GET['pagina'];
+            }
+
+            if (!$pagina) {
+              $inicio = 0;
+              $pagina = 1;
+            } else {
+              $inicio = ($pagina - 1) * $tamanioPagina;
+            }
+
+            $totalPaginas = ceil($totalRegistros / $tamanioPagina);
+            $this->mdlProductos->__SET('pagina', $inicio);
+            $this->mdlProductos->__SET('tamanio', $tamanioPagina);
+            $productosPorMayorDctoConPaginador = $this->mdlProductos->ConsultarProductosPorMayorDctoConPaginador();
         }
         // load views
         require APP . 'view/_templates/header.php';

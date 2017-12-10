@@ -51,7 +51,7 @@
           </p>
         </div>
          <?php if ($_GET['filter'] == "mayor-menor"): ?>
-           <?php foreach($precioMayorMenor as $mayorMenor): ?>
+           <?php foreach($productosPorPrecioDescConPaginador as $mayorMenor): ?>
              <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $mayorMenor['id']; ?>">
                <div class="productos-main hvr-float-shadow">
                  <div class="text-center container-name">
@@ -66,9 +66,47 @@
                </div>
              </a>
            <?php endforeach; ?>
+
+           <!-- Paginador -->
+           <div class="paginator-search">
+             <nav>
+               <ul class="pagination">
+                 <?php
+
+                     if ($totalPaginas > 1) {
+
+                       if ($pagina != 1)
+                         echo '<li>
+                                 <a href="'.URL.'home/Ordenar&filter=mayor-menor&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                               </li>';
+                         for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                           if ($pagina == $i){
+                             echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                           }
+                           else{
+                             // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                             echo '<li><a href="'.URL.'home/Ordenar&filter=mayor-menor&pagina='.$i.'">'.$i.'</a></li>';
+                           }
+                         }
+
+                         if ($pagina != $totalPaginas) {
+                           $pag = '';
+                           $pag .= '<li>';
+                           $pag .= '<a href="'.URL.'home/Ordenar&filter=mayor-menor&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                           $pag .= '</li>';
+                           echo $pag;
+                         }
+                     }
+                     echo '<p>';
+                  ?>
+               </ul>
+             </nav>
+           </div>
+
          <?php endif;?>
         <?php if ($_GET['filter'] == "menor-mayor"): ?>
-           <?php foreach($precioMenorMayor as $menorMayor): ?>
+           <?php foreach($productosPorPrecioAscConPaginador as $menorMayor): ?>
              <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $menorMayor['id']; ?>">
                <div class="productos-main hvr-float-shadow">
                  <div class="text-center container-name">
@@ -83,9 +121,47 @@
                </div>
              </a>
            <?php endforeach; ?>
+
+           <!-- Paginador -->
+           <div class="paginator-search">
+             <nav>
+               <ul class="pagination">
+                 <?php
+
+                     if ($totalPaginas > 1) {
+
+                       if ($pagina != 1)
+                         echo '<li>
+                                 <a href="'.URL.'home/Ordenar&filter=menor-mayor&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                               </li>';
+                         for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                           if ($pagina == $i){
+                             echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                           }
+                           else{
+                             // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                             echo '<li><a href="'.URL.'home/Ordenar&filter=menor-mayor&pagina='.$i.'">'.$i.'</a></li>';
+                           }
+                         }
+
+                         if ($pagina != $totalPaginas) {
+                           $pag = '';
+                           $pag .= '<li>';
+                           $pag .= '<a href="'.URL.'home/Ordenar&filter=menor-mayor&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                           $pag .= '</li>';
+                           echo $pag;
+                         }
+                     }
+                     echo '<p>';
+                  ?>
+               </ul>
+             </nav>
+           </div>
+
          <?php endif; ?>
          <?php if ($_GET['filter'] == "mayor-dcto"): ?>
-            <?php foreach($mayorDcto as $dcto): ?>
+            <?php foreach($productosPorMayorDctoConPaginador as $dcto): ?>
               <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $dcto['id']; ?>">
                 <div class="productos-main hvr-float-shadow">
                   <div class="text-center container-name">
@@ -100,6 +176,44 @@
                 </div>
               </a>
             <?php endforeach; ?>
+
+            <!-- Paginador -->
+            <div class="paginator-search">
+              <nav>
+                <ul class="pagination">
+                  <?php
+
+                      if ($totalPaginas > 1) {
+
+                        if ($pagina != 1)
+                          echo '<li>
+                                  <a href="'.URL.'home/Ordenar&filter=mayor-dcto&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                                </li>';
+                          for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                            if ($pagina == $i){
+                              echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                            }
+                            else{
+                              // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                              echo '<li><a href="'.URL.'home/Ordenar&filter=mayor-dcto&pagina='.$i.'">'.$i.'</a></li>';
+                            }
+                          }
+
+                          if ($pagina != $totalPaginas) {
+                            $pag = '';
+                            $pag .= '<li>';
+                            $pag .= '<a href="'.URL.'home/Ordenar&filter=mayor-dcto&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                            $pag .= '</li>';
+                            echo $pag;
+                          }
+                      }
+                      echo '<p>';
+                   ?>
+                </ul>
+              </nav>
+            </div>
+
           <?php endif; ?>
 
         <div class="limpiar"></div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2017 a las 23:37:15
+-- Tiempo de generación: 10-12-2017 a las 22:21:19
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -459,6 +459,22 @@ WHERE p.id_categoria = _categoria AND i.prioridad = 1
 ORDER BY p.precio ASC
 LIMIT _pagina,_tamanio$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorMayorDctoConPaginador` (IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.descuento DESC LIMIT _pagina, _tamanio$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorMayorDescuento` ()  NO SQL
 SELECT
 	p.id,
@@ -497,6 +513,22 @@ INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 AND p.inicio = 1
 ORDER BY p.precio ASC LIMIT 0,100$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorPrecioAscendenteConPaginador` (IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.precio ASC LIMIT _pagina, _tamanio$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorPrecioDescendente` ()  NO SQL
 SELECT
 	p.id,
@@ -512,6 +544,22 @@ FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE i.prioridad = 1 AND p.inicio = 1
 ORDER BY p.precio DESC LIMIT 0,100$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarProductosPorPrecioDescendenteConPaginador` (IN `_pagina` INT, IN `_tamanio` INT)  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.precio DESC LIMIT _pagina, _tamanio$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarRoles` ()  NO SQL
 SELECT
@@ -560,7 +608,23 @@ SELECT
 FROM productos p
 INNER JOIN imagenes i ON i.id_producto = p.id
 WHERE p.nombre LIKE CONCAT('%', _nombre, '%') AND i.prioridad = 1 AND p.inicio = 1
-ORDER BY p.id DESC LIMIT 0,100$$
+ORDER BY p.id DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorFiltradoConPaginador` (IN `_pagina` INT, IN `_tamanio` INT, IN `_nombre` VARCHAR(255))  NO SQL
+SELECT
+	p.id,
+    p.nombre,
+    p.precio,
+    p.descripcion,
+    p.descuento,
+    p.inicio,
+    (p.precio - p.precio_con_descuento) AS precio2,
+    i.nombre AS imagen,
+    i.prioridad
+FROM productos p
+INNER JOIN imagenes i ON i.id_producto = p.id
+WHERE p.nombre LIKE CONCAT('%', _nombre, '%') AND i.prioridad = 1 AND p.inicio = 1
+ORDER BY p.id DESC LIMIT _pagina, _tamanio$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_consultarTodosProductosConImagenPorIdCategoria` (IN `_categoria` INT)  NO SQL
 SELECT

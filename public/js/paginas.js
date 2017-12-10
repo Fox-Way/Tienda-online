@@ -1,3 +1,13 @@
+  $(document).ready(function() {
+    $("#paginas").keydown(function(e){
+     if(e.which === 189 || e.which === 69){
+       e.preventDefault();
+     }
+   });
+
+  });
+
+
 
 function CargarPaginas(id)
 {

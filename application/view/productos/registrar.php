@@ -50,6 +50,7 @@
                     </p>
                   </div>
 
+
                    <!-- Alert longitud nombre -->
                  <div class="alert alert-danger alert-dismissible ocultar" id="avisonombrelargo" role="alert">
                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
@@ -82,6 +83,17 @@
                      <strong>Error!</strong>&nbsp;El precio es requerido
                    </p>
                  </div>
+
+                 <!-- Alert precio requerido-->
+               <div class="alert alert-danger alert-dismissible ocultar" id="avisoprecioinvalido" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+                 <p class="centrar">
+                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                   <strong>Error!</strong>&nbsp;El precio no puede contener números negativos
+                 </p>
+               </div>
 
                  <div class="row">
                    <div class="col-xs-12 col-sm-12 col-md-5">
@@ -181,7 +193,7 @@
                        <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-2">
                          <div class="form-group">
                            <label for="exampleInputFile">Cantidad <span class="red">*</span></label>
-                           <input type="number" min="0" name="cantidadcolor" class="form-control" onkeyup="ValidarCantidadColor()">
+                           <input type="number" min="0" name="cantidadcolor" class="form-control" onkeyup="ValidarCantidadColor()" id="cant">
                          </div>
                        </div>
                      </div>

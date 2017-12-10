@@ -80,9 +80,9 @@
 	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
 					<?php if (file_exists($ruta)): ?>
-						<img class="profile-img" src="<?php echo URL ?>img/perfil/<?php echo $_SESSION['USUARIO'] ?>.<?php echo $extension ?>">
+						<img class="profile-img" src="<?php echo URL ?>img/perfil/<?php echo $_SESSION['USUARIO'] ?>.<?php echo $extension ?>" alt="<?php echo $_SESSION['USUARIO'] ?>">
 					<?php else: ?>
-						<img class="profile-img" src="<?php echo URL ?>img/perfil/profile.jpg">
+						<img class="profile-img" src="<?php echo URL ?>img/perfil/profile.jpg" alt="profile">
 					<?php endif; ?>
 
 	        <p><strong><?php echo $_SESSION['USUARIO']; ?></strong></p>

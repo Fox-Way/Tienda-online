@@ -43,7 +43,7 @@
           </p>
         </div>
         <?php if (count($productosFiltrados) > 0): ?>
-          <?php foreach($productosFiltrados as $producto): ?>
+          <?php foreach($productosPorFiltrado as $producto): ?>
             <a href="<?= URL ?>productos/DetallesProducto&id_producto=<?php echo $producto['id']; ?>">
               <div class="productos-main hvr-float-shadow">
                 <div class="text-center container-name">
@@ -58,6 +58,44 @@
               </div>
             </a>
           <?php endforeach; ?>
+
+          <!-- Paginador -->
+          <div class="paginator-search">
+            <nav>
+              <ul class="pagination">
+                <?php
+
+                    if ($totalPaginas > 1) {
+
+                      if ($pagina != 1)
+                        echo '<li>
+                                <a href="'.URL.'home/Buscador&?busqueda='.$_GET['busqueda'].'&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                              </li>';
+                        for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                          if ($pagina == $i){
+                            echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                          }
+                          else{
+                            // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                            echo '<li><a href="'.URL.'home/Buscador&?busqueda='.$_GET['busqueda'].'&pagina='.$i.'">'.$i.'</a></li>';
+                          }
+                        }
+
+                        if ($pagina != $totalPaginas) {
+                          $pag = '';
+                          $pag .= '<li>';
+                          $pag .= '<a href="'.URL.'home/Buscador&?busqueda='.$_GET['busqueda'].'&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                          $pag .= '</li>';
+                          echo $pag;
+                        }
+                    }
+                    echo '<p>';
+                 ?>
+              </ul>
+            </nav>
+          </div>
+
         <?php else: ?>
           <div class="alert alert-danger alert-dismissible" role="alert">
            <p class="centrar">
@@ -71,5 +109,6 @@
          </div>
         <?php endif; ?>
         <div class="limpiar"></div>
+
       </div>
     </div>

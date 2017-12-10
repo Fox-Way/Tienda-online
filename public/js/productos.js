@@ -1,4 +1,30 @@
 
+$(document).ready(function(){
+    $('#table-productos').DataTable({
+      "ordering": false,
+    });
+    $('#table-productos').DataTable();
+
+
+      $("#precio").keydown(function(e){
+       if(e.which === 189 || e.which === 69){
+         e.preventDefault();
+       }
+     });
+
+     $("#dcto").keydown(function(e){
+      if(e.which === 189 || e.which === 69){
+        e.preventDefault();
+      }
+    });
+
+    $("#cant").keydown(function(e){
+     if(e.which === 189 || e.which === 69){
+       e.preventDefault();
+     }
+   });
+
+});
 
 function ValidarFormulario()
 {
@@ -13,6 +39,7 @@ function ValidarFormulario()
         $("#avisoprecio").show('slow');
         document.formproductos.precio.style.border = "1px solid #f22012";
     }
+
 
     if (document.formproductos.dcto.value != "")
     {

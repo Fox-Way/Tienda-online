@@ -107,6 +107,45 @@
               </div>
             </a>
           <?php endforeach; ?>
+
+          <!-- Paginador -->
+          <div class="paginator-filter">
+            <nav>
+              <ul class="pagination">
+                <?php
+
+                    if ($totalPaginas > 1) {
+
+                      if ($pagina != 1)
+                        echo '<li>
+                                <a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-menor&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                              </li>';
+                        for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                          if ($pagina == $i){
+                            echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                          }
+                          else{
+                            // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                            echo '<li><a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-menor&pagina='.$i.'">'.$i.'</a></li>';
+                          }
+                        }
+
+                        if ($pagina != $totalPaginas) {
+                          $pag = '';
+                          $pag .= '<li>';
+                          $pag .= '<a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-menor&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                          $pag .= '</li>';
+                          echo $pag;
+                        }
+                    }
+                    echo '<p>';
+                 ?>
+              </ul>
+            </nav>
+          </div>
+
+
         <?php endif; ?>
 
         <?php if ($_GET['filter'] == "menor-mayor"): ?>
@@ -125,6 +164,44 @@
               </div>
             </a>
           <?php endforeach; ?>
+
+          <!-- Paginador -->
+          <div class="paginator-filter">
+            <nav>
+              <ul class="pagination">
+                <?php
+
+                    if ($totalPaginas > 1) {
+
+                      if ($pagina != 1)
+                        echo '<li>
+                                <a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=menor-mayor&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                              </li>';
+                        for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                          if ($pagina == $i){
+                            echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                          }
+                          else{
+                            // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                            echo '<li><a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=menor-mayor&pagina='.$i.'">'.$i.'</a></li>';
+                          }
+                        }
+
+                        if ($pagina != $totalPaginas) {
+                          $pag = '';
+                          $pag .= '<li>';
+                          $pag .= '<a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=menor-mayor&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                          $pag .= '</li>';
+                          echo $pag;
+                        }
+                    }
+                    echo '<p>';
+                 ?>
+              </ul>
+            </nav>
+          </div>
+
         <?php endif; ?>
 
 
@@ -144,46 +221,47 @@
               </div>
             </a>
           <?php endforeach; ?>
+
+          <!-- Paginador -->
+          <div class="paginator-filter">
+            <nav>
+              <ul class="pagination">
+                <?php
+
+                    if ($totalPaginas > 1) {
+
+                      if ($pagina != 1)
+                        echo '<li>
+                                <a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-dcto&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
+                              </li>';
+                        for ($i = 1; $i <= $totalPaginas; $i++) {
+
+                          if ($pagina == $i){
+                            echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
+                          }
+                          else{
+                            // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
+                            echo '<li><a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-dcto&pagina='.$i.'">'.$i.'</a></li>';
+                          }
+                        }
+
+                        if ($pagina != $totalPaginas) {
+                          $pag = '';
+                          $pag .= '<li>';
+                          $pag .= '<a href="'.URL.'home/MostrarProductosPorCategoriaOrdenados&categoria=2&filter=mayor-dcto&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
+                          $pag .= '</li>';
+                          echo $pag;
+                        }
+                    }
+                    echo '<p>';
+                 ?>
+              </ul>
+            </nav>
+          </div>
+
         <?php endif; ?>
 
         <div class="limpiar"></div>
-
-        <!-- Paginador -->
-        <div class="paginator">
-          <nav>
-            <ul class="pagination">
-              <?php
-
-                  if ($totalPaginas > 1) {
-
-                    if ($pagina != 1)
-                      echo '<li>
-                              <a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina=' . ($pagina - 1). '" aria-label="Previous"><span aria-hidden="true">Anterior</span></a>
-                            </li>';
-                      for ($i = 1; $i <= $totalPaginas; $i++) {
-
-                        if ($pagina == $i){
-                          echo '<li><a href="#"><div class="pag">'.$pagina.'</div></a></li>';
-                        }
-                        else{
-                          // echo '<li><a href="'.URL.'home/Index&pagina='.$i.'"</a></li>';
-                          echo '<li><a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina='.$i.'">'.$i.'</a></li>';
-                        }
-                      }
-
-                      if ($pagina != $totalPaginas) {
-                        $pag = '';
-                        $pag .= '<li>';
-                        $pag .= '<a href="'.URL.'home/MostrarProductosPorCategoria&categoria=2&pagina='.($pagina + 1).'" aria-label="Next"><span aria-hidden="true">Siguiente</span></a>';
-                        $pag .= '</li>';
-                        echo $pag;
-                      }
-                  }
-                  echo '<p>';
-               ?>
-            </ul>
-          </nav>
-        </div>
 
       </div>
     </div>

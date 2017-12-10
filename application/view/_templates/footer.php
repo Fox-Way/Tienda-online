@@ -122,7 +122,6 @@
     <!-- Datepicker -->
     <script type="text/javascript" src="<?php echo URL ?>js/bootstrap-datepicker.js"></script>
 
-
     <script src="<?php echo URL; ?>js/application.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/login.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/categorias.js"></script>
@@ -131,24 +130,6 @@
     <script type="text/javascript" src="<?php echo URL; ?>js/marcas.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/usuarios.js"></script>
     <script type="text/javascript" src="<?php echo URL; ?>js/paginas.js"></script>
-
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $('#table-categories').DataTable({
-          "ordering": false,
-        });
-        $('#table-categories').DataTable();
-      });
-    </script>
-
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $('#table-productos').DataTable({
-          "ordering": false,
-        });
-        $('#table-productos').DataTable();
-      });
-    </script>
 
 </body>
 </html>
